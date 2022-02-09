@@ -38,8 +38,11 @@ SimpleDateFormat sf = new SimpleDateFormat("yy.MM.dd");
 						<div
 							class="text-xs font-weight-bold text-success text-uppercase mb-1">
 							누적 데이터 처리건수(실시간)</div>
-						<div id="statusMessage2"
-							class="h4 mb-0 font-weight-bold text-gray-800"></div>
+						<div class="row h4 mb-0 font-weight-bold text-gray-800">
+							<div id="statusMessage2"
+								class="h4 mb-0 font-weight-bold text-gray-800"></div>
+							건
+						</div>
 					</div>
 
 				</div>
@@ -81,15 +84,18 @@ SimpleDateFormat sf = new SimpleDateFormat("yy.MM.dd");
 						<div
 							class="text-xs font-weight-bold text-warning text-uppercase mb-1">
 							누적 메일발송건(실시간)</div>
-						<div id="statusMessage"
-							class="h4 mb-0 font-weight-bold text-gray-800"></div>
+						<div class="row h4 mb-0 font-weight-bold text-gray-800">
+							<div id="statusMessage"
+								class="h4 mb-0 font-weight-bold text-gray-800"></div>
+							건
+						</div>
 					</div>
 
 				</div>
 			</div>
 		</div>
 	</div>
-	
+
 	<!-- Pending Requests Card Example -->
 	<div class=" col-md-6 mb-4">
 		<div class="card border-left-secondary shadow h-100 py-2">
