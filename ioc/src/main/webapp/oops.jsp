@@ -40,6 +40,13 @@
 
 				<div class="card o-hidden border-0 shadow-lg my-5">
 					<div class="card-body p-0">
+						<div class="card shadow mb-4">
+							<div class="card-header py-3">
+								<h6 class="text-center m-0 font-weight-bold text-primary">보안관제팀
+									업무지원 통합 플랫폼💕 by 병호</h6>
+							</div>
+
+						</div>
 						<!-- Nested Row within Card Body -->
 						<div class="row">
 							<div class="col-lg-6 d-none d-lg-block bg-password-imageaa">

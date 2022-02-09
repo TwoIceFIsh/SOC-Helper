@@ -40,6 +40,13 @@
 
 				<div class="card o-hidden border-0 shadow-lg my-5">
 					<div class="card-body p-0">
+						<div class="card shadow mb-4">
+							<div class="card-header py-3">
+								<h6 class="text-center m-0 font-weight-bold text-primary">보안관제팀
+									업무지원 통합 플랫폼💕 by 병호</h6>
+							</div>
+
+						</div>
 						<!-- Nested Row within Card Body -->
 						<div class="row">
 							<div class="bg-password-imagea col-lg-6 d-none d-lg-block ">
@@ -52,8 +59,8 @@
 										<p class="mb-5">질하셨어요!</p>
 									</div>
 									<div>
-										</br> 10분 이내로 메일을 보내드릴게요!</br>(md5 변환시 건당 15초 소요)</br> 발송대상 : 보안관제팀</br> </br>추가가 필요하면 병호에게 문의주세요!</br>.</br> <a
-											href="javascript:history.back()"
+										</br> 10분 이내로 메일을 보내드릴게요!</br>(md5 변환시 건당 15초 소요)</br> 발송대상 : 보안관제팀</br> </br>추가가 필요하면
+										병호에게 문의주세요!</br>.</br> <a href="javascript:history.back()"
 											class="btn btn-primary btn-user btn-block">돌아가기</a>
 
 
