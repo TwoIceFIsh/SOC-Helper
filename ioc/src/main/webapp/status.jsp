@@ -37,7 +37,7 @@ SimpleDateFormat sf = new SimpleDateFormat("yy.MM.dd");
 					<div class="col-auto">
 						<div
 							class="text-xs font-weight-bold text-success text-uppercase mb-1">
-							실시간 처리건수</div>
+							누적 데이터 처리건수(실시간)</div>
 						<div id="statusMessage2"
 							class="h4 mb-0 font-weight-bold text-gray-800"></div>
 					</div>
@@ -54,8 +54,8 @@ SimpleDateFormat sf = new SimpleDateFormat("yy.MM.dd");
 				<div class="row no-gutters align-items-center">
 					<div class="col-auto">
 						<div
-							class="text-xs font-weight-bold text-info text-uppercase mb-1">실시간
-							처리상태</div>
+							class="text-xs font-weight-bold text-info text-uppercase mb-1">
+							처리상태(실시간)</div>
 						<div class=" no-gutters align-items-center">
 							<div class="col-auto">
 								<div id="statusMessage3"
@@ -80,7 +80,7 @@ SimpleDateFormat sf = new SimpleDateFormat("yy.MM.dd");
 					<div class="col-auto">
 						<div
 							class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-							실시간 메일발송건</div>
+							누적 메일발송건(실시간)</div>
 						<div id="statusMessage"
 							class="h4 mb-0 font-weight-bold text-gray-800"></div>
 					</div>

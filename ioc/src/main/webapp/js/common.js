@@ -68,10 +68,10 @@ function siteStatus3() {
 		success: function(result) {
 
 			if (result != 0) {
-				$('#statusMessage3').html('CVE 🤔!!');
+				$('#statusMessage3').html('CVE : 🤔!!');
 				 }
 			else {
-				$('#statusMessage3').html('CVE 😴zZ');
+				$('#statusMessage3').html('CVE : 😴zZ');
 				 	}
 
 
@@ -93,11 +93,11 @@ function siteStatus4() {
 		success: function(result) {
 
 			if (result != 0) {
-				$('#statusMessage4').html('IOC  🤔!!');
+				$('#statusMessage4').html('IOC :  🤔!!');
 
 			}
 			else {
-				$('#statusMessage4').html('IOC  😴zZ');
+				$('#statusMessage4').html('IOC :  😴zZ');
 
 			}
 		}

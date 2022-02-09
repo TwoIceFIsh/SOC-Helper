@@ -52,8 +52,7 @@
 										<p class="mb-5">질하셨어요!</p>
 									</div>
 									<div>
-										</br> 10분 이내로 메일을 보내드릴게요!</br>(md5 변환시 건당 15초 소요)</br> 발송대상 : 부장님 대리님 병호 성민
-										예지 형욱 </br> </br>추가가 필요하면 병호에게 문의주세요!</br>.</br> <a
+										</br> 10분 이내로 메일을 보내드릴게요!</br>(md5 변환시 건당 15초 소요)</br> 발송대상 : 보안관제팀</br> </br>추가가 필요하면 병호에게 문의주세요!</br>.</br> <a
 											href="javascript:history.back()"
 											class="btn btn-primary btn-user btn-block">돌아가기</a>
 
