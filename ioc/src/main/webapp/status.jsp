@@ -92,7 +92,7 @@ SimpleDateFormat sf = new SimpleDateFormat("yy.MM.dd");
 	
 	<!-- Pending Requests Card Example -->
 	<div class=" col-md-6 mb-4">
-		<div class="card border-left-warning shadow h-100 py-2">
+		<div class="card border-left-secondary shadow h-100 py-2">
 			<div class="card-body">
 				<div class="row no-gutters align-items-center">
 					<div class="col-auto">
