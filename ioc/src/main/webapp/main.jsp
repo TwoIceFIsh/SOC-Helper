@@ -4,91 +4,116 @@
 
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>파일 업로드 폼</title>
+
+
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<title>보안관제 업무도우미</title>
+
+<!-- Custom fonts for this template-->
+<link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet"
+	type="text/css">
+<link
+	href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+	rel="stylesheet">
+
+<!-- Custom styles for this template-->
+<link href="css/sb-admin-2.css?after" rel="stylesheet">
+
 </head>
 
 
-<h3>파일 업로드 폼</h3>
 
-이글루 엑셀만 업로드해주세요
-<body>
-	<form method="POST" action="FileHandleServlet"
-		enctype="multipart/form-data">
-		File: <input type="file" name="file" id="file" /> <br /> <input
-			type="submit" value="Upload" name="upload" id="upload" />
-	</form>
+<body class="bg-gradient-primary">
+
+	<div class="container">
+
+		<!-- Outer Row -->
+		<div class="row justify-content-center">
+
+			<div class="col-xl-12 col-lg-14 col-md-10">
+
+				<div class="card o-hidden border-0 shadow-lg my-5">
+
+					<div class="card-body p-0">
+
+						<!-- Nested Row within Card Body -->
+						<div class="row">
+
+							<div class="col-lg-6 d-none d-lg-block bg-password-image">
+								<div class="p-2"><jsp:include page="status.jsp" /></div>
+							</div>
+							<div class="col-lg-6">
+
+								<div class="p-3">
+
+									<div class="text-center">
+										<h1 class="h4 text-gray-900 mb-2">CVE 정보수집 솔루션 1.0v</h1>
+										<p class="mb-5">CVE 코드와 관련된 정보를 수집하여 보고서로 받아보세요!</p>
+									</div>
+									<div>
+										txt 파일을 선택후 업로드 버튼을 눌러주세요! </br> </br> (sample.txt </br> CVE-2020-1123 </br>
+										CVE-2020-1231 </br> CVE-2020-11245</br>...
+									</div>
+
+									<form class="  form-control-user" method="POST"
+										action="FileHandleServlet" enctype="multipart/form-data">
+										<input type="file" class="form-control form-control-user"
+											name="file" id="file" /> <br /> <input
+											class="btn btn-primary btn-user btn-block" type="submit"
+											value="업로드" name="upload" id="upload" />
+									</form>
+
+
+									<hr>
+
+								</div>
+
+								<div class="p-3">
+									<div class="text-left">
+										<h1 class="h4 text-gray-900 mb-3">IOC 자동업무 솔루션 1.0v</h1>
+										<p class="mb-5">HX 파일(MD5/SHA256/SHA1/),(IP/URL)을 생성해요!</p>
+									</div>
+									<div class="text-left">
+										한줄씩 타입에 상관없이 텍스트 파일로 업로드해주세요!</br> </br> (sample.txt)</br>
+										https://www.sdifjsod.com</br>111.222.111.222</br>md5</br>sha1</br>sha256</br>
+									</div>
+									<form class="  form-control-user" method="POST"
+										action="FileHandleServlet2" enctype="multipart/form-data">
+										<input type="file" class="form-control form-control-user"
+											name="file" id="file" /> </br> <input
+											class="btn btn-warning btn-user btn-block" type="submit"
+											value="업로드" name="upload" id="upload" />
+									</form>
+
+
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+
+	<!-- Bootstrap core JavaScript-->
+	<script src="vendor/jquery/jquery.min.js"></script>
+	<script src="js/common.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+	<!-- Core plugin JavaScript-->
+	<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+	<!-- Custom scripts for all pages-->
+	<script src="js/sb-admin-2.min.js"></script>
+
 </body>
-</html>
-
-
-
-<!-- 
-<script type="text/javascript">
-    //이미지 미리보기
-    var sel_file;
- 
-    $(document).ready(function() {
-        $("#file1").on("change", handleImgFileSelect);
-    });
- 
-    function handleImgFileSelect(e) {
-        var files = e.target.files;
-        var filesArr = Array.prototype.slice.call(files);
- 
-        var reg = /(.*?)\/(jpg|jpeg|csv|xlsx)$/;
- 
-        filesArr.forEach(function(f) {
-            if (!f.type.match(reg)) {
-                alert("확장자는 xlsx 확장자만 가능합니다.");
-                return;
-            }
- 
-            sel_file = f;
- 
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                $("#img").attr("src", e.target.result);
-            }
-            reader.readAsDataURL(f);
-        });
-    }
-</script>
-
-<script>
-//파일 업로드
-function fn_submit(){
-        
-        var form = new FormData();
-        form.append( "file1", $("#file1")[0].files[0] );
-        
-         jQuery.ajax({
-             url : "/uploadServlet"
-           , type : "POST"
-           , processData : false
-           , contentType : false
-           , data : form
-           , success:function(response) {
-               alert("성공하였습니다.");
-               console.log(response);
-           }
-           ,error: function (jqXHR) 
-           { 
-               alert(jqXHR.responseText); 
-           }
-       });
-}
-</script>
-
- 
-<div>
-    <label for="file1">파일</label> 
-    <input type="file" id="file1" name="file1"> 
-    <button id="btn_submit" onclick="javascript:fn_submit()">전송</button>    
-</div>
- 
-<div>
-       <div class="img_wrap">
-           <img id="img" />
-       </div>
-</div>
-  -->
