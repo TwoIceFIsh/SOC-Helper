@@ -28,8 +28,8 @@ while 1:
 
         name='보안관제'
         address='bh.lee@s-oil.com;khw1205@s-oil.com;lyj0409@s-oil.com;ksm0117@s-oil.com'
-        connect.sendMail(filename,name,'bh.lee@s-oil.com',yy,mm,dd,count)
-        #connect.sendMail(filename, name, 'dlz1160@s-oil.com', yy, mm, dd, count)
+        #connect.sendMail(filename,name,'bh.lee@s-oil.com',yy,mm,dd,count)
+        connect.sendMail(filename, name, 'dlz1160@s-oil.com', yy, mm, dd, count)
         #connect.sendMail(filename,name,'khw1205@s-oil.com',yy,mm,dd,count)
         #connect.sendMail(filename,name,'lyj0409@s-oil.com',yy,mm,dd,count)
         #connect.sendMail(filename,name,'ksm0117@s-oil.com',yy,mm,dd,count)

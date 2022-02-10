@@ -15,39 +15,52 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import requests
 
+
 def virusSHA1(sha1List):
 
     result = []
     for i in sha1List:
+
+        try:
+            url = 'https://www.virustotal.com/vtapi/v2/file/report'
+            params = {'apikey': 'a78160975ee4a9960bb330b90fb6506ead0797cc5d7f14aff0c4f06d293f5bc7', 'resource': i}
+            response = requests.get(url, params=params)
+
+            SHA1 = response.json()
+            result.append(SHA1['md5'])
+            print("sha1 변환 완료 : "+SHA1['md5'])
+
+        except KeyError:
+            print("sha1List KeyError :" + i)
+            return 0
+
         time.sleep(15)
-
-        url = 'https://www.virustotal.com/vtapi/v2/file/report'
-        params = {'apikey': 'a78160975ee4a9960bb330b90fb6506ead0797cc5d7f14aff0c4f06d293f5bc7', 'resource': i}
-        response = requests.get(url, params=params)
-
-        SHA1 = response.json()
-        result.append(SHA1['md5'])
-        print("sha1 변환 완료 : "+SHA1['md5'])
 
     return result
 
 
 def virusSHA256(sha256List):
-    time.sleep(15)
     result = []
     for i in sha256List:
 
-        url = 'https://www.virustotal.com/vtapi/v2/file/report'
-        params = {'apikey': 'a78160975ee4a9960bb330b90fb6506ead0797cc5d7f14aff0c4f06d293f5bc7', 'resource': i}
-        response = requests.get(url, params=params)
+        try:
+            url = 'https://www.virustotal.com/vtapi/v2/file/report'
+            params = {'apikey': 'a78160975ee4a9960bb330b90fb6506ead0797cc5d7f14aff0c4f06d293f5bc7', 'resource': i}
+            response = requests.get(url, params=params)
 
-        SHA256 = response.json()
-        result.append(SHA256['md5'])
-        print("sha256 변환 완료 : " + SHA256['md5'])
+            SHA256 = response.json()
+
+            result.append(SHA256['md5'])
+            print("sha256 변환 완료 : " + SHA256['md5'])
+
+        except KeyError:
+            print("sha256List KeyError :" + i)
+            return 0
+
+        time.sleep(15)
+
 
     return result
-
-
 
 
 def getList() :
@@ -61,7 +74,9 @@ def getList() :
     sql = "SELECT md5, sha1, sha256 FROM work_place WHERE (status = '0' AND MD5 != 'X') OR (status = '0' AND SHA1 != 'X') OR (status = '0' AND SHA256 != 'X')"
     cur.execute(sql)
 
+    #값이 있으면 continue 하고 다음줄 읽음
     for row in cur:
+        print(row[0]+" "+row[1]+" "+row[2])
 
         if row[0] != 'X' :
             md5.append(row[0])
@@ -76,6 +91,7 @@ def getList() :
             continue
 
     md5List = md5
+    print("md5List " + str(md5List))
 
     sql2 = "UPDATE work_place SET status = '1' WHERE (status = '0' AND MD5 != 'X')"
     cur.execute(sql2)
@@ -85,22 +101,28 @@ def getList() :
     sha256List = []
     sha1List = []
 
-    if len(sha256) < 0:
-        sha256List = virusSHA256(sha256)
+    if len(sha256) > 0:
+        out = virusSHA256(sha256)
+        if out != 0:
+            sha256List = out
 
+    print("sha256List " + str(sha256List))
     sql2 = "UPDATE work_place SET status = '1' WHERE (status = '0' AND SHA256 != 'X')"
     cur.execute(sql2)
     conn.commit()
 
-    if len(sha1) < 0:
-        sha1List = virusSHA1(sha1)
+    if len(sha1) > 0:
+        out = virusSHA1(sha1)
+        if out != 0:
+            sha1List = virusSHA1(sha1)
 
+    print("sha1List " + str(sha1List))
     sql2 = "UPDATE work_place SET status = '1' WHERE (status = '0' AND SHA1 != 'X')"
     cur.execute(sql2)
     conn.commit()
 
     output = md5List+sha256List+sha1List
-
+    print("output complete")
     # 한 줄 출력
     row = cur.fetchone()
     if row == None:
@@ -120,13 +142,55 @@ def getList() :
         value = row[0]
 
     data = value + len(output)
+    count2 = len(output)
     sql2 = "UPDATE site_status SET count = " + str(data)
     cur.execute(sql2)
     conn.commit()
     cur.fetchone()
     conn.close()
 
-    return output
+    yy = datetime.today().strftime('%y')
+    mm = datetime.today().strftime('%m')
+    dd = datetime.today().strftime('%d')
+
+    md5_text = ""
+    filename = "igloo_"+yy+mm+dd
+    ioc = ""
+    ioc1 = "{\"igloo\":{\"execution\":["
+    ioc2 = "[{\"operator\":\"equal\",\"token\":\"processEvent/md5\",\"type\":\"md5\",\"value\":\""
+    ioc3 = "[{\"operator\":\"equal\",\"token\":\"processEvent/md5\",\"type\":\"md5\",\"value\":\""
+    ioc4 = "],\"name\":\"" + filename +"\",\"category\":\"Custom\",\"platforms\":[]}}"
+
+    ioc = ioc + ioc1
+    writetext = ""
+    #output은 md5 배열
+    for i in range(0, len(output)):
+
+        if len(output) == 1:
+            ioc = ioc1 + ioc3 + output[i] + "\"}]" + ioc4
+            output[i] = ioc.strip()
+            print("output 1 : "+output[i])
+            continue
+
+        if i == 0:
+            ioc = ioc1
+
+        if i > 0 and i == len(output)-2:
+            ioc = ioc + ioc2 + output[i] + "\"}],"
+
+        if i == len(output)-1:
+            ioc = ioc + ioc3 + output[i] + "\"}]" + ioc4
+            output[i] = ioc.strip()
+            writetext = output[i]
+            print("output > 1 : "+output[i])
+
+    asdf = []
+
+    asdf.append(count2)
+    asdf.append(writetext)
+
+    return asdf
+
 
 def sendMail(filename, name, address, yy, mm, dd, line):
     # 보내는사람
@@ -220,14 +284,9 @@ def sendMail(filename, name, address, yy, mm, dd, line):
 def writeHX(filename,list):
     count = 1
     f = open(filename, 'w')
-
-    for k in range(0, len(list)):
-        print("파일작성되는 list[" + str(k) + "] : " + list[k])
-
-        f.write(list[k] + "\n")
-
-        count += 1
-
+    print("writeHX IN" + str(list))
+    f.write(list[len(list)-1])
+    print("FIle Write : " + str(list[len(list)-1]))
     f.close()
 
-    return count
+    return list[0]
