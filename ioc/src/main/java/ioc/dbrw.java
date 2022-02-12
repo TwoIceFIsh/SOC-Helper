@@ -13,6 +13,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
+import user.status_log;
+
 public class dbrw {
 	Connection conn = null;
 	PreparedStatement pstm = null;
@@ -28,7 +30,7 @@ public class dbrw {
 	//////////////////////////////////////////////////////////////////////////
 	// CVE 정보수집 readFile > writeLine
 	//////////////////////////////////////////////////////////////////////////
-	public int readFile(String location, String fileName, String ipAddress) {
+	public int readFile(String location, String fileName, String ipAddress, String dateToStr) {
 		File file = new File(location + "\\" + fileName);
 		System.out.println("readData " + location + fileName);
 		if (file.exists()) {
@@ -41,13 +43,18 @@ public class dbrw {
 			}
 			String sLine = null;
 			int no = 0;
+			int count1 = 0;
 			try {
 				while ((sLine = inFile.readLine()) != null) {
 
 					// 파일을 한줄씩 읽어서 DB에 writeLine 한다
 					no = writeLine(sLine, ipAddress);
-
+					count1 += 1;
 				}
+
+				status_log status_log = new status_log();
+				status_log.insert_log(dateToStr, ipAddress, count1, "CVE");
+
 				return no;
 			} catch (IOException e) {
 
@@ -125,7 +132,7 @@ public class dbrw {
 	//////////////////////////////////////////////////////////////////////////
 	// IOC 정보수집 readFile2 > writeLine2
 	//////////////////////////////////////////////////////////////////////////
-	public int readFile2(String location, String fileName, String ipAddress) {
+	public int readFile2(String location, String fileName, String ipAddress, String dateToStr) {
 		File file = new File(location + "\\" + fileName);
 
 		if (file.exists()) {
@@ -138,16 +145,20 @@ public class dbrw {
 			}
 			String sLine = null;
 			int no = 0;
-			
-			String time = getCurrentDateTime();
+			int count2 = 0;
+
 			// 파일을 한줄씩 읽어서 DB에 writeLine 한다
 			try {
 				String filePath = location + "\\" + fileName;
 				while ((sLine = inFile.readLine()) != null) {
 
-					no = writeLine2(sLine, filePath, returnType(sLine), ipAddress, time);
-
+					no = writeLine2(sLine, filePath, returnType(sLine), ipAddress, dateToStr);
+					count2 += 1;
 				}
+				
+				status_log status_log = new status_log();
+				status_log.insert_log(dateToStr, ipAddress, count2, "IOC");
+				
 				return no;
 			} catch (IOException e) {
 
@@ -160,7 +171,6 @@ public class dbrw {
 	// 파일을 한줄씩 읽어서 DB에 writeLine 한다
 	public int writeLine2(String DATA, String filePath, String TYPE, String From, String time) {
 
-		
 		try {
 			String jdbcUrl = "jdbc:mysql://localhost:3306/ioc?useUnicode=true&characterEncoding=utf8";
 			String dbId = "root";
@@ -659,6 +669,7 @@ public class dbrw {
 		return 0;
 
 	}
+
 	public int getProcess() {
 
 		try {
@@ -686,7 +697,7 @@ public class dbrw {
 				mailcount = resultSet.getInt(1);
 
 			}
-			
+
 			int total;
 			int nokori;
 			String from;

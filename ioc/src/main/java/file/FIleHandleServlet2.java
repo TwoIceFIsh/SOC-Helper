@@ -78,7 +78,6 @@ public class FIleHandleServlet2 extends HttpServlet {
 		InputStream filecontent = null;
 		final PrintWriter writer = response.getWriter();
 
-		String ipAddress = "";
 		try {
 			out = new FileOutputStream(new File(location + File.separator + fileName));
 			filecontent = filePart.getInputStream();
@@ -92,7 +91,7 @@ public class FIleHandleServlet2 extends HttpServlet {
 
 			// 데이터 DB 작성
 			dbrw dbrw = new dbrw();
-			if (dbrw.readFile2(location, fileName, ip) == 1) {
+			if (dbrw.readFile2(location, fileName, ip, dateToStr) == 1) {
 				
 				response.sendRedirect("http://222.110.22.168:8080/ioc/ok.jsp");
 			} else {

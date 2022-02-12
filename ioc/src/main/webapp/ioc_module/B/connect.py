@@ -529,7 +529,6 @@ def sendMail(filename,filename2, name, address, yy, mm, dd, line):
 
     connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
     curq = connq.cursor()
-    line = []
     ########### 초기 엑셀 작성 세팅
     sql4 = "SELECT count(status), no FROM work_place WHERE status = '2'"
     curq.execute(sql4)
@@ -584,7 +583,7 @@ def sendMail(filename,filename2, name, address, yy, mm, dd, line):
 
                 print( "요청 건수("+ str(line[0]) +") 변환 건수("+ str(line[1])+") 제외 건수"+str(line[0] - line[1])+")</br>")
                 # 메일 콘텐츠 - 내용
-                body = " <h2>안녕하세요.</h1> <h4>업무도우미입니다. </h4>  </br><h4><h4>솔루션 주소 : http://222.110.22.168:8080/ioc/main.jsp </h4> <h4> 수행작업 : EDR HX에 등록할 수 있는 데이터 파일 생성(MD5, SHA1, SHA256)</h4></br> <h4> </h4></br> 요청 건수("+ str(line[0]) +") 변환 건수("+ str(line[1])+") 제외 건수"+str(line[0] - line[1])+")</br> 자세한 사항은 첨부파일을 참조해주세요</br> <h4>HX TOOL에 접속하여 업로드 해주세요(URL : \"https://192.168.36.182:8080/login\"</h4>"
+                body = " <h4>안녕하세요업무도우미입니다. </h4>  </br><h4><h4>솔루션 주소 : http://222.110.22.168:8080/ioc/main.jsp </h4> <h4> 수행작업 : HX 파일(MD5, SHA1, SHA256) 및 결과보고서 생성</h4></br> <h4> </h4></br> 요청 건수("+ str(line[0]) +")</br> 변환 건수("+ str(line[1])+") 제외 건수("+str(line[0] - line[1])+")</br> 자세한 사항은 첨부파일을 참조해주세요</br> <h4>HX TOOL에 접속하여 업로드 해주세요(URL : \"https://192.168.36.182:8080/login\"</h4>"
 
                 bodyPart = MIMEText(body, 'html', 'utf-8')
                 message.attach(bodyPart)

@@ -224,7 +224,7 @@ nokori();
 setInterval(nokori, 4000);
 
 function nokori() {
-
+	heart = ""
 	$.ajax({
 		type: 'POST',
 		url: './nokori',
@@ -236,10 +236,39 @@ function nokori() {
 			if (result == 0)
 				$('#nokori').html('(작업 없음)');
 			if (result > 0)
-				$('#nokori').html('(처리 ' + result + '건 남음)'+ '</br>' + (result*15)/60 +'분 소요');
+				$('#nokori').html('(처리 ' + result + '건 남음)' + '</br>' + (result * 5)/   60 + '분 소요');
 
 
 		}
 	});
 
 }
+
+loglog();
+setInterval(loglog, 4000);
+
+function loglog() {
+	heart = ""
+	$.ajax({
+		type: 'POST',
+		url: './loglog',
+		data: {
+			heart: heart
+		},
+		success: function(result) {
+
+			splitResult = result.split(',');
+
+			no = splitResult.length - 1;
+
+			tmp = '';
+			for (i = 0; i < no; i++) {
+				tmp = tmp + splitResult[i] + '</br>';
+			}
+			$('#statusMessage99').html(tmp+'');
+
+		}
+	});
+
+}
+

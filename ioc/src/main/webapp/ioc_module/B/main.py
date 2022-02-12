@@ -55,8 +55,6 @@ while 1:
             if list[len(list) - 2] != "":
                 print("DATA IN")
 
-
-
                 ### HX 파일 생성 및 갯수 리턴 ###
                 filename = "HX_DATA(MD5,SHA1,SHA256)_" + yy + mm + dd + ".hx"
                 count = connect.writeHX(filename, list)
@@ -64,6 +62,7 @@ while 1:
                 asdf = []
                 asdf.append(list[0])
                 asdf.append(count)
+                print(str(asdf))
                 #######################################################################################################
 
                 print("##################################### 메일 전송 ########################################################")

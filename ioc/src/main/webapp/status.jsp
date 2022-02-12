@@ -119,7 +119,7 @@ SimpleDateFormat sf = new SimpleDateFormat("yy.MM.dd");
 							class="h4 mb-0 font-weight-bold text-gray-800"></div>
 							
 							<div id="aas"
-							class="h8 mb-0 font-weight-bold text-gray-800">업로드 버튼 클릭 전 메일 수신자를 선택해주세요!</div>
+							class="text-xs mb-0 font-weight-bold text-gray-800">업로드 버튼 클릭 전 메일 수신자를 선택해주세요!</div>
 					</div>
 
 				</div>
@@ -127,7 +127,7 @@ SimpleDateFormat sf = new SimpleDateFormat("yy.MM.dd");
 		</div>
 	</div>
 
-	<div class="dropdown mb-4">
+	<div class=" col-md-6 dropdown mb-4">
 		<button class="btn btn-primary dropdown-toggle" type="button"
 			id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
 			aria-expanded="false">메일수신변경</button>
@@ -144,6 +144,29 @@ SimpleDateFormat sf = new SimpleDateFormat("yy.MM.dd");
 
 		</div>
 	</div>
+	
+	<!-- 로그 -->
+	<div class=" col-md-12 mb-8">
+		<div class="card border-left-success shadow h-100 py-2">
+			<div class="card-body">
+				<div class=" no-gutters align-items-center">
+					<div class="col-auto">
+						<div
+							class="text-xs font-weight-bold text-success text-uppercase mb-1">
+							명령 처리 로그</div>
+						<div class=" h8 mb-0 font-weight-bold text-gray-800">
+							<div id="statusMessage99"
+								class="text-xs  font-weight-bold text-gray-800"></div>
+							
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
 </div>
 
 <!-- Content Row -->
