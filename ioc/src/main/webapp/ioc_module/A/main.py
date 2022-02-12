@@ -40,11 +40,11 @@ while 1:
 
     for r in curq:
         if r[0] > 0:
+            print("################CVE 데이터 탐지 ###########################")
             time.sleep(60)
             list = connect.getList()
 
             if len(list) >= 1:
-                time.sleep(60)
                 print("DATA IN")
                 count = 1
                 url = 'https://nvd.nist.gov/vuln/detail/'
@@ -65,8 +65,8 @@ while 1:
                 sheet['I1'] = '내용'
                 sheet['J1'] = '비고'
 
-
                 for i in list:
+                    time.sleep(1)
                     response = requests.get(url+i)
                     if response.status_code == 200:
                         if 'Not Found' in response.text:

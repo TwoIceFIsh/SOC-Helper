@@ -43,8 +43,10 @@ while 1:
 
     for r in curq:
         if r[0] > 0:
+            print(
+                "################################################## 처리 가능한 데이터가 있음 ##########################################")
+
             time.sleep(60)
-            print("################################################## 처리 가능한 데이터가 있음 ##########################################")
 
             ####추출된 데이터 총 길이, HX 파일 내용, 엑셀파일 이름
             list = connect.getList()
@@ -53,17 +55,21 @@ while 1:
             if list[len(list) - 2] != "":
                 print("DATA IN")
 
+
+
                 ### HX 파일 생성 및 갯수 리턴 ###
                 filename = "HX_DATA(MD5,SHA1,SHA256)_" + yy + mm + dd + ".hx"
                 count = connect.writeHX(filename, list)
 
+                asdf = []
+                asdf.append(list[0])
+                asdf.append(count)
                 #######################################################################################################
 
                 print("##################################### 메일 전송 ########################################################")
                 name = '보안관제'
                 print("count" + str(count))
-                #connect.sendMail(filename, list[2], name, 'bh.lee@s-oil.com', yy, mm, dd, count)
-                connect.sendMail(filename, list[2], name, address, yy, mm, dd, count)
+                connect.sendMail(filename, list[2], name, address, yy, mm, dd, asdf)
                 #######################################################################################################
 
     print("END")
