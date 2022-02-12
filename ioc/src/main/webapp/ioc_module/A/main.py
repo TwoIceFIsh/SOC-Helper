@@ -1,5 +1,6 @@
 import time
 
+import pymysql
 import requests
 from bs4 import BeautifulSoup
 import openpyxl
@@ -7,43 +8,38 @@ from googletrans import Translator
 from datetime import datetime
 import connect
 
-
-
 line = 2
-
-
 
 def trans(TEXT):
     trans= Translator()
     result = trans.translate(TEXT,src="en",dest="ko")
     return result.text
 
-############################1번 파일로오픈######################
-# file_path = "sample.txt"
-#
-# with open(file_path) as f:
-#     lines = f.readlines()
-#
-# list = [line.rstrip('\n') for line in lines]
-
-    #############################3번 내부작성오픈#####################
-
-    # list = ['CVE-2022-21658','CVE-2022-21658']
-
-
-############################2번 DB로오픈######################
-
 while 1:
     print("START")
-    time.sleep(5)
+    time.sleep(1)
+
+    connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc',
+                            charset='utf8')
+    curq = connq.cursor()
+    sql4 = "SELECT address FROM site_status WHERE no = 1"
+    curq.execute(sql4)
+    connq.close()
+
+    for r in curq:
+        if r[0] == None or r[0].strip() == "":
+            address = 'dlz1160@s-oil.com'
+        address = r[0]
+    print("메일 수신대상 : " + address)
+
     list = connect.getList()
 
     if len(list) >= 1:
+        time.sleep(60)
         print("DATA IN")
         count = 1
         url = 'https://nvd.nist.gov/vuln/detail/'
         url2 = 'https://translate.google.com/?hl=ko&sl=en&tl=ko&op=translate&text='
-        f = open("aaa.html", 'w')
 
         filename = datetime.today().strftime('%Y.%m')+"_CVE_CVSS_List("+datetime.today().strftime('%y%m%d')+")_백데이터.xlsx"
         wb = openpyxl.Workbook()
@@ -65,7 +61,7 @@ while 1:
             response = requests.get(url+i)
             if response.status_code == 200:
                 if 'Not Found' in response.text:
-                    f.write(str(count) + " " + i + " : " + "Not Found 수동조회 진행" + "\n")
+
                     print(str(count) + " " + i + " : " + "Not Found 수동조회 진행")
 
                     sheet['A' + str(line)] = str(count)
@@ -110,7 +106,6 @@ while 1:
 
                 infokr_text = trans(info_text)
 
-                f.write(str(count) + " " +yymm_text+" "+yymmdd_text + " "+ i + " "+ score_text +  " "+ severity_text + " "+ "O/X" + url + i + " "+infokr_text +"\n")
                 print(str(count) + " " +yymm_text+" "+yymmdd_text + " "+ i + " "+ score_text +  " "+ severity_text + " "+ "O/X" + url + i + " "+infokr_text)
 
                 sheet['A'+str(line)] = str(count)
@@ -127,16 +122,17 @@ while 1:
             count += 1
             line += 1
 
-        f.close()
+
         wb.save(filename)
+
+
+
 
         yy=datetime.today().strftime('%y')
         mm=datetime.today().strftime('%m')
         dd=datetime.today().strftime('%d')
         name='보안관제'
-        address='bh.lee@s-oil.com;khw1205@s-oil.com;lyj0409@s-oil.com;ksm0117@s-oil.com'
-        #connect.sendMail(filename,name,'bh.lee@s-oil.com',yy,mm,dd,count)
-        connect.sendMail(filename, name, 'dlz1160@s-oil.com', yy, mm, dd, count)
+        connect.sendMail(filename, name, address, yy, mm, dd, count)
         #connect.sendMail(filename,name,'khw1205@s-oil.com',yy,mm,dd,count)
         #connect.sendMail(filename,name,'lyj0409@s-oil.com',yy,mm,dd,count)
         #connect.sendMail(filename,name,'ksm0117@s-oil.com',yy,mm,dd,count)

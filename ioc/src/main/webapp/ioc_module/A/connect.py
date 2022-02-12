@@ -62,7 +62,7 @@ def getList():
     cur.execute(sql)
     # 여러 줄 출력
     i = 0
-
+    value=0
     for row in cur:
         value = row[0]
 
@@ -85,7 +85,7 @@ def sendMail(filename, name, address, yy, mm, dd, line):
     cur.execute(sql)
     # 여러 줄 출력
     i = 0
-
+    value = 0
     for row in cur:
         value = row[0]
 

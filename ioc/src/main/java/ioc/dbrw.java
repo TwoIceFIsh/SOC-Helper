@@ -7,8 +7,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.sql.*;
 import java.sql.DriverManager;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import java.util.regex.Pattern;
 
 public class dbrw {
@@ -135,13 +137,15 @@ public class dbrw {
 				e.printStackTrace();
 			}
 			String sLine = null;
-			int no = 0;;
+			int no = 0;
+			
+			String time = getCurrentDateTime();
 			// 파일을 한줄씩 읽어서 DB에 writeLine 한다
 			try {
 				String filePath = location + "\\" + fileName;
 				while ((sLine = inFile.readLine()) != null) {
 
-					no = writeLine2(sLine, filePath, returnType(sLine));
+					no = writeLine2(sLine, filePath, returnType(sLine), ipAddress, time);
 
 				}
 				return no;
@@ -154,8 +158,9 @@ public class dbrw {
 	}
 
 	// 파일을 한줄씩 읽어서 DB에 writeLine 한다
-	public int writeLine2(String DATA, String filePath, String TYPE) {
+	public int writeLine2(String DATA, String filePath, String TYPE, String From, String time) {
 
+		
 		try {
 			String jdbcUrl = "jdbc:mysql://localhost:3306/ioc?useUnicode=true&characterEncoding=utf8";
 			String dbId = "root";
@@ -171,7 +176,7 @@ public class dbrw {
 		DATA = DATA.trim();
 		int n = 0;
 		int no = 0;
-		String query = "INSERT INTO work_place values(?,?,?,?,?,?,?,?)";
+		String query = "INSERT INTO work_place values(?,?,?,?,?,?,?,?,?,?)";
 		String query2 = "SELECT MAX(no) FROM work_place";
 
 		try {
@@ -187,63 +192,40 @@ public class dbrw {
 			}
 
 			pstm2 = conn2.prepareStatement(query);
-			System.out.println(TYPE + " :  " + DATA);
+			// System.out.println(TYPE + " : " + DATA);
+
+			pstm2.setInt(1, no + 1);
+			pstm2.setString(2, "X");
+			pstm2.setString(3, "X");
+			pstm2.setString(4, "X");
+			pstm2.setString(5, "X");
+			pstm2.setString(6, "X");
+
 			if (TYPE.equals("MD5")) {
-				pstm2.setInt(1, no + 1);
 				pstm2.setString(2, DATA);
-				pstm2.setString(3, "X");
-				pstm2.setString(4, "X");
-				pstm2.setString(5, "X");
-				pstm2.setString(6, "X");
-				pstm2.setInt(7, 0);
-				pstm2.setString(8, filePath);
 			}
 			if (TYPE.equals("SHA256")) {
-
-				pstm2.setInt(1, no + 1);
-				pstm2.setString(2, "X");
 				pstm2.setString(3, DATA);
-				pstm2.setString(4, "X");
-				pstm2.setString(5, "X");
-				pstm2.setString(6, "X");
-				pstm2.setInt(7, 0);
-				pstm2.setString(8, filePath);
 			}
 			if (TYPE.equals("SHA1")) {
-				pstm2.setInt(1, no + 1);
-				pstm2.setString(2, "X");
-				pstm2.setString(3, "X");
 				pstm2.setString(4, DATA);
-				pstm2.setString(5, "X");
-				pstm2.setString(6, "X");
-				pstm2.setInt(7, 0);
-				pstm2.setString(8, filePath);
 			}
 			if (TYPE.equals("IP")) {
-				pstm2.setInt(1, no + 1);
-				pstm2.setString(2, "X");
-				pstm2.setString(3, "X");
-				pstm2.setString(4, "X");
 				pstm2.setString(5, DATA);
-				pstm2.setString(6, "X");
-				pstm2.setInt(7, 0);
-				pstm2.setString(8, filePath);
 			}
 			if (TYPE.equals("URL")) {
-				pstm2.setInt(1, no + 1);
-				pstm2.setString(2, "X");
-				pstm2.setString(3, "X");
-				pstm2.setString(4, "X");
-				pstm2.setString(5, "X");
 				pstm2.setString(6, DATA);
-				pstm2.setInt(7, 0);
-				pstm2.setString(8, filePath);
 			}
+
+			pstm2.setInt(7, 0);
+			pstm2.setString(8, filePath);
+			pstm2.setString(9, From);
+			pstm2.setString(10, time);
 
 			n = pstm2.executeUpdate();
 
 			if (n == 1) {
-				System.out.println(TYPE + " :  " + DATA);
+				// System.out.println(TYPE + " : " + DATA);
 				return 1;
 			} else {
 				System.out.println("insert fail");
@@ -270,6 +252,15 @@ public class dbrw {
 	//////////////////////////////////////////////////////////////////////////
 	// 공통모듈 checkData
 	//////////////////////////////////////////////////////////////////////////
+
+	public static String getCurrentDateTime() {
+		Date today = new Date(0);
+		Locale currentLocale = new Locale("KOREAN", "KOREA");
+		String pattern = "yyyyMMddHHmmss"; // hhmmss로 시간,분,초만 뽑기도 가능
+		SimpleDateFormat formatter = new SimpleDateFormat(pattern, currentLocale);
+		return formatter.format(today);
+	}
+
 	public String returnType(String DATA) {
 
 		DATA = DATA.trim();
@@ -414,7 +405,7 @@ public class dbrw {
 
 		int n = 0;
 		int mailcount = 0;
-		String query2 = "SELECT COUNT(status) FROM cve WHERE status = '0'";
+		String query2 = "SELECT COUNT(status), no FROM cve WHERE status = '0'";
 
 		try {
 
@@ -474,6 +465,233 @@ public class dbrw {
 				mailcount = resultSet.getInt(1);
 
 			}
+
+			return mailcount;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (resultSet != null)
+					resultSet.close();
+
+				if (pstm != null)
+					pstm.close();
+
+				if (conn != null)
+					conn.close();
+
+			} catch (Exception e) {
+			}
+		}
+		return 0;
+	}
+
+	// mail변경
+	public String mailAddress(String address) {
+
+		if (address.equals("a"))
+			address = "DLZ1160@s-oil.com";
+		if (address.equals("b"))
+			address = "sungwoo.kwon@s-oil.com";
+		if (address.equals("c"))
+			address = "jsh0119@s-oil.com";
+		if (address.equals("d"))
+			address = "kmh0816@s-oil.com";
+		if (address.equals("e"))
+			address = "bh.lee@s-oil.com";
+		if (address.equals("f"))
+			address = "ksm0117@s-oil.com";
+		if (address.equals("g"))
+			address = "lyj0409@s-oil.com";
+		if (address.equals("h"))
+			address = "khw1205@s-oil.com";
+
+		if (address.equals("") || address.isBlank())
+			address = "dlz1160@s-oil.com";
+
+		System.out.println("mailAddress  to " + address);
+
+		try {
+			String jdbcUrl = "jdbc:mysql://localhost:3306/ioc?useUnicode=true&characterEncoding=utf8";
+			String dbId = "root";
+			String dbPass = "!Hg1373002934";
+
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			conn = DriverManager.getConnection(jdbcUrl, dbId, dbPass);
+			System.out.println("제대로 연결되었습니다.");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		address = address.trim();
+		int n = 0;
+		String query = "UPDATE site_status SET address = ?";
+
+		try {
+
+			pstm = conn.prepareStatement(query);
+			pstm.setString(1, address);
+			// pstm.setString(4, "");
+
+			n = pstm.executeUpdate();
+
+			if (n == 1) {
+				System.out.println("mailAddress Changed to " + address);
+				return address;
+			} else {
+				System.out.println("insert fail");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (resultSet != null)
+					resultSet.close();
+
+				if (pstm != null)
+					pstm.close();
+
+				if (conn != null)
+					conn.close();
+
+			} catch (Exception e) {
+			}
+		}
+		return "no";
+	}
+
+	public String getMail() {
+		String address = "";
+		try {
+			String jdbcUrl = "jdbc:mysql://localhost:3306/ioc?useUnicode=true&characterEncoding=utf8";
+			String dbId = "root";
+			String dbPass = "!Hg1373002934";
+
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			conn = DriverManager.getConnection(jdbcUrl, dbId, dbPass);
+			System.out.println("제대로 연결되었습니다.");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		int n = 0;
+		String query = "SELECT address FROM site_status WHERE no = 1";
+
+		try {
+
+			pstm = conn.prepareStatement(query);
+			resultSet = pstm.executeQuery();
+
+			while (resultSet.next()) {
+				address = resultSet.getString(1);
+
+			}
+
+			return address;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (resultSet != null)
+					resultSet.close();
+
+				if (pstm != null)
+					pstm.close();
+
+				if (conn != null)
+					conn.close();
+
+			} catch (Exception e) {
+			}
+		}
+		return "";
+
+	}
+
+	public int nokori() {
+
+		int result = 0;
+		try {
+			String jdbcUrl = "jdbc:mysql://localhost:3306/ioc?useUnicode=true&characterEncoding=utf8";
+			String dbId = "root";
+			String dbPass = "!Hg1373002934";
+
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			conn = DriverManager.getConnection(jdbcUrl, dbId, dbPass);
+			System.out.println("제대로 연결되었습니다.");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		int n = 0;
+		String query = "SELECT count(no) FROM work_place WHERE status = 0";
+
+		try {
+
+			pstm = conn.prepareStatement(query);
+			resultSet = pstm.executeQuery();
+
+			while (resultSet.next()) {
+				result = resultSet.getInt(1);
+
+			}
+			System.out.println("nokori" + result);
+			return result;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (resultSet != null)
+					resultSet.close();
+
+				if (pstm != null)
+					pstm.close();
+
+				if (conn != null)
+					conn.close();
+
+			} catch (Exception e) {
+			}
+		}
+		return 0;
+
+	}
+	public int getProcess() {
+
+		try {
+			String jdbcUrl = "jdbc:mysql://localhost:3306/ioc?useUnicode=true&characterEncoding=utf8";
+			String dbId = "root";
+			String dbPass = "!Hg1373002934";
+
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			conn = DriverManager.getConnection(jdbcUrl, dbId, dbPass);
+			System.out.println("제대로 연결되었습니다.");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		int n = 0;
+		int mailcount = 0;
+		String query2 = "SELECT no, from, date, status FROM work_place";
+
+		try {
+
+			pstm = conn.prepareStatement(query2);
+			resultSet = pstm.executeQuery();
+
+			while (resultSet.next()) {
+				mailcount = resultSet.getInt(1);
+
+			}
+			
+			int total;
+			int nokori;
+			String from;
+			String date;
+			int Status;
 
 			return mailcount;
 

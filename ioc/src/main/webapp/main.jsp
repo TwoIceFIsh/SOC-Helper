@@ -57,13 +57,18 @@
 							<div class="col-lg-6">
 
 								<div class="p-3">
-									<h1 class="h4 text-gray-900 mb-2">1. C-TAS 자동 수집(지원예정)</h1>
+									<h1 class="h4 text-gray-900 mb-2">1. 보안정보 자동수집(보안뉴스, KISA
+										등)</h1>
+
 									<hr>
+
 									<div class="text-left">
 										<h1 class="h4 text-gray-900 mb-2">2. CVE 정보수집 솔루션 1.2v</h1>
 										<p class="mb-5">
-											CVE 코드와 관련된 정보를 수집하여 보고서로 받아보세요!</br> </br> 샘플 파일의 양식과 같은 텍스트 파일 업로드!</br> </br>
-											(sample.txt) </br> CVE-2020-1123 </br> CVE-2020-1231 </br> CVE-2020-11245
+											CVE 코드와 관련된 정보를 수집하여 보고서로 받아보세요!</br> </br> CVE로 시작하는 코드를 다음과 같은 텍스트 파일
+											업로드!</br> </br> (sample.txt) </br> CVE-2020-1123 </br> CVE-2020-1231 </br>
+											CVE-2020-11245
+										</p>
 										<form class="  form-control-user" method="POST"
 											action="FileHandleServlet" enctype="multipart/form-data">
 											<input type="file" class="form-control form-control-user"
@@ -79,8 +84,10 @@
 									<div class="text-left">
 										<h1 class="h4 text-gray-900 mb-2">3. IOC 자동업무 솔루션 1.2v</h1>
 										<p class="mb-5">
-											HX 파일(MD5/SHA256/SHA1/),(IP/URL)을 생성해요!</br> </br>샘플 파일의 양식과 같은 텍스트 파일
-											업로드!</br> </br> (sample.txt)</br> https://www.sdifjsod.com</br>111.222.111.222</br>md5</br>sha1</br>sha256
+											HX 파일(MD5/SHA256/SHA1/),(IP/URL)을 생성해요!</br> </br>타입에 상관없이 다음과 같이 텍스트
+											파일 업로드!</br> </br> (sample.txt)</br> https://www.sdifjsod.com</br>111.222.111.222</br>md5</br>sha1</br>sha256
+
+
 
 										
 										<form class=" form-control-user" method="POST"

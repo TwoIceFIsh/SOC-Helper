@@ -56,6 +56,9 @@ public class FIleHandleServlet2 extends HttpServlet {
 
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
+		
+
+	    String ip = request.getRemoteAddr();
 
 		final Part filePart = request.getPart("file");
 		
@@ -89,7 +92,8 @@ public class FIleHandleServlet2 extends HttpServlet {
 
 			// 데이터 DB 작성
 			dbrw dbrw = new dbrw();
-			if (dbrw.readFile2(location, fileName, ipAddress) == 1) {
+			if (dbrw.readFile2(location, fileName, ip) == 1) {
+				
 				response.sendRedirect("http://222.110.22.168:8080/ioc/ok.jsp");
 			} else {
 				response.sendRedirect("http://222.110.22.168:8080/ioc/oops.jsp");

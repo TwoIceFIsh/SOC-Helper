@@ -1,0 +1,43 @@
+CREATE TABLE `site_status` (
+  `no` int NOT NULL,
+  `mailcount` int DEFAULT NULL,
+  `c` int DEFAULT NULL,
+  `status` int DEFAULT NULL,
+  `count` int DEFAULT NULL,
+  `progress` int DEFAULT NULL,
+  `address` varchar(200) DEFAULT NULL,
+  `time` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`no`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+
+CREATE TABLE `cve` (
+  `no` int NOT NULL,
+  `cve` varchar(45) DEFAULT NULL,
+  `status` int DEFAULT NULL,
+  PRIMARY KEY (`no`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+
+CREATE TABLE `work_place` (
+  `no` int NOT NULL,
+  `md5` varchar(100) DEFAULT NULL,
+  `sha256` varchar(400) DEFAULT NULL,
+  `sha1` varchar(100) DEFAULT NULL,
+  `ip` varchar(100) DEFAULT NULL,
+  `url` varchar(1000) DEFAULT NULL,
+  `status` int DEFAULT NULL,
+  `filepath` varchar(1000) DEFAULT NULL,
+  `from` varchar(100) DEFAULT NULL,
+  `time` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`no`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+
+CREATE TABLE `log` (
+  `no` int NOT NULL,
+  `name` varchar(45) DEFAULT NULL,
+  `count` int DEFAULT NULL,
+  `left` int DEFAULT NULL,
+  `status` varchar(45) DEFAULT NULL,
+  `type` varchar(45) DEFAULT NULL,
+  `file` varchar(300) DEFAULT NULL,
+  PRIMARY KEY (`no`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci

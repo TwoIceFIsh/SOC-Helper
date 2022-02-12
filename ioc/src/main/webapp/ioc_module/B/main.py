@@ -1,5 +1,8 @@
 import time
 from datetime import datetime
+
+import pymysql
+
 import connect
 
 line = 2
@@ -11,25 +14,61 @@ count = 1
 
 while 1:
     print("START")
+    time.sleep(1)
 
-    time.sleep(5)
+    print("##################################### 이메일 발송을 위한 명단 획득 #######################################")
+    connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc',
+                            charset='utf8')
+    curq = connq.cursor()
+    sql4 = "SELECT address FROM site_status WHERE no = 1"
+    curq.execute(sql4)
+    connq.close()
 
-    list = connect.getList()
+    ##### 메일 데이터가 없으면 기본팀메일 발송 #######
+    for r in curq:
+        if r[0] == None or r[0].strip() == "":
+            address = 'dlz1160@s-oil.com'
+        address = r[0]
+    print("메일 수신대상 : " + address)
 
-    print("List in main value " + str(list))
+    print("################################# 처리 전인 데이터가 있는지 확인 ################################################")
+    connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
+    curq = connq.cursor()
+    sql4 = "SELECT count(status) FROM work_place WHERE status = '0'"
+    curq.execute(sql4)
+    connq.close()
 
-    if list[len(list)-1] != "":
-        print("DATA IN")
-        filename = "HX_DATA(MD5,SHA1,SHA256)_" + yy + mm + dd + ".txt"
-        count = connect.writeHX(filename, list)
+    ##############################################################################################################
 
-        name='보안관제'
-        address='bh.lee@s-oil.com;khw1205@s-oil.com;lyj0409@s-oil.com;ksm0117@s-oil.com'
-        #connect.sendMail(filename,name,'bh.lee@s-oil.com',yy,mm,dd,count)
-        #connect.sendMail(filename, name, 'dlz1160@s-oil.com', yy, mm, dd, count)
-        #connect.sendMail(filename,name,'khw1205@s-oil.com',yy,mm,dd,count)
-        #connect.sendMail(filename,name,'lyj0409@s-oil.com',yy,mm,dd,count)
-        #connect.sendMail(filename,name,'ksm0117@s-oil.com',yy,mm,dd,count)
-        #connect.sendMail(filename, name, 'sungwoo.kwon@s-oil.com', yy, mm, dd, count)
+
+    for r in curq:
+        if r[0] > 0:
+            time.sleep(60)
+            print("################################################## 처리 가능한 데이터가 있음 ##########################################")
+
+            ####추출된 데이터 총 길이, HX 파일 내용, 엑셀파일 이름
+            list = connect.getList()
+            
+            ### 파일내용이 공백이아닌지 확인
+            if list[len(list) - 2] != "":
+                print("DATA IN")
+
+                ### HX 파일 생성 및 갯수 리턴 ###
+                filename = "HX_DATA(MD5,SHA1,SHA256)_" + yy + mm + dd + ".hx"
+                count = connect.writeHX(filename, list)
+
+                #######################################################################################################
+
+                print("##################################### 메일 전송 ########################################################")
+                name = '보안관제'
+                print("count" + str(count))
+                #connect.sendMail(filename, list[2], name, 'bh.lee@s-oil.com', yy, mm, dd, count)
+                connect.sendMail(filename, list[2], name, address, yy, mm, dd, count)
+                #######################################################################################################
+
+    print("END")
+
+
+
 
 

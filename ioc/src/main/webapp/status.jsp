@@ -61,10 +61,20 @@ SimpleDateFormat sf = new SimpleDateFormat("yy.MM.dd");
 							처리상태(실시간)</div>
 						<div class=" no-gutters align-items-center">
 							<div class="col-auto">
+
+								<div id="statusMessage5"
+									class="h5 mb-0 mr-3 font-weight-bold text-gray-800">보안정보
+									: 🛠️</div>
 								<div id="statusMessage3"
 									class="h5 mb-0 mr-3 font-weight-bold text-gray-800"></div>
+
+
 								<div id="statusMessage4"
 									class="h5 mb-0 mr-3 font-weight-bold text-gray-800"></div>
+
+								<div id="nokori"
+									class="h8 mb-0 mr-3 font-weight-bold text-gray-800"></div>
+
 							</div>
 
 						</div>
@@ -105,12 +115,33 @@ SimpleDateFormat sf = new SimpleDateFormat("yy.MM.dd");
 						<div
 							class="text-xs font-weight-bold text-warning text-uppercase mb-1">
 							메일수신대상</div>
-						<div id="statusMessage5"
-							class="h4 mb-0 font-weight-bold text-gray-800">보안관제팀👍</div>
+						<div id="statusMessage6"
+							class="h4 mb-0 font-weight-bold text-gray-800"></div>
+							
+							<div id="aas"
+							class="h8 mb-0 font-weight-bold text-gray-800">업로드 버튼 클릭 전 메일 수신자를 선택해주세요!</div>
 					</div>
 
 				</div>
 			</div>
+		</div>
+	</div>
+
+	<div class="dropdown mb-4">
+		<button class="btn btn-primary dropdown-toggle" type="button"
+			id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+			aria-expanded="false">메일수신변경</button>
+		<div class="dropdown-menu animated--fade-in"
+			aria-labelledby="dropdownMenuButton">
+			<a id="a" class="dropdown-item" href="#">보안관제팀👍</a> <a id="b"
+				class="dropdown-item" href="#">부장님😁</a> <a id="c"
+				class="dropdown-item" href="#">승환😎</a> <a id="d"
+				class="dropdown-item" href="#">명훈😊</a> <a id="e"
+				class="dropdown-item" href="#">병호🤑</a> <a id="f"
+				class="dropdown-item" href="#">성민😴</a> <a id="g"
+				class="dropdown-item" href="#">예지😚</a> <a id="h"
+				class="dropdown-item" href="#">형욱😡</a>
+
 		</div>
 	</div>
 </div>

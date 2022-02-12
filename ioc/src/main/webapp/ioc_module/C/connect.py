@@ -45,7 +45,6 @@ def getList():
 
     conn.close()
 
-
     output = list
 
     # Stauts DB RW
@@ -55,7 +54,7 @@ def getList():
     cur.execute(sql)
     # 여러 줄 출력
     i = 0
-
+    value = 0
     for row in cur:
         value = row[0]
 
@@ -65,7 +64,7 @@ def getList():
     conn.commit()
     cur.fetchone()
     conn.close()
-
+    
     return output
 
 def sendMail(filename, name, address, yy, mm, dd, line):
@@ -77,7 +76,7 @@ def sendMail(filename, name, address, yy, mm, dd, line):
     cur.execute(sql)
     # 여러 줄 출력
     i = 0
-
+    value = 0
     for row in cur:
         value = row[0]
 
@@ -112,8 +111,8 @@ def sendMail(filename, name, address, yy, mm, dd, line):
         message.set_charset('utf-8')
         message['From'] = from_addr
         message['To'] = to_addr
-        message['Subject'] = '[보안관제] ' + "HX 정보등록 데이터(IP, URL) "+" " + str(line-1) + "건_" +yy+mm+dd
-
+        message['Subject'] = '[보안관제] ' + "HX 정보등록 데이터(IP, URL) "+ str(line) + "건_" +yy+mm+dd
+        print('[보안관제] ' + "HX 정보등록 데이터(IP, URL) "+" " + str(line) + "건_" +yy+mm+dd)
         # 메일 콘텐츠 - 내용
         body = '''
         <h2>안녕하세요.</h1>
