@@ -46,13 +46,6 @@ def getList():
 
     print(result)
 
-
-    row = cur.fetchone()
-    if row == None:
-        print('검색결과없음')
-    else:
-        print(row[0], row[1])
-
     conn.close()
 
     # Stauts DB RW
