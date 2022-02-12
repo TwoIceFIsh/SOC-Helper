@@ -361,16 +361,17 @@ def getList() :
     
     if len(sha256) > 0:
         out = virusSHA256(sha256)
-        if out != 0:
+        if len(out) > 0:
             sha256List = out
 
     if len(sha1) > 0:
         out = virusSHA1(sha1)
-        if out != 0:
-            sha1List = virusSHA1(sha1)
+        if len(out) > 0:
+            sha1List = out
 
     ###################### md5 결과에 대하여 status 변경  (sha,md5,sha256 status == 1)
     output = md5List + sha256List + sha1List
+    print("output : " + str( output))
 
 
 
@@ -530,7 +531,7 @@ def sendMail(filename,filename2, name, address, yy, mm, dd, line):
     curq = connq.cursor()
 
     ########### 초기 엑셀 작성 세팅
-    sql4 = "SELECT count(status), no FROM work_place WHERE status = '1'"
+    sql4 = "SELECT count(status), no FROM work_place WHERE status = '2'"
     curq.execute(sql4)
     connq.close()
 
@@ -547,10 +548,12 @@ def sendMail(filename,filename2, name, address, yy, mm, dd, line):
             for row in cur:
                 value = row[0]
 
+            if value is None:
+                value = 0
+
             sql2 = "UPDATE site_status SET mailcount = " + str(value + 1)
             cur.execute(sql2)
             conn.commit()
-            cur.fetchone()
             conn.close()
 
             from_addr = formataddr(('업무도우미', 'bh.lee@s-oil.com'))
