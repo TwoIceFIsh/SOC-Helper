@@ -72,6 +72,10 @@ SimpleDateFormat sf = new SimpleDateFormat("yy.MM.dd");
 								<div id="statusMessage4"
 									class="h5 mb-0 mr-3 font-weight-bold text-gray-800"></div>
 
+
+								<div id="statusMessage5"
+									class="h5 mb-0 mr-3 font-weight-bold text-gray-800">캡쳐 :
+									🛠️</div>
 								<div id="nokori"
 									class="h8 mb-0 mr-3 font-weight-bold text-gray-800"></div>
 
@@ -151,9 +155,8 @@ SimpleDateFormat sf = new SimpleDateFormat("yy.MM.dd");
 			<div class="card-body">
 				<div class=" no-gutters align-items-center">
 					<div class="col-auto">
-						<div
-							class="text-xs font-weight-bold  text-uppercase mb-1">
-							명령 처리 로그</div>
+						<div class="text-xs font-weight-bold  text-uppercase mb-1">
+							로그(실시간)</div>
 						<div class=" h8 mb-0 font-weight-bold text-gray-800">
 							<div id="statusMessage99"
 								class="text-xs  font-weight-bold text-gray-800"></div>
@@ -168,6 +171,29 @@ SimpleDateFormat sf = new SimpleDateFormat("yy.MM.dd");
 		</div>
 	</div>
 
+
+	<div class=" col-md-12 mb-4"></div>
+
+	<div class=" col-md-12 mb-4">
+		<div class="card border-left-warning shadow h-100 py-2">
+			<div class="card-body">
+				<div class="row no-gutters align-items-center">
+					<div class="col-auto">
+						<div
+							class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+							공지사항</div>
+						<div class=" h8 mb-0 font-weight-bold text-gray-800">
+							<div id="statusMessage11" class=" mb-0 font-weight-bold "></div>
+							2022.02.11(금) : 메일 발송 대상 지정 기능 추가</br> 2022.02.12(토) : 남은 작업 시간 및 건 수
+							추가</br> 2022.02.13(일) : 데이터 변환 알고리즘 개선</br> 2022.02.13(일) : 작업 콘솔 로그 기능 추가</br>
+							2022.02.14(월) : 작업대기열 기능 추가</br> 기능개선 및 문의사항 : 병호🤑
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
 
 </div>
 

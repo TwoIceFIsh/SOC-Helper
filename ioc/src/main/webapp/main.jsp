@@ -44,7 +44,7 @@
 						<div class="card shadow mb-4">
 							<div class="card-header py-3">
 								<h6 class="text-center m-0 font-weight-bold text-primary">보안관제팀
-									업무지원 통합 플랫폼💕 by 병호</h6>
+									업무지원 통합 플랫폼 1.0v💕 by 병호</h6>
 							</div>
 
 						</div>
@@ -63,12 +63,11 @@
 									<hr>
 
 									<div class="text-left">
-										<h1 class="h4 text-gray-900 mb-2">2. CVE 정보수집 솔루션 1.2v</h1>
-										<p class="mb-5">
+										<h1 class="h4 text-gray-900 mb-2">2. CVE 정보수집 솔루션 1.0v</h1>
+										<p class="mb-4">
 											CVE 코드와 관련된 정보를 수집하여 보고서로 받아보세요!</br> </br> CVE로 시작하는 코드를 다음과 같은 텍스트 파일
 											업로드!</br> </br> (sample.txt) </br> CVE-2020-1123 </br> CVE-2020-1231 </br>
 											CVE-2020-11245
-										</p>
 										<form class="  form-control-user" method="POST"
 											action="FileHandleServlet" enctype="multipart/form-data">
 											<input type="file" class="form-control form-control-user"
@@ -77,13 +76,16 @@
 												value="txt 파일 업로드" name="upload" id="upload" />
 										</form>
 
+
+
+
 									</div>
 
 									<hr>
 
 									<div class="text-left">
-										<h1 class="h4 text-gray-900 mb-2">3. IOC 자동업무 솔루션 1.2v</h1>
-										<p class="mb-5">
+										<h1 class="h4 text-gray-900 mb-2">3. IOC 지표생성 솔루션 1.0v</h1>
+										<p class="mb-4">
 											HX 파일(MD5/SHA256/SHA1/),(IP/URL)을 생성해요!</br> </br>타입에 상관없이 다음과 같이 텍스트
 											파일 업로드!</br> </br> (sample.txt)</br> https://www.sdifjsod.com</br>111.222.111.222</br>md5</br>sha1</br>sha256
 
@@ -100,9 +102,17 @@
 
 
 									</div>
+
+									<hr>
+
+									<div class="text-left">
+										<h1 class="h4 text-gray-900 mb-2">4. 사이트캡쳐 솔루션</h1>
+										<p class="mb-4">
+											외부망 IP를 통하여 접속된 웹사이트 캡처본을 받아보세요! </br> URL을 입력하여 해당 사이트를 사진으로 확인해
+											볼 수 있습니다!</br><div> <input class="btn btn-warning btn-user btn-block"
+												type="submit" value="공사중" name="#" id="#" /></div>
+									</div>
 								</div>
-
-
 
 							</div>
 						</div>
