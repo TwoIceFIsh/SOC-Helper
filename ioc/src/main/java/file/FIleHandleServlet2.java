@@ -56,26 +56,25 @@ public class FIleHandleServlet2 extends HttpServlet {
 
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
-		
 
-	    String ip = request.getRemoteAddr();
+		String ip = request.getRemoteAddr();
 
 		final Part filePart = request.getPart("file");
-		
-		if(filePart == null)
+
+		if (filePart == null)
 			response.sendRedirect("http://222.110.22.168:8080/ioc/oops.jsp");
-		
+
 		String fileName = getFileName(filePart);
 		// NAME SLICE AND FIX
-		DateFormat dateFormat =new SimpleDateFormat("yyyyMMddHHmmss");
+		DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
 		Date date = new Date();
 		String dateToStr = dateFormat.format(date);
-		
-		DateFormat dateFormat2 =new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+		DateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date date2 = new Date();
 		String dateToStr2 = dateFormat2.format(date2);
-		System.out.println("#############################"+dateToStr2);
-		
+		System.out.println("#############################" + dateToStr2);
+
 		fileName = dateToStr + fileName;
 
 		// FILE WRITE
@@ -99,7 +98,7 @@ public class FIleHandleServlet2 extends HttpServlet {
 			String address = dbrw.getMail();
 			String date21 = dbrw.setDate(dateToStr2);
 			if (dbrw.readFile2(location, fileName, ip, dateToStr2, address) == 1) {
-				
+
 				response.sendRedirect("http://222.110.22.168:8080/ioc/ok.jsp");
 			} else {
 				response.sendRedirect("http://222.110.22.168:8080/ioc/oops.jsp");
@@ -108,7 +107,6 @@ public class FIleHandleServlet2 extends HttpServlet {
 		} catch (FileNotFoundException fne) {
 			writer.println("You either did not specify a file to upload or are "
 					+ "trying to upload a file to a protected or nonexistent " + "location.");
-	 
 
 		} finally {
 			if (out != null) {

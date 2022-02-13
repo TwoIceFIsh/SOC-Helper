@@ -1,6 +1,6 @@
 import time
 from datetime import datetime
-
+from datetime import datetime
 import pymysql
 
 import connect
@@ -31,7 +31,7 @@ while 1:
 
     connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
     curq = connq.cursor()
-    sql4 = "SELECT count(status) FROM work_place WHERE status = '0'"
+    sql4 = "SELECT count(status) FROM work_place WHERE status = '0' AND sha1 = 'X' AND sha256 = 'X' AND md5 = 'X'"
     curq.execute(sql4)
     connq.close()
 
@@ -82,7 +82,6 @@ while 1:
             list = connect.getList(fromIp, fromMail, fromCount, fromDateDate)
 
             if len(list) >= 1:
-                time.sleep(60)
                 print("DATA IN")
 
                 for k in range(0,len(list)):

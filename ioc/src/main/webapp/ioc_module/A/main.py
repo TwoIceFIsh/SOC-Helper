@@ -1,5 +1,5 @@
 import time
-
+from datetime import datetime
 import pymysql
 import requests
 from bs4 import BeautifulSoup
@@ -196,10 +196,7 @@ while 1:
                 no + 1
                 ############## fromIp, fromMail, fromCount,fromDateDate #####
 
-                now = time.localtime()
-
-                nowTime = ("%04d-%02d-%02d %02d:%02d:%02d" % (
-                now.tm_year, now.tm_mon, now.tm_mday, now.tm_hour, now.tm_min, now.tm_sec))
+                nowTime = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
                 text = nowTime + " :  CVE 데이터" + str(len(list)) + "건 변환 완료."
 
                 connA = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc',

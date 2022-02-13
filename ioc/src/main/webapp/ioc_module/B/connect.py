@@ -2,7 +2,7 @@ import json
 import multiprocessing
 import time
 from pprint import pprint
-
+from datetime import datetime
 import openpyxl as openpyxl
 import pymysql
 import os
@@ -303,13 +303,12 @@ def getList(fromIp, fromMail, fromCount,fromDateDate) :
         no + 1
         ############## fromIp, fromMail, fromCount,fromDateDate #####
 
-        now = time.localtime()
 
         asdfasdf = md5 + sha1 + sha256
 
+        nowTime = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
 
-        nowTime = ("%04d-%02d-%02d %02d:%02d:%02d" % (
-        now.tm_year, now.tm_mon, now.tm_mday, now.tm_hour, now.tm_min, now.tm_sec))
+
         text = nowTime + " :  IOC(MD5/SHA256/SHA1) 데이터" + str(len(asdfasdf)) + "건 처리 진행."
         print("#####################"+text)
         connA = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
@@ -572,9 +571,8 @@ def getList(fromIp, fromMail, fromCount,fromDateDate) :
     no + 1
     ############## fromIp, fromMail, fromCount,fromDateDate #####
 
-    now = time.localtime()
+    nowTime = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
 
-    nowTime = ("%04d-%02d-%02d %02d:%02d:%02d" % (now.tm_year, now.tm_mon, now.tm_mday, now.tm_hour, now.tm_min, now.tm_sec))
     text = nowTime + " :  IOC(MD5/SHA256/SHA1) 데이터" + str(len(output)) + "건 변환 완료."
 
     connA = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
@@ -707,10 +705,8 @@ def sendMail(filename,filename2, name, address, yy, mm, dd, line,   fromIp, from
             no + 1
             ##############fromIp, fromMail, fromCount,fromDateDate #####
 
-            now = time.localtime()
+            nowTime = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
 
-            nowTime = ("%04d-%02d-%02d %02d:%02d:%02d" % (
-            now.tm_year, now.tm_mon, now.tm_mday, now.tm_hour, now.tm_min, now.tm_sec))
             text = nowTime + " : IOC(MD5/SHA256/SHA1) 데이터 결과 "+fromMail+" 발송 완료."
 
             connA = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')

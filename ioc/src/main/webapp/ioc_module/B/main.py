@@ -1,6 +1,6 @@
 import time
 from datetime import datetime
-
+from datetime import datetime
 import pymysql
 
 import connect
@@ -33,7 +33,7 @@ while 1:
 
     connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
     curq = connq.cursor()
-    sql4 = "SELECT count(status) FROM work_place WHERE status = '0'"
+    sql4 = "SELECT count(status) FROM work_place WHERE status = '0' AND ip ='X' AND url='X'"
     curq.execute(sql4)
     connq.close()
     print("################################# 처리 전인 데이터가 있는지 확인 ################################################")

@@ -118,7 +118,7 @@ public class status_log {
 			e.printStackTrace();
 		}
 
-		String query2 = "SELECT no, text FROM log  ORDER BY no ASC limit 10";
+		String query2 = "SELECT no, text FROM (SELECT no, text FROM log  ORDER BY no desc limit 10) as logT ORDER BY NO ASC";
 		String query3 = "SELECT no FROM log limit 10";
 
 		try {

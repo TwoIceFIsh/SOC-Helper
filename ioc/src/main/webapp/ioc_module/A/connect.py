@@ -1,5 +1,6 @@
 import pymysql
 # send_attachment.py
+from datetime import datetime
 import os
 import smtplib
 from googletrans import Translator
@@ -64,12 +65,10 @@ def getList(fromIp, fromMail, fromCount,fromDateDate):
     no + 1
     ############## fromIp, fromMail, fromCount,fromDateDate #####
 
-    now = time.localtime()
-
     asdfasdf = result
 
-    nowTime = ("%04d-%02d-%02d %02d:%02d:%02d" % (
-        now.tm_year, now.tm_mon, now.tm_mday, now.tm_hour, now.tm_min, now.tm_sec))
+
+    nowTime = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
     text = nowTime + " :  CVE 데이터" + str(len(asdfasdf)) + "건 처리 진행."
     print("#####################" + text)
     connA = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
@@ -207,10 +206,9 @@ def sendMail(filename, name, address, yy, mm, dd, line, fromIp, fromMail, fromCo
             no + 1
             ##############fromIp, fromMail, fromCount,fromDateDate #####
 
-            now = time.localtime()
+            nowTime = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
 
-            nowTime = ("%04d-%02d-%02d %02d:%02d:%02d" % (
-            now.tm_year, now.tm_mon, now.tm_mday, now.tm_hour, now.tm_min, now.tm_sec))
+
             text = nowTime + " : CVE 데이터 결과 "+fromMail+" 발송 완료."
 
             connA = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
