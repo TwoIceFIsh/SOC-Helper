@@ -268,7 +268,7 @@ function nokori2() {
 }
 
 loglog();
-setInterval(loglog, 4000);
+setInterval(loglog, 1000);
 
 function loglog() {
 	heart = ""
