@@ -38,7 +38,7 @@ public class siteCheckServlet3 extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		request.getParameter("heart");
-		System.out.println("heart");
+	
 		dbrw dbrw = new dbrw();
 		
 		

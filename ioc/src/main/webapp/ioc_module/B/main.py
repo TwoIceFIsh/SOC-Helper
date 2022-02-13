@@ -31,12 +31,13 @@ while 1:
         address = r[0]
     print("메일 수신대상 : " + address)
 
-    print("################################# 처리 전인 데이터가 있는지 확인 ################################################")
     connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
     curq = connq.cursor()
     sql4 = "SELECT count(status) FROM work_place WHERE status = '0'"
     curq.execute(sql4)
     connq.close()
+    print("################################# 처리 전인 데이터가 있는지 확인 ################################################")
+
 
     ##############################################################################################################
 
@@ -45,11 +46,53 @@ while 1:
         if r[0] > 0:
             print(
                 "################################################## 처리 가능한 데이터가 있음 ##########################################")
+            print("###################### log log 처리 가능한 데이터를 얻는다 ########################")
+            connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
+            curq = connq.cursor()
+            sql4 = "SELECT address, time  FROM site_status WHERE no = '1'"
+            curq.execute(sql4)
+            connq.close()
 
+            fromAddress = ""
+            fromTime = ""
+            fromIp = ""
+            fromMail = ""
+            fromCount = ""
+            fromDateDate = ""
+
+            fromFrom = ""
+            fromTo = ""
+
+            for rs in curq:
+                fromAddress = rs[0]
+                fromTime = rs[1]
+
+
+
+
+            fromTime=fromTime.strip()
+            connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
+            curq = connq.cursor()
+            sql4 = "SELECT ip, mail, count, date  FROM log WHERE date = '" + str(fromTime)+"'"
+            curq.execute(sql4)
+            connq.close()
+
+
+
+            for rs in curq:
+                fromIp = rs[0]
+                fromMail = rs[1]
+                fromCount = rs[2]
+                fromDateDate = rs[3]
+
+
+######################################################################
             time.sleep(60)
 
+
+
             ####추출된 데이터 총 길이, HX 파일 내용, 엑셀파일 이름
-            list = connect.getList()
+            list = connect.getList(fromIp, fromMail, fromCount,fromDateDate)
             
             ### 파일내용이 공백이아닌지 확인
             if list[len(list) - 2] != "":
@@ -68,7 +111,7 @@ while 1:
                 print("##################################### 메일 전송 ########################################################")
                 name = '보안관제'
                 print("count" + str(count))
-                connect.sendMail(filename, list[2], name, address, yy, mm, dd, asdf)
+                connect.sendMail(filename, list[2], name, address, yy, mm, dd, asdf, fromIp, fromMail, fromCount,fromDateDate)
                 #######################################################################################################
 
     print("END")

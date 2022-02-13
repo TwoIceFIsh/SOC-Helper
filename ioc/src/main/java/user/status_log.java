@@ -14,7 +14,7 @@ public class status_log {
 	PreparedStatement pstm2 = null;
 	ResultSet resultSet2 = null;
 
-	public int insert_log(String dateToStr, String ipAddress, int count1, String string) {
+	public int insert_log(String dateToStr, String ipAddress, int count1, String string, String mailAddress) {
 		try {
 			String jdbcUrl = "jdbc:mysql://localhost:3306/ioc?useUnicode=true&characterEncoding=utf8";
 			String dbId = "root";
@@ -29,10 +29,8 @@ public class status_log {
 
 		int n = 0;
 		int no = 0;
-		String query = "INSERT INTO log values(?,?)";
+		String query = "INSERT INTO log values(?,?,?,?,?,?)";
 		String query2 = "SELECT MAX(no) FROM log";
-		String query3 = "SELECT address FROM site_status WHERE no = 1";
-		String address = "";
 
 		try {
 
@@ -44,40 +42,40 @@ public class status_log {
 
 			}
 
-			pstm = conn.prepareStatement(query3);
-			resultSet = pstm.executeQuery();
-
-			while (resultSet.next()) {
-				address = resultSet.getString(1);
-			}
-
 			pstm = conn.prepareStatement(query);
 			pstm.setInt(1, no + 1);
+ 
+			if (mailAddress.equals("DLZ1160@s-oil.com"))
+				mailAddress = "보안관제팀";
+			if (mailAddress.equals("sungwoo.kwon@s-oil.com"))
+				mailAddress = "부장님";
+			if (mailAddress.equals("jsh0119@s-oil.com"))
+				mailAddress = "승환";
+			if (mailAddress.equals("kmh0816@s-oil.com"))
+				mailAddress = "명훈";
+			if (mailAddress.equals("bh.lee@s-oil.com"))
+				mailAddress = "병호";
+			if (mailAddress.equals("ksm0117@s-oil.com"))
+				mailAddress = "성민";
+			if (mailAddress.equals("lyj0409@s-oil.com"))
+				mailAddress = "예지";
+			if (mailAddress.equals("khw1205@s-oil.com"))
+				mailAddress = "형욱";
 
-			String result = "";
-			if (address.equals("DLZ1160@s-oil.com"))
-				result = "보안관제팀";
-			if (address.equals("sungwoo.kwon@s-oil.com"))
-				result = "부장님";
-			if (address.equals("jsh0119@s-oil.com"))
-				result = "승환";
-			if (address.equals("kmh0816@s-oil.com"))
-				result = "명훈";
-			if (address.equals("bh.lee@s-oil.com"))
-				result = "병호";
-			if (address.equals("ksm0117@s-oil.com"))
-				result = "서임ㄴ";
-			if (address.equals("lyj0409@s-oil.com"))
-				result = "예지";
-			if (address.equals("khw1205@s-oil.com"))
-				result = "형욱";
+			if (string.equals("CVE")) {
+				pstm.setString(2,
+						dateToStr + " : " + ipAddress + "님께서 CVE 정보 등록을 요청했습니다.(" + count1 + "건) 수신 : " + mailAddress);
 
-			if (string.equals("CVE"))
+			}
+			if (string.equals("IOC")) {
 				pstm.setString(2,
-						dateToStr + " : " + ipAddress + "님께서 CVE 정보 등록을 요청했습니다.(" + count1 + "건) 수신 : " + result);
-			if (string.equals("IOC"))
-				pstm.setString(2,
-						dateToStr + " : " + ipAddress + "님께서 IOC 정보 등록을 요청했습니다.(" + count1 + "건) 수신 : " + result);
+						dateToStr + " : " + ipAddress + "님께서 IOC 정보 등록을 요청했습니다.(" + count1 + "건) 수신 : " + mailAddress);
+			}
+
+			pstm.setString(3, ipAddress);
+			pstm.setString(4, mailAddress);
+			pstm.setInt(5, count1);
+			pstm.setString(6, dateToStr);
 
 			n = pstm.executeUpdate();
 
@@ -120,7 +118,7 @@ public class status_log {
 			e.printStackTrace();
 		}
 
-		String query2 = "SELECT * FROM log  ORDER BY no DESC limit 10";
+		String query2 = "SELECT no, text FROM log  ORDER BY no ASC limit 10";
 		String query3 = "SELECT no FROM log limit 10";
 
 		try {
@@ -138,7 +136,7 @@ public class status_log {
 
 			}
 
-			log = new String[nono+1];
+			log = new String[nono + 1];
 
 			pstm2 = conn2.prepareStatement(query2);
 			resultSet2 = pstm2.executeQuery();
@@ -149,7 +147,7 @@ public class status_log {
 				System.out.println("log[count] " + log[count]);
 				count += 1;
 			}
-			
+
 			log[count] = Integer.toString(nono);
 
 			return log;

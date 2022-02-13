@@ -30,7 +30,7 @@ public class dbrw {
 	//////////////////////////////////////////////////////////////////////////
 	// CVE 정보수집 readFile > writeLine
 	//////////////////////////////////////////////////////////////////////////
-	public int readFile(String location, String fileName, String ipAddress, String dateToStr) {
+	public int readFile(String location, String fileName, String ipAddress, String dateToStr, String mailAddress) {
 		File file = new File(location + "\\" + fileName);
 		System.out.println("readData " + location + fileName);
 		if (file.exists()) {
@@ -53,7 +53,7 @@ public class dbrw {
 				}
 
 				status_log status_log = new status_log();
-				status_log.insert_log(dateToStr, ipAddress, count1, "CVE");
+				status_log.insert_log(dateToStr, ipAddress, count1, "CVE", mailAddress);
 
 				return no;
 			} catch (IOException e) {
@@ -132,7 +132,7 @@ public class dbrw {
 	//////////////////////////////////////////////////////////////////////////
 	// IOC 정보수집 readFile2 > writeLine2
 	//////////////////////////////////////////////////////////////////////////
-	public int readFile2(String location, String fileName, String ipAddress, String dateToStr) {
+	public int readFile2(String location, String fileName, String ipAddress, String dateToStr, String mailAddress) {
 		File file = new File(location + "\\" + fileName);
 
 		if (file.exists()) {
@@ -157,7 +157,7 @@ public class dbrw {
 				}
 				
 				status_log status_log = new status_log();
-				status_log.insert_log(dateToStr, ipAddress, count2, "IOC");
+				status_log.insert_log(dateToStr, ipAddress, count2, "IOC", mailAddress);
 				
 				return no;
 			} catch (IOException e) {
@@ -623,6 +623,7 @@ public class dbrw {
 	public int nokori() {
 
 		int result = 0;
+		int result2 = 0;
 		try {
 			String jdbcUrl = "jdbc:mysql://localhost:3306/ioc?useUnicode=true&characterEncoding=utf8";
 			String dbId = "root";
@@ -637,7 +638,7 @@ public class dbrw {
 
 		int n = 0;
 		String query = "SELECT count(no) FROM work_place WHERE status = 0";
-
+		String query2 = "SELECT count(no) FROM cve WHERE status = 0";
 		try {
 
 			pstm = conn.prepareStatement(query);
@@ -647,8 +648,22 @@ public class dbrw {
 				result = resultSet.getInt(1);
 
 			}
+			
+			
+
+			pstm = conn.prepareStatement(query2);
+			resultSet = pstm.executeQuery();
+
+			while (resultSet.next()) {
+				result2 = resultSet.getInt(1);
+
+			}
+			
+			
+			
+			
 			System.out.println("nokori" + result);
-			return result;
+			return result+result2;
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -723,6 +738,58 @@ public class dbrw {
 			}
 		}
 		return 0;
+	}
+
+	public String setDate(String time) {
+		 
+
+		try {
+			String jdbcUrl = "jdbc:mysql://localhost:3306/ioc?useUnicode=true&characterEncoding=utf8";
+			String dbId = "root";
+			String dbPass = "!Hg1373002934";
+
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			conn = DriverManager.getConnection(jdbcUrl, dbId, dbPass);
+			System.out.println("제대로 연결되었습니다.");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+ 
+		String query = "UPDATE site_status SET time = ?";
+
+		try {
+
+			pstm = conn.prepareStatement(query);
+			pstm.setString(1, time);
+			// pstm.setString(4, "");
+
+			int n = pstm.executeUpdate();
+
+			if (n == 1) {
+				System.out.println("time Changed to " + time);
+				return time;
+			} else {
+				System.out.println("insert fail");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (resultSet != null)
+					resultSet.close();
+
+				if (pstm != null)
+					pstm.close();
+
+				if (conn != null)
+					conn.close();
+
+			} catch (Exception e) {
+			}
+		}
+		return "no";
+		
+		 
 	}
 
 }

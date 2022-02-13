@@ -58,34 +58,31 @@
 										<h1 class="h4 text-gray-900 mb-2">요청 완료!</h1>
 										<p class="mb-5">질하셨어요!</p>
 									</div>
-									<div>
-										</br> 10분 이내로 메일을 보내드릴게요!</br>(md5 변환시 건당 15초 소요)</br> 발송대상 : 보안관제팀</br> </br>추가가 필요하면
-										병호에게 문의주세요!</br>.</br> <a href="javascript:history.back()"
-											class="btn btn-primary btn-user btn-block">돌아가기</a>
+									<div id="nokori2"></div>
+									</br>메일 수신 추가가 필요하면 병호에게 문의주세요!</br>.</br> <a
+										href="javascript:history.back()"
+										class="btn btn-primary btn-user btn-block">돌아가기</a>
 
 
-
-										<hr>
-
-									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-
 				</div>
 
 			</div>
 
 		</div>
 
-		<!-- Bootstrap core JavaScript-->
-		<script src="vendor/jquery/jquery.min.js"></script>
-		<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-			<script src="js/common2.js" charset="UTF-8"></script>
-		<!-- Core plugin JavaScript-->
-		<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+	</div>
 
-		<!-- Custom scripts for all pages-->
-		<script src="js/sb-admin-2.min.js"></script>
+	<!-- Bootstrap core JavaScript-->
+	<script src="vendor/jquery/jquery.min.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script src="js/common2.js" charset="UTF-8"></script>
+	<!-- Core plugin JavaScript-->
+	<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+	<!-- Custom scripts for all pages-->
+	<script src="js/sb-admin-2.min.js"></script>
 </body>

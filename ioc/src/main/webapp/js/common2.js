@@ -236,7 +236,30 @@ function nokori() {
 			if (result == 0)
 				$('#nokori').html('(작업 없음)');
 			if (result > 0)
-				$('#nokori').html('(처리 ' + result + '건 남음)' + '</br>' + (result * 15)/   60 + '분 소요');
+				$('#nokori').html('(처리 ' + result + '건 남음)' + '</br>' + ((result * 15) / 60) + '분 소요');
+
+
+		}
+	});
+
+}
+
+nokori2();
+setInterval(nokori2, 4000);
+function nokori2() {
+	heart = ""
+	$.ajax({
+		type: 'POST',
+		url: './nokori',
+		data: {
+			heart: heart
+		},
+		success: function(result) {
+
+			if (result == 0)
+				$('#nokori2').html('(메일이 발송완료되었어요 확인해주세요!)');
+			if (result > 0)
+				$('#nokori2').html((result * 15) / 60 + '분후 메일을 보내드릴게요!');
 
 
 		}
@@ -260,12 +283,22 @@ function loglog() {
 			splitResult = result.split(',');
 
 			no = splitResult.length - 1;
+			no2 = splitResult.length;
 
 			tmp = '';
-			for (i = 0; i < no; i++) {
-				tmp = tmp + splitResult[i] + '</br>';
+			tmp2 = '';
+			for (i = 0; i < no-1; i++) {
+
+				if ('null' != splitResult[i])
+					tmp = tmp + splitResult[i] + '</br>';
+
 			}
-			$('#statusMessage99').html(tmp+'');
+			
+			tmp2 = splitResult[no-1];
+
+
+			$('#statusMessage99').html(tmp + '');
+			$('#statusMessage100').html(tmp2 + '');
 
 		}
 	});

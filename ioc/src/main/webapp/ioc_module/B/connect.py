@@ -17,6 +17,7 @@ from email.mime.multipart import MIMEMultipart
 import requests
 
 countzero = 0
+asdfasdf = []
 
 def virusSHA256(sha256List):
 
@@ -245,7 +246,7 @@ def virusSHA1(sha1List):
 
 
 
-def getList() :
+def getList(fromIp, fromMail, fromCount,fromDateDate) :
     print("##################################### 데이터 추출, HX 파일 작성, 엑셀파일 이름##############################################")
 
     print("#######데이터 초기화")
@@ -285,7 +286,42 @@ def getList() :
         print("###미가공 데이터 : " + row[0] + " " + row[1] + " " + row[2])
 
     ###################################################################################################################
-    
+
+        ############################# loglog 메시지 입력 ###############################
+
+        connA = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
+        curA = connA.cursor()
+        sqlA = "select MAX(no) from log"
+        curA.execute(sqlA)
+        connA.close()
+        no = 1
+
+        for rs in curA:
+            if rs[0] != None:
+                no = rs[0]
+
+        no + 1
+        ############## fromIp, fromMail, fromCount,fromDateDate #####
+
+        now = time.localtime()
+
+        asdfasdf = md5 + sha1 + sha256
+
+
+        nowTime = ("%04d-%02d-%02d %02d:%02d:%02d" % (
+        now.tm_year, now.tm_mon, now.tm_mday, now.tm_hour, now.tm_min, now.tm_sec))
+        text = nowTime + " :  IOC(MD5/SHA256/SHA1) 데이터" + str(len(asdfasdf)) + "건 처리 진행."
+        print("#####################"+text)
+        connA = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
+        curA = connA.cursor()
+        sqlA = "INSERT INTO LOG (no, text) values ('" + str(no + 1) + "','" + text + "')"
+        curA.execute(sqlA)
+        connA.commit()
+        connA.close()
+
+        ######################################################################
+
+
 
     print("################################ 처리예정 데이터 갯 수 획득 및 저장 ##############################################")
     connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
@@ -519,11 +555,39 @@ def getList() :
 
     ###### 추출된 데이터 총 길이, HX 파일 내용, 엑셀파일 이름
     result = [len(output), ioc, excelfilename]
+
+    ############################# loglog 메시지 입력 ###############################
+
+    connA = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
+    curA = connA.cursor()
+    sqlA = "select MAX(no) from log"
+    curA.execute(sqlA)
+    connA.close()
+    no = 1
+
+    for rs in curA:
+        if rs[0] != None:
+            no = rs[0]
+
+    no + 1
+    ############## fromIp, fromMail, fromCount,fromDateDate #####
+
+    now = time.localtime()
+
+    nowTime = ("%04d-%02d-%02d %02d:%02d:%02d" % (now.tm_year, now.tm_mon, now.tm_mday, now.tm_hour, now.tm_min, now.tm_sec))
+    text = nowTime + " :  IOC(MD5/SHA256/SHA1) 데이터" + str(len(output)) + "건 변환 완료."
+
+    connA = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
+    curA = connA.cursor()
+    sqlA = "INSERT INTO LOG (no, text) values ('" + str(no+1) + "','" + text + "')"
+    curA.execute(sqlA)
+    connA.commit()
+    connA.close()
+    #############################################################################################
     return result
 
 
-
-def sendMail(filename,filename2, name, address, yy, mm, dd, line):
+def sendMail(filename,filename2, name, address, yy, mm, dd, line,   fromIp, fromMail, fromCount,fromDateDate):
     print("############################################## 메일 보내기 ##########################################################")
     # 보내는사람
 
@@ -626,6 +690,36 @@ def sendMail(filename,filename2, name, address, yy, mm, dd, line):
             curq.execute(sql4)
             connq.commit()
             connq.close()
+
+            ############################# loglog 메시지 입력 ###############################
+
+            connA = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
+            curA = connA.cursor()
+            sqlA = "select MAX(no) from log"
+            curA.execute(sqlA)
+            connA.close()
+            no = 1
+
+            for rs in curA:
+                if rs[0] != None:
+                    no = rs[0]
+
+            no + 1
+            ##############fromIp, fromMail, fromCount,fromDateDate #####
+
+            now = time.localtime()
+
+            nowTime = ("%04d-%02d-%02d %02d:%02d:%02d" % (
+            now.tm_year, now.tm_mon, now.tm_mday, now.tm_hour, now.tm_min, now.tm_sec))
+            text = nowTime + " : IOC(MD5/SHA256/SHA1) 데이터 결과 "+fromMail+" 발송 완료."
+
+            connA = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
+            curA = connA.cursor()
+            sqlA = "INSERT INTO LOG (no, text) values ('" + str(no + 1) + "','" + text + "')"
+            curA.execute(sqlA)
+            connA.commit()
+            connA.close()
+
     #################################################################################################################
 
 ############################## HX 데이터 파일 만들기 #################################################################

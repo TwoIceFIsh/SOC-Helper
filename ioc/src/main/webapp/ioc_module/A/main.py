@@ -19,6 +19,7 @@ while 1:
     print("START")
     time.sleep(1)
 
+    print("##################################### 이메일 발송을 위한 명단 획득 #######################################")
     connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc',
                             charset='utf8')
     curq = connq.cursor()
@@ -31,6 +32,7 @@ while 1:
             address = 'dlz1160@s-oil.com'
         address = r[0]
     print("메일 수신대상 : " + address)
+    ######################################################################################################
 
     connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
     curq = connq.cursor()
@@ -41,8 +43,47 @@ while 1:
     for r in curq:
         if r[0] > 0:
             print("################CVE 데이터 탐지 ###########################")
+
+            print(
+                "################################################## 처리 가능한 데이터가 있음 ##########################################")
+            print("###################### log log 처리 가능한 데이터를 얻는다 ########################")
+            connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
+            curq = connq.cursor()
+            sql4 = "SELECT address, time  FROM site_status WHERE no = '1'"
+            curq.execute(sql4)
+            connq.close()
+
+            fromAddress = ""
+            fromTime = ""
+            fromIp = ""
+            fromMail = ""
+            fromCount = ""
+            fromDateDate = ""
+
+            fromFrom = ""
+            fromTo = ""
+
+            for rs in curq:
+                fromAddress = rs[0]
+                fromTime = rs[1]
+
+            fromTime = fromTime.strip()
+            connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
+            curq = connq.cursor()
+            sql4 = "SELECT ip, mail, count, date  FROM log WHERE date = '" + str(fromTime) + "'"
+            curq.execute(sql4)
+            connq.close()
+
+            for rs in curq:
+                fromIp = rs[0]
+                fromMail = rs[1]
+                fromCount = rs[2]
+                fromDateDate = rs[3]
+
+            ######################################################################
+
             time.sleep(60)
-            list = connect.getList()
+            list = connect.getList(fromIp, fromMail, fromCount, fromDateDate)
 
             if len(list) >= 1:
                 print("DATA IN")
@@ -137,6 +178,39 @@ while 1:
                 mm=datetime.today().strftime('%m')
                 dd=datetime.today().strftime('%d')
                 name='보안관제'
-                connect.sendMail(filename, name, address, yy, mm, dd, count)
+
+                ############################# loglog 메시지 입력 ###############################
+
+                connA = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc',
+                                        charset='utf8')
+                curA = connA.cursor()
+                sqlA = "select MAX(no) from log"
+                curA.execute(sqlA)
+                connA.close()
+                no = 1
+
+                for rs in curA:
+                    if rs[0] != None:
+                        no = rs[0]
+
+                no + 1
+                ############## fromIp, fromMail, fromCount,fromDateDate #####
+
+                now = time.localtime()
+
+                nowTime = ("%04d-%02d-%02d %02d:%02d:%02d" % (
+                now.tm_year, now.tm_mon, now.tm_mday, now.tm_hour, now.tm_min, now.tm_sec))
+                text = nowTime + " :  CVE 데이터" + str(len(list)) + "건 변환 완료."
+
+                connA = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc',
+                                        charset='utf8')
+                curA = connA.cursor()
+                sqlA = "INSERT INTO LOG (no, text) values ('" + str(no + 1) + "','" + text + "')"
+                curA.execute(sqlA)
+                connA.commit()
+                connA.close()
+                #############################################################################################
+
+                connect.sendMail(filename, name, address, yy, mm, dd, count, fromIp, fromMail, fromCount,fromDateDate)
 
         print("END")

@@ -43,7 +43,7 @@ public class FileHandleServlet extends HttpServlet {
 	 */
 	public FileHandleServlet() {
 		super();
-	 
+
 	}
 
 	/**
@@ -52,30 +52,35 @@ public class FileHandleServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		 
 
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 
 		final Part filePart = request.getPart("file");
-		
-		if(filePart == null)
+
+		if (filePart == null)
 			response.sendRedirect("http://222.110.22.168:8080/ioc/oops.jsp");
-		
+
 		String fileName = getFileName(filePart);
-		 
-		DateFormat dateFormat = new SimpleDateFormat("yyMMddHHmmss");
+
+		DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
 		Date date = new Date();
 		String dateToStr = dateFormat.format(date);
 
+		DateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date date2 = new Date();
+		String dateToStr2 = dateFormat2.format(date2);
+		System.out.println("#############################"+dateToStr2);
+		
+		
+		
 		fileName = dateToStr + fileName;
-  
+
 		OutputStream out = null;
 		InputStream filecontent = null;
 		final PrintWriter writer = response.getWriter();
 
-		 
-		String ipAddress = "";
+		String ipAddress = request.getRemoteAddr();
 		try {
 			out = new FileOutputStream(new File(location + File.separator + fileName));
 			filecontent = filePart.getInputStream();
@@ -89,17 +94,18 @@ public class FileHandleServlet extends HttpServlet {
 
 			// path 저장 루틴
 			dbrw dbrw = new dbrw();
+			String address = dbrw.getMail();
+			String date21 = dbrw.setDate(dateToStr2);
 
-			if (dbrw.readFile(location, fileName, ipAddress, dateToStr) == 1) {
+			if (dbrw.readFile(location, fileName, ipAddress, dateToStr2, address) == 1) {
 				response.sendRedirect("http://222.110.22.168:8080/ioc/ok.jsp");
 			} else {
 				response.sendRedirect("http://222.110.22.168:8080/ioc/oops.jsp");
 			}
-		 
+
 		} catch (FileNotFoundException fne) {
 			writer.println("You either did not specify a file to upload or are "
 					+ "trying to upload a file to a protected or nonexistent " + "location.");
-		 
 
 		} finally {
 			if (out != null) {

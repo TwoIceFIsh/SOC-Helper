@@ -3,14 +3,14 @@ import pymysql
 import os
 import smtplib
 from googletrans import Translator
-from datetime import datetime
+from datetime import datetime, time
 from email import encoders
 from email.utils import formataddr
 from email.mime.base import MIMEBase
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
-def getList():
+def getList(fromIp, fromMail, fromCount,fromDateDate):
     result = []
     cve = []
     status = []
@@ -48,6 +48,39 @@ def getList():
 
     conn.close()
 
+    ############################# loglog 메시지 입력 ###############################
+
+    connA = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
+    curA = connA.cursor()
+    sqlA = "select MAX(no) from log"
+    curA.execute(sqlA)
+    connA.close()
+    no = 1
+
+    for rs in curA:
+        if rs[0] != None:
+            no = rs[0]
+
+    no + 1
+    ############## fromIp, fromMail, fromCount,fromDateDate #####
+
+    now = time.localtime()
+
+    asdfasdf = result
+
+    nowTime = ("%04d-%02d-%02d %02d:%02d:%02d" % (
+        now.tm_year, now.tm_mon, now.tm_mday, now.tm_hour, now.tm_min, now.tm_sec))
+    text = nowTime + " :  CVE 데이터" + str(len(asdfasdf)) + "건 처리 진행."
+    print("#####################" + text)
+    connA = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
+    curA = connA.cursor()
+    sqlA = "INSERT INTO LOG (no, text) values ('" + str(no + 1) + "','" + text + "')"
+    curA.execute(sqlA)
+    connA.commit()
+    connA.close()
+
+    ######################################################################
+
     # Stauts DB RW
     conn = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
     cur = conn.cursor()
@@ -68,7 +101,7 @@ def getList():
 
     return result
 
-def sendMail(filename, name, address, yy, mm, dd, line):
+def sendMail(filename, name, address, yy, mm, dd, line, fromIp, fromMail, fromCount,fromDateDate):
     # 보내는사람
 
     list = []
@@ -156,3 +189,35 @@ def sendMail(filename, name, address, yy, mm, dd, line):
     finally:
         if session is not None:
             session.quit()
+
+
+            ############################# loglog 메시지 입력 ###############################
+
+            connA = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
+            curA = connA.cursor()
+            sqlA = "select MAX(no) from log"
+            curA.execute(sqlA)
+            connA.close()
+            no = 1
+
+            for rs in curA:
+                if rs[0] != None:
+                    no = rs[0]
+
+            no + 1
+            ##############fromIp, fromMail, fromCount,fromDateDate #####
+
+            now = time.localtime()
+
+            nowTime = ("%04d-%02d-%02d %02d:%02d:%02d" % (
+            now.tm_year, now.tm_mon, now.tm_mday, now.tm_hour, now.tm_min, now.tm_sec))
+            text = nowTime + " : CVE 데이터 결과 "+fromMail+" 발송 완료."
+
+            connA = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
+            curA = connA.cursor()
+            sqlA = "INSERT INTO LOG (no, text) values ('" + str(no + 1) + "','" + text + "')"
+            curA.execute(sqlA)
+            connA.commit()
+            connA.close()
+
+    #################################################################################################################
