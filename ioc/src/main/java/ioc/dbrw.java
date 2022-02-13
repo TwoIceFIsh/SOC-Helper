@@ -48,7 +48,7 @@ public class dbrw {
 				while ((sLine = inFile.readLine()) != null) {
 
 					// 파일을 한줄씩 읽어서 DB에 writeLine 한다
-					no = writeLine(sLine, ipAddress);
+					no = writeLine(sLine, ipAddress, dateToStr);
 					count1 += 1;
 				}
 
@@ -65,7 +65,7 @@ public class dbrw {
 	}
 
 	// 파일을 한줄씩 읽어서 DB에 writeLine 한다
-	public int writeLine(String cve, String ipAddress) {
+	public int writeLine(String cve, String ipAddress, String time) {
 
 		try {
 			String jdbcUrl = "jdbc:mysql://localhost:3306/ioc?useUnicode=true&characterEncoding=utf8";
@@ -83,7 +83,7 @@ public class dbrw {
 		cve = cve.trim();
 		int n = 0;
 		int no = 0;
-		String query = "INSERT INTO cve values(?,?,?)";
+		String query = "INSERT INTO cve values(?,?,?,?,?)";
 		String query2 = "SELECT MAX(no) FROM cve";
 
 		try {
@@ -100,7 +100,8 @@ public class dbrw {
 			pstm.setInt(1, no + 1);
 			pstm.setString(2, cve);
 			pstm.setInt(3, 0);
-			// pstm.setString(4, "");
+			pstm.setString(4, ipAddress);
+			pstm.setString(5, time);
 
 			n = pstm.executeUpdate();
 
@@ -155,10 +156,10 @@ public class dbrw {
 					no = writeLine2(sLine, filePath, returnType(sLine), ipAddress, dateToStr);
 					count2 += 1;
 				}
-				
+
 				status_log status_log = new status_log();
 				status_log.insert_log(dateToStr, ipAddress, count2, "IOC", mailAddress);
-				
+
 				return no;
 			} catch (IOException e) {
 
@@ -648,8 +649,6 @@ public class dbrw {
 				result = resultSet.getInt(1);
 
 			}
-			
-			
 
 			pstm = conn.prepareStatement(query2);
 			resultSet = pstm.executeQuery();
@@ -658,12 +657,9 @@ public class dbrw {
 				result2 = resultSet.getInt(1);
 
 			}
-			
-			
-			
-			
+
 			System.out.println("nokori" + result);
-			return result+result2;
+			return result + result2;
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -741,7 +737,6 @@ public class dbrw {
 	}
 
 	public String setDate(String time) {
-		 
 
 		try {
 			String jdbcUrl = "jdbc:mysql://localhost:3306/ioc?useUnicode=true&characterEncoding=utf8";
@@ -754,7 +749,7 @@ public class dbrw {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
- 
+
 		String query = "UPDATE site_status SET time = ?";
 
 		try {
@@ -788,8 +783,80 @@ public class dbrw {
 			}
 		}
 		return "no";
+
+	}
+
+	public int setJobq(String dateToStr2, String ipAddress, String type, String mailaddress) {
+
+		int result = 0;
+		int result2 = 0;
+		try {
+			String jdbcUrl = "jdbc:mysql://localhost:3306/ioc?useUnicode=true&characterEncoding=utf8";
+			String dbId = "root";
+			String dbPass = "!Hg1373002934";
+
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			conn = DriverManager.getConnection(jdbcUrl, dbId, dbPass);
+			System.out.println("제대로 연결되었습니다.");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		int n = 0;
+		String sql = "";
+
+		String query = "SELECT count(no) FROM jobq";
+		try {
+
+			pstm = conn.prepareStatement(query);
+			resultSet = pstm.executeQuery();
+
+			while (resultSet.next()) {
+				result = resultSet.getInt(1);
+
+			}
+			sql = "INSERT INTO jobq VALUES (?,?,?,?,?,?)";
+			if (result == 0) {
+				pstm = conn.prepareStatement(sql);
+				pstm.setInt(1, 1);
+				pstm.setString(2, ipAddress);
+				pstm.setString(3, dateToStr2);
+				pstm.setInt(4, 0);
+				pstm.setString(5, type);
+				pstm.setString(6, mailaddress);
+				pstm.executeUpdate();
+			} else if(result > 0) {
+				pstm = conn.prepareStatement(sql);
+				pstm.setInt(1, result+1);
+				pstm.setString(2, ipAddress);
+				pstm.setString(3, dateToStr2);
+				pstm.setInt(4, 0);
+				pstm.setString(5, type);
+				pstm.setString(6, mailaddress);
+				pstm.executeUpdate();
+			}
+ 
 		
-		 
+			return 1;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (resultSet != null)
+					resultSet.close();
+
+				if (pstm != null)
+					pstm.close();
+
+				if (conn != null)
+					conn.close();
+
+			} catch (Exception e) {
+			}
+		}
+		return 0;
+
 	}
 
 }

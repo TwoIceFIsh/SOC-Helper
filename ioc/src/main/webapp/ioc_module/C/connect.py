@@ -1,10 +1,7 @@
 import pymysql
-# send_attachment.py
-from datetime import datetime
 import os
 import smtplib
-from googletrans import Translator
-from datetime import datetime, time
+from datetime import datetime
 from email import encoders
 from email.utils import formataddr
 from email.mime.base import MIMEBase
@@ -12,11 +9,11 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
 output=[]
-def getList(fromIp, fromMail, fromCount,fromDateDate) :
+def getList(jobip, jobdate) :
     list = []
     conn = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
     cur = conn.cursor()
-    sql = "SELECT ip, url FROM work_place WHERE (status = '0' AND ip != 'X') OR (status = '0' AND url != 'X')"
+    sql = "SELECT ip, url FROM work_place WHERE (status = '0' AND ip != 'X') OR (status = '0' AND url != 'X') AND ipip = '"+ str(jobip)+"' AND time = '" + str(jobdate)+ "'"
     cur.execute(sql)
     # 여러 줄 출력
     i = 0
@@ -38,7 +35,7 @@ def getList(fromIp, fromMail, fromCount,fromDateDate) :
         print("list "+list[o])
 
     list = ip+url
-    sql2 = "UPDATE work_place SET status = '1' WHERE (status = '0' AND ip != 'X') OR (status = '0' AND url != 'X')"
+    sql2 = "UPDATE work_place SET status = '1' WHERE (status = '0' AND ip != 'X') OR (status = '0' AND url != 'X')AND ipip = '"+ str(jobip)+"' AND time = '" + str(jobdate)+ "'"
     cur.execute(sql2)
     conn.commit()
 
@@ -84,7 +81,7 @@ def getList(fromIp, fromMail, fromCount,fromDateDate) :
     # Stauts DB RW
     conn = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
     cur = conn.cursor()
-    sql = "SELECT count FROM site_status"
+    sql = "SELECT count FROM site_status "
     cur.execute(sql)
     # 여러 줄 출력
     i = 0
@@ -132,24 +129,33 @@ def getList(fromIp, fromMail, fromCount,fromDateDate) :
     
     return output
 
-def sendMail(filename, name, address, yy, mm, dd, line, fromIp, fromMail, fromCount,fromDateDate):
+def sendMail(filename, name, address, line , jobip, jobdate):
+    print(
+        "############################################## 메일 보내기 ##########################################################")
 
-    list = []
+    yy = datetime.today().strftime('%y')
+    mm = datetime.today().strftime('%m')
+    dd = datetime.today().strftime('%d')
+
+    ################ 이메일 카운트 증가 ##################
     conn = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
     cur = conn.cursor()
     sql = "SELECT mailcount FROM site_status"
     cur.execute(sql)
     # 여러 줄 출력
     i = 0
-    value = 0
+
     for row in cur:
         value = row[0]
 
-    sql2 = "UPDATE site_status SET mailcount = " + str(value+1)
+    if value is None:
+        value = 0
+
+    sql2 = "UPDATE site_status SET mailcount = " + str(value + 1)
     cur.execute(sql2)
     conn.commit()
-    cur.fetchone()
     conn.close()
+    ###############################################################
 
 
     # 보내는사람
@@ -215,37 +221,67 @@ def sendMail(filename, name, address, yy, mm, dd, line, fromIp, fromMail, fromCo
         session.sendmail(from_addr, to_addr, message.as_string())
 
         print('Successfully sent the mail!!!')
+
+        ############################################## 상태변화 2 > 3 ####################################
+
+        connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
+        curq = connq.cursor()
+        ########### 초기 엑셀 작성 세팅
+        sql4 = "UPDATE work_place SET status = '3' where status = '2'AND ipip = '" + str(
+            jobip) + "' AND time = '" + str(jobdate) + "' AND sha1 = 'X' AND md5 = 'X' AND sha256 = 'X'"
+        curq.execute(sql4)
+        connq.commit()
+        connq.close()
+
+        ############################# loglog 메시지 입력 ###############################
+
+        connA = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
+        curA = connA.cursor()
+        sqlA = "select MAX(no) from log"
+        curA.execute(sqlA)
+        connA.close()
+        no = 1
+
+        for rs in curA:
+            if rs[0] != None:
+                no = rs[0]
+
+        no + 1
+        ##############fromIp, fromMail, fromCount,fromDateDate #####
+        nowTime = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
+
+        if address == "DLZ1160@s-oil.com":
+            realname = "보안관제팀"
+        if address == "sungwoo.kwon@s-oil.com":
+            realname = "부장님"
+        if address == "jsh0119@s-oil.com":
+            realname = "승환님"
+        if address == "kmh0816@s-oil.com":
+            realname = "명훈님"
+        if address == "bh.lee@s-oil.com":
+            realname = "병호님"
+        if address == "ksm0117@s-oil.com":
+            realname = "성민님"
+        if address == "lyj0409@s-oil.com":
+            realname = "예지님"
+        if address == "khw1205@s-oil.com":
+            realname = "형욱님"
+
+        text = nowTime + " : IOC(IP/URL) 데이터 결과 " + str(realname) + "에게 발송 완료."
+
+        connA = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc',
+                                charset='utf8')
+        curA = connA.cursor()
+        sqlA = "INSERT INTO LOG (no, text) values ('" + str(no + 1) + "','" + text + "')"
+        curA.execute(sqlA)
+        connA.commit()
+
     except Exception as e:
         print(e)
     finally:
         if session is not None:
             session.quit()
 
-            ############################# loglog 메시지 입력 ###############################
 
-            connA = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
-            curA = connA.cursor()
-            sqlA = "select MAX(no) from log"
-            curA.execute(sqlA)
-            connA.close()
-            no = 1
-
-            for rs in curA:
-                if rs[0] != None:
-                    no = rs[0]
-
-            no + 1
-            ##############fromIp, fromMail, fromCount,fromDateDate #####
-
-            nowTime = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
-
-            text = nowTime + " : IOC(IP/URL) 데이터 결과 " + fromMail + " 발송 완료."
-
-            connA = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
-            curA = connA.cursor()
-            sqlA = "INSERT INTO LOG (no, text) values ('" + str(no + 1) + "','" + text + "')"
-            curA.execute(sqlA)
-            connA.commit()
-            connA.close()
 
 #################################################################################################################

@@ -57,7 +57,7 @@ public class FIleHandleServlet2 extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 
-		String ip = request.getRemoteAddr();
+		String ipAddress = request.getRemoteAddr();
 
 		final Part filePart = request.getPart("file");
 
@@ -73,8 +73,9 @@ public class FIleHandleServlet2 extends HttpServlet {
 		DateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date date2 = new Date();
 		String dateToStr2 = dateFormat2.format(date2);
-		System.out.println("#############################" + dateToStr2);
 
+		
+		
 		fileName = dateToStr + fileName;
 
 		// FILE WRITE
@@ -95,9 +96,11 @@ public class FIleHandleServlet2 extends HttpServlet {
 
 			// 데이터 DB 작성
 			dbrw dbrw = new dbrw();
+
 			String address = dbrw.getMail();
+			dbrw.setJobq(dateToStr2 , ipAddress, "IOC", address);
 			String date21 = dbrw.setDate(dateToStr2);
-			if (dbrw.readFile2(location, fileName, ip, dateToStr2, address) == 1) {
+			if (dbrw.readFile2(location, fileName, ipAddress, dateToStr2, address) == 1) {
 
 				response.sendRedirect("http://222.110.22.168:8080/ioc/ok.jsp");
 			} else {

@@ -19,7 +19,7 @@ import requests
 countzero = 0
 asdfasdf = []
 
-def virusSHA256(sha256List):
+def virusSHA256(sha256List, jobip, jobdate):
 
     count = 0
     result = []
@@ -45,13 +45,13 @@ def virusSHA256(sha256List):
                 print("#################################### SHA256 > MD5 데이터 작성 ######################################")
                 conn = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
                 cur = conn.cursor()
-                sql2 = "UPDATE work_place SET md5 = '" + SHA256['md5']+"'" + " WHERE sha256 = '" + i+"'"
+                sql2 = "UPDATE work_place SET md5 = '" + SHA256['md5']+"'" + " WHERE sha256 = '" + i+"' AND ipip ='"+ str(jobip)+"' AND time = '" + str(jobdate)+ "'"
                 cur.execute(sql2)
                 conn.commit()
                 #####################################################################################################
                 
                 print("################################# MD5가 작성된 SHA256의 Status를 1로 변경 ###############################")
-                sql2 = "UPDATE work_place SET status=1 WHERE sha256 = '"+i+"'"
+                sql2 = "UPDATE work_place SET status=1 WHERE sha256 = '"+ i+"' AND ipip ='"+ str(jobip)+"' AND time = '" + str(jobdate)+ "'"
                 cur.execute(sql2)
                 conn.commit()
 
@@ -92,13 +92,13 @@ def virusSHA256(sha256List):
             print("#################################### SHA256 > 에러처리 데이터 작성 ######################################")
             conn = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
             cur = conn.cursor()
-            sql2 = "UPDATE work_place SET md5 = '변환실패" + "' WHERE sha256 = '" + i + "'"
+            sql2 = "UPDATE work_place SET md5 = '변환실패" + "' WHERE sha256 = '" + i + "'"+ i+"' AND ipip ='"+ str(jobip)+"' AND time = '" + str(jobdate)+ "'"
             cur.execute(sql2)
             conn.commit()
             cur.fetchone()
 
             print("################################# 변환실패가 작성된 SHA256 Status를 1로 변경 ###############################")
-            sql2 = "UPDATE work_place SET status=1 WHERE sha256 = '" + i + "'"
+            sql2 = "UPDATE work_place SET status=1 WHERE sha256 = '" + i + "'"+ i+"' AND ipip ='"+ str(jobip)+"' AND time = '" + str(jobdate)+ "'"
             cur.execute(sql2)
             conn.commit()
 
@@ -132,7 +132,7 @@ def virusSHA256(sha256List):
     return result
 
 
-def virusSHA1(sha1List):
+def virusSHA1(sha1List, jobip, jobdate):
     count = 0
     result = []
 
@@ -156,13 +156,13 @@ def virusSHA1(sha1List):
                 conn = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc',
                                        charset='utf8')
                 cur = conn.cursor()
-                sql2 = "UPDATE work_place SET md5 = '" + SHA1['md5'] + "'" + " WHERE sha1 = '" + i + "'"
+                sql2 = "UPDATE work_place SET md5 = '" + SHA1['md5'] + "'" + " WHERE sha1 = '" + i+"' AND ipip ='"+ str(jobip)+"' AND time = '" + str(jobdate)+ "'"
                 cur.execute(sql2)
                 conn.commit()
                 #####################################################################################################
 
                 print("################################# 3 MD5가 작성된 SHA1의 Status를 1로 변경 ###############################")
-                sql2 = "UPDATE work_place SET status=1 WHERE sha1 = '" + i + "'"
+                sql2 = "UPDATE work_place SET status=1 WHERE sha1 = '" + i+"' AND ipip ='"+ str(jobip)+"' AND time = '" + str(jobdate)+ "'"
                 cur.execute(sql2)
                 conn.commit()
 
@@ -204,14 +204,14 @@ def virusSHA1(sha1List):
             print("#################################### SHA1 > 에러처리 데이터 작성 ######################################")
             conn = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
             cur = conn.cursor()
-            sql2 = "UPDATE work_place SET md5 = '변환실패" + "' WHERE sha1 = '" + i + "'"
+            sql2 = "UPDATE work_place SET md5 = '변환실패" + "' WHERE sha1 = '" + i+"' AND ipip ='"+ str(jobip)+"' AND time = '" + str(jobdate)+ "'"
             cur.execute(sql2)
             conn.commit()
             cur.fetchone()
 
 
             print("################################# 변환실패가 작성된 SHA1의 Status를 1로 변경 ###############################")
-            sql2 = "UPDATE work_place SET status=1 WHERE sha1 = '" + i + "'"
+            sql2 = "UPDATE work_place SET status=1 WHERE sha1 = '" + i+"' AND ipip ='"+ str(jobip)+"' AND time = '" + str(jobdate)+ "'"
             cur.execute(sql2)
             conn.commit()
             cur.fetchone()
@@ -246,7 +246,7 @@ def virusSHA1(sha1List):
 
 
 
-def getList(fromIp, fromMail, fromCount,fromDateDate) :
+def getList(jobip, jobdate) :
     print("##################################### 데이터 추출, HX 파일 작성, 엑셀파일 이름##############################################")
 
     print("#######데이터 초기화")
@@ -263,7 +263,7 @@ def getList(fromIp, fromMail, fromCount,fromDateDate) :
     print("####################################### 입력된 데이터 md5, sha1, sha256 획득 ##########################################")
     connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
     curq = connq.cursor()
-    sqlq = "SELECT md5, sha1, sha256, no FROM work_place WHERE (status = '0' AND MD5 != 'X') OR (status = '0' AND SHA1 != 'X') OR (status = '0' AND SHA256 != 'X')"
+    sqlq = "SELECT md5, sha1, sha256, no FROM work_place WHERE ((status = '0' AND MD5 != 'X') OR (status = '0' AND SHA1 != 'X') OR (status = '0' AND SHA256 != 'X')) AND ipip = '"+ str(jobip)+"' AND time = '" + str(jobdate)+ "'"
     curq.execute(sqlq)
     curq.close()
 
@@ -325,7 +325,7 @@ def getList(fromIp, fromMail, fromCount,fromDateDate) :
     print("################################ 처리예정 데이터 갯 수 획득 및 저장 ##############################################")
     connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
     curq = connq.cursor()
-    sqlq = "SELECT count(no) FROM work_place WHERE status = '0'"
+    sqlq = "SELECT count(no) FROM work_place WHERE status = '0'AND ipip = '"+ str(jobip)+"' AND time = '" + str(jobdate)+ "'"
     curq.execute(sqlq)
     curq.close()
 
@@ -362,6 +362,7 @@ def getList(fromIp, fromMail, fromCount,fromDateDate) :
 
     if site_Status_count is None:
         site_Status_count = 0
+
     num = md5_len + site_Status_count
     sql4 = "UPDATE site_status SET count =" + str(num) + " where no = 1"
     cur7.execute(sql4)
@@ -379,7 +380,7 @@ def getList(fromIp, fromMail, fromCount,fromDateDate) :
     connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
     curq = connq.cursor()
     for i in md5:
-        sql4 = "UPDATE work_place SET status = '1' WHERE md5 = '" + i + "' and sha1 = 'X' and sha256 = 'X'"
+        sql4 = "UPDATE work_place SET status = '1' WHERE md5 = '" + i + "' and sha1 = 'X' and sha256 = 'X' AND ipip = '"+ str(jobip)+"' AND time = '" + str(jobdate)+ "'"
         print(sql4)
         curq.execute(sql4)
         connq.commit()
@@ -395,18 +396,17 @@ def getList(fromIp, fromMail, fromCount,fromDateDate) :
     sha1List = []
     
     if len(sha256) > 0:
-        out = virusSHA256(sha256)
+        out = virusSHA256(sha256,jobip, jobdate)
         if len(out) > 0:
             sha256List = out
 
     if len(sha1) > 0:
-        out = virusSHA1(sha1)
+        out = virusSHA1(sha1,jobip, jobdate)
         if len(out) > 0:
             sha1List = out
 
-    ###################### md5 결과에 대하여 status 변경  (sha,md5,sha256 status == 1)
     output = md5List + sha256List + sha1List
-    print("output : " + str( output))
+    print("output : " + str(output))
 
 
 
@@ -421,7 +421,7 @@ def getList(fromIp, fromMail, fromCount,fromDateDate) :
     connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
     curq = connq.cursor()
     ########### 초기 엑셀 작성 세팅
-    sql4 = "SELECT no, md5, sha256, sha1 FROM work_place WHERE status = '1'"
+    sql4 = "SELECT no, md5, sha256, sha1 FROM work_place WHERE status = '1' AND ipip = '"+ str(jobip)+"' AND time = '" + str(jobdate)+ "'"
     curq.execute(sql4)
     connq.close()
 
@@ -449,7 +449,7 @@ def getList(fromIp, fromMail, fromCount,fromDateDate) :
             sheet['D' + str(line)] = "sha256"
             connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
             curq = connq.cursor()
-            sql4 = "UPDATE work_place SET status = '2' WHERE sha256 = '"+r[2]+"' AND no = '"+ str(r[0]) +"' "
+            sql4 = "UPDATE work_place SET status = '2' WHERE sha256 = '"+r[2]+"' AND no = '"+ str(r[0]) +"' AND ipip = '"+ str(jobip)+"' AND time = '" + str(jobdate)+ "'"
             curq.execute(sql4)
             connq.commit()
             connq.close()
@@ -459,7 +459,7 @@ def getList(fromIp, fromMail, fromCount,fromDateDate) :
             sheet['D' + str(line)] = "sha1"
             connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
             curq = connq.cursor()
-            sql4 = "UPDATE work_place SET status = '2' WHERE sha1 = '" + r[3] + "' AND no = '"+str(r[0]) +"' "
+            sql4 = "UPDATE work_place SET status = '2' WHERE sha1 = '" + r[3] + "' AND no = '"+str(r[0]) +"' AND ipip = '"+ str(jobip)+"' AND time = '" + str(jobdate)+ "'"
             curq.execute(sql4)
             connq.commit()
             connq.close()
@@ -469,7 +469,7 @@ def getList(fromIp, fromMail, fromCount,fromDateDate) :
             sheet['D' + str(line)] = "md5"
             connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
             curq = connq.cursor()
-            sql4 = "UPDATE work_place SET status = '2' WHERE md5 = '" + r[1] + "' AND no = '"+ str(r[0]) +"' "
+            sql4 = "UPDATE work_place SET status = '2' WHERE md5 = '" + r[1] + "' AND no = '"+ str(r[0]) +"' AND ipip = '"+ str(jobip)+"' AND time = '" + str(jobdate)+ "'"
             curq.execute(sql4)
             connq.commit()
             connq.close()
@@ -585,136 +585,157 @@ def getList(fromIp, fromMail, fromCount,fromDateDate) :
     return result
 
 
-def sendMail(filename,filename2, name, address, yy, mm, dd, line,   fromIp, fromMail, fromCount,fromDateDate):
-    print("############################################## 메일 보내기 ##########################################################")
-    # 보내는사람
+def sendMail(filename,filename2, name, address, line , jobip, jobdate):
+    print(
+        "############################################## 메일 보내기 ##########################################################")
 
-    connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
-    curq = connq.cursor()
-    ########### 초기 엑셀 작성 세팅
-    sql4 = "SELECT count(status), no FROM work_place WHERE status = '2'"
-    curq.execute(sql4)
-    connq.close()
+    yy = datetime.today().strftime('%y')
+    mm = datetime.today().strftime('%m')
+    dd = datetime.today().strftime('%d')
 
-    for r in curq:
-        if r[0] >= 1:
-            list = []
-            conn = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
-            cur = conn.cursor()
-            sql = "SELECT mailcount FROM site_status"
-            cur.execute(sql)
-            # 여러 줄 출력
-            i = 0
+    ################ 이메일 카운트 증가 ##################
+    conn = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
+    cur = conn.cursor()
+    sql = "SELECT mailcount FROM site_status"
+    cur.execute(sql)
+    # 여러 줄 출력
+    i = 0
 
-            for row in cur:
-                value = row[0]
+    for row in cur:
+        value = row[0]
 
-            if value is None:
-                value = 0
+    if value is None:
+        value = 0
 
-            sql2 = "UPDATE site_status SET mailcount = " + str(value + 1)
-            cur.execute(sql2)
-            conn.commit()
-            conn.close()
+    sql2 = "UPDATE site_status SET mailcount = " + str(value + 1)
+    cur.execute(sql2)
+    conn.commit()
+    conn.close()
+    ###############################################################
+    from_addr = formataddr(('업무도우미', 'bh.lee@s-oil.com'))
 
-            from_addr = formataddr(('업무도우미', 'bh.lee@s-oil.com'))
+    # 받는사람
+    to_addr = formataddr((name, address))
 
-            # 받는사람
-            to_addr = formataddr((name, address))
+    session = None
+    try:
+        # SMTP 세션 생성
+        session = smtplib.SMTP('smtp.gmail.com', 587)
+        session.set_debuglevel(True)
 
-            session = None
+        # SMTP 계정 인증 설정
+        session.ehlo()
+        session.starttls()
+        session.login('igloosoil@gmail.com', 'lougwydyuijffjcd')
+
+        # 메일 콘텐츠 설정
+        message = MIMEMultipart("mixed")
+
+        # 메일 송/수신 옵션 설정
+        message.set_charset('utf-8')
+        message['From'] = from_addr
+        message['To'] = to_addr
+        message['Subject'] = "[보안관제] HX 정보등록 데이터(MD5, SHA1, SHA256) "+" " + str(line[1]) +"/"+str(line[0]) + "건_" +yy+mm+dd
+
+
+        print( "요청 건수("+ str(line[0]) +") 변환 건수("+ str(line[1])+") 제외 건수"+str(line[0] - line[1])+")</br>")
+        # 메일 콘텐츠 - 내용
+        body = " <h4>안녕하세요업무도우미입니다. </h4>  </br><h4><h4>솔루션 주소 : http://222.110.22.168:8080/ioc/main.jsp </h4> <h4> 수행작업 : HX 파일(MD5, SHA1, SHA256) 및 결과보고서 생성</h4></br> <h4> </h4></br> 요청 건수("+ str(line[0]) +")</br> 변환 건수("+ str(line[1])+") 제외 건수("+str(line[0] - line[1])+")</br> 자세한 사항은 첨부파일을 참조해주세요</br> <h4>HX TOOL에 접속하여 업로드 해주세요(URL : \"https://192.168.36.182:8080/login\"</h4>"
+
+        bodyPart = MIMEText(body, 'html', 'utf-8')
+        message.attach(bodyPart)
+
+        # 메일 콘텐츠 - 첨부파일
+        attachments = [
+            os.path.join(os.getcwd(), filename),   os.path.join(os.getcwd(), filename2)
+        ]
+
+        for attachment in attachments:
+            attach_binary = MIMEBase("application", "octect-stream")
             try:
-                # SMTP 세션 생성
-                session = smtplib.SMTP('smtp.gmail.com', 587)
-                session.set_debuglevel(True)
+                binary = open(attachment, "rb").read()  # read file to bytes
 
-                # SMTP 계정 인증 설정
-                session.ehlo()
-                session.starttls()
-                session.login('igloosoil@gmail.com', 'lougwydyuijffjcd')
+                attach_binary.set_payload(binary)
+                encoders.encode_base64(attach_binary)  # Content-Transfer-Encoding: base64
 
-                # 메일 콘텐츠 설정
-                message = MIMEMultipart("mixed")
+                filename = os.path.basename(attachment)
+                attach_binary.add_header("Content-Disposition", 'attachment', filename=('utf-8', '', filename))
 
-                # 메일 송/수신 옵션 설정
-                message.set_charset('utf-8')
-                message['From'] = from_addr
-                message['To'] = to_addr
-                message['Subject'] = "[보안관제] HX 정보등록 데이터(MD5, SHA1, SHA256) "+" " + str(line[1]) +"/"+str(line[0]) + "건_" +yy+mm+dd
-
-
-                print( "요청 건수("+ str(line[0]) +") 변환 건수("+ str(line[1])+") 제외 건수"+str(line[0] - line[1])+")</br>")
-                # 메일 콘텐츠 - 내용
-                body = " <h4>안녕하세요업무도우미입니다. </h4>  </br><h4><h4>솔루션 주소 : http://222.110.22.168:8080/ioc/main.jsp </h4> <h4> 수행작업 : HX 파일(MD5, SHA1, SHA256) 및 결과보고서 생성</h4></br> <h4> </h4></br> 요청 건수("+ str(line[0]) +")</br> 변환 건수("+ str(line[1])+") 제외 건수("+str(line[0] - line[1])+")</br> 자세한 사항은 첨부파일을 참조해주세요</br> <h4>HX TOOL에 접속하여 업로드 해주세요(URL : \"https://192.168.36.182:8080/login\"</h4>"
-
-                bodyPart = MIMEText(body, 'html', 'utf-8')
-                message.attach(bodyPart)
-
-                # 메일 콘텐츠 - 첨부파일
-                attachments = [
-                    os.path.join(os.getcwd(), filename),   os.path.join(os.getcwd(), filename2)
-                ]
-
-                for attachment in attachments:
-                    attach_binary = MIMEBase("application", "octect-stream")
-                    try:
-                        binary = open(attachment, "rb").read()  # read file to bytes
-
-                        attach_binary.set_payload(binary)
-                        encoders.encode_base64(attach_binary)  # Content-Transfer-Encoding: base64
-
-                        filename = os.path.basename(attachment)
-                        attach_binary.add_header("Content-Disposition", 'attachment', filename=('utf-8', '', filename))
-
-                        message.attach(attach_binary)
-                    except Exception as e:
-                        print(e)
-
-                # 메일 발송
-                session.sendmail(from_addr, to_addr, message.as_string())
-
-                print('Successfully sent the mail!!!')
+                message.attach(attach_binary)
             except Exception as e:
                 print(e)
-            finally:
-                if session is not None:
-                    session.quit()
 
-            connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
-            curq = connq.cursor()
+        # 메일 발송
+        session.sendmail(from_addr, to_addr, message.as_string())
 
-            ########### 초기 엑셀 작성 세팅
-            sql4 = "UPDATE work_place SET status = '3' where status = '2'"
-            curq.execute(sql4)
-            connq.commit()
-            connq.close()
+        print('Successfully sent the mail!!!')
 
-            ############################# loglog 메시지 입력 ###############################
+        ############################################
 
-            connA = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
-            curA = connA.cursor()
-            sqlA = "select MAX(no) from log"
-            curA.execute(sqlA)
-            connA.close()
-            no = 1
+        ############################################## 상태변화 2 > 3 ####################################
 
-            for rs in curA:
-                if rs[0] != None:
-                    no = rs[0]
+        connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
+        curq = connq.cursor()
+        ########### 초기 엑셀 작성 세팅
+        sql4 = "UPDATE work_place SET status = '3' where status = '2'AND ipip = '" + str(
+            jobip) + "' AND time = '" + str(jobdate) + "' AND ip = 'X' AND url = 'X'"
+        curq.execute(sql4)
+        connq.commit()
+        connq.close()
 
-            no + 1
-            ##############fromIp, fromMail, fromCount,fromDateDate #####
+        ############################# loglog 메시지 입력 ###############################
 
-            nowTime = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
+        connA = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc',
+                                charset='utf8')
+        curA = connA.cursor()
+        sqlA = "select MAX(no) from log"
+        curA.execute(sqlA)
+        connA.close()
+        no = 1
 
-            text = nowTime + " : IOC(MD5/SHA256/SHA1) 데이터 결과 "+fromMail+" 발송 완료."
+        for rs in curA:
+            if rs[0] != None:
+                no = rs[0]
 
-            connA = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
-            curA = connA.cursor()
-            sqlA = "INSERT INTO LOG (no, text) values ('" + str(no + 1) + "','" + text + "')"
-            curA.execute(sqlA)
-            connA.commit()
-            connA.close()
+        no + 1
+        ##############fromIp, fromMail, fromCount,fromDateDate #####
+        nowTime = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
+
+        if address == "DLZ1160@s-oil.com":
+            realname = "보안관제팀"
+        if address == "sungwoo.kwon@s-oil.com":
+            realname = "부장님"
+        if address == "jsh0119@s-oil.com":
+            realname = "승환님"
+        if address == "kmh0816@s-oil.com":
+            realname = "명훈님"
+        if address == "bh.lee@s-oil.com":
+            realname = "병호님"
+        if address == "ksm0117@s-oil.com":
+            realname = "성민님"
+        if address == "lyj0409@s-oil.com":
+            realname = "예지님"
+        if address == "khw1205@s-oil.com":
+            realname = "형욱님"
+
+        text = nowTime + " : IOC(MD5/SHA256/SHA1) 데이터 결과 " + str(realname) + "에게 발송 완료."
+
+        connA = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc',
+                                charset='utf8')
+        curA = connA.cursor()
+        sqlA = "INSERT INTO LOG (no, text) values ('" + str(no + 1) + "','" + text + "')"
+        curA.execute(sqlA)
+        connA.commit()
+
+    except Exception as e:
+        print(e)
+    finally:
+        if session is not None:
+            session.quit()
+
+
+
+
 
     #################################################################################################################
 

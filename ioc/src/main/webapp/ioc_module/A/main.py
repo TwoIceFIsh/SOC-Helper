@@ -34,56 +34,43 @@ while 1:
     print("메일 수신대상 : " + address)
     ######################################################################################################
 
+
+    print("#################################### 작업큐에 대기중인 장업이 있는지 확인 ################################")
     connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
     curq = connq.cursor()
-    sql4 = "SELECT count(status) FROM cve WHERE status = '0'"
+    sql4 = "SELECT count(*) FROM jobq WHERE status = 0 AND type ='cve'  limit 1"
     curq.execute(sql4)
-    connq.close()
-
-    for r in curq:
-        if r[0] > 0:
-            print("################CVE 데이터 탐지 ###########################")
-
-            print(
-                "################################################## 처리 가능한 데이터가 있음 ##########################################")
-            print("###################### log log 처리 가능한 데이터를 얻는다 ########################")
+    yesyes = 0
+    for rs in curq:
+        if rs[0] > 0:
+            print("############################### 작업큐에 작업 내용 불러오기 #############################")
             connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
             curq = connq.cursor()
-            sql4 = "SELECT address, time  FROM site_status WHERE no = '1'"
+            sql4 = "SELECT * FROM jobq WHERE status = 0 AND type = 'cve' limit 1"
             curq.execute(sql4)
+        
+            jobno=0
+            fromIp=""
+            fromDateDate=""
+            jobstatus=0
+            jobtype=""
+        
+            for i in curq:
+                print(i)
+                jobno = i[0]
+                jobip = i[1]
+                jobdate = i[2]
+                jobstatus = i[3]
+                jobtype = i[4]
+                jobmail = i[5]
+
             connq.close()
 
-            fromAddress = ""
-            fromTime = ""
-            fromIp = ""
-            fromMail = ""
-            fromCount = ""
-            fromDateDate = ""
-
-            fromFrom = ""
-            fromTo = ""
-
-            for rs in curq:
-                fromAddress = rs[0]
-                fromTime = rs[1]
-
-            fromTime = fromTime.strip()
-            connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
-            curq = connq.cursor()
-            sql4 = "SELECT ip, mail, count, date  FROM log WHERE date = '" + str(fromTime) + "'"
-            curq.execute(sql4)
-            connq.close()
-
-            for rs in curq:
-                fromIp = rs[0]
-                fromMail = rs[1]
-                fromCount = rs[2]
-                fromDateDate = rs[3]
-
-            ######################################################################
+            #####################################
 
             time.sleep(60)
-            list = connect.getList(fromIp, fromMail, fromCount, fromDateDate)
+
+            list = connect.getList(jobip, jobdate)
 
             if len(list) >= 1:
                 print("DATA IN")
@@ -172,7 +159,7 @@ while 1:
                     count += 1
                     line += 1
 
-                wb.save(filename)
+                    wb.save(filename)
 
                 yy=datetime.today().strftime('%y')
                 mm=datetime.today().strftime('%m')
@@ -206,8 +193,18 @@ while 1:
                 curA.execute(sqlA)
                 connA.commit()
                 connA.close()
-                #############################################################################################
 
-                connect.sendMail(filename, name, address, yy, mm, dd, count, fromIp, fromMail, fromCount,fromDateDate)
+
+
+                #############################################################################################
+                connect.sendMail(filename, name, r[0], jobmail)
+
+            connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
+            curq = connq.cursor()
+            sql4 = "UPDATE jobq SET status ='1' WHERE status = '0' AND ipip = '" + str(jobip) + "' AND time = '" + str(jobdate) + "'"
+            print(sql4)
+            curq.execute(sql4)
+            connq.commit()
+            connq.close()
 
         print("END")

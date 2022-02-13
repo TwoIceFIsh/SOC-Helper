@@ -94,10 +94,11 @@ public class FileHandleServlet extends HttpServlet {
 
 			// path 저장 루틴
 			dbrw dbrw = new dbrw();
-			String address = dbrw.getMail();
+			String mailaddress = dbrw.getMail();
 			String date21 = dbrw.setDate(dateToStr2);
+			dbrw.setJobq(dateToStr2 ,  ipAddress, "CVE", mailaddress);
 
-			if (dbrw.readFile(location, fileName, ipAddress, dateToStr2, address) == 1) {
+			if (dbrw.readFile(location, fileName, ipAddress, dateToStr2, mailaddress) == 1) {
 				response.sendRedirect("http://222.110.22.168:8080/ioc/ok.jsp");
 			} else {
 				response.sendRedirect("http://222.110.22.168:8080/ioc/oops.jsp");

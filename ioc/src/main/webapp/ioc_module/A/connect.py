@@ -1,9 +1,6 @@
 import pymysql
-# send_attachment.py
-from datetime import datetime
 import os
 import smtplib
-from googletrans import Translator
 from datetime import datetime, time
 from email import encoders
 from email.utils import formataddr
@@ -11,17 +8,16 @@ from email.mime.base import MIMEBase
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
-def getList(fromIp, fromMail, fromCount,fromDateDate):
+
+########(jobip, jobmail, jobdate)
+def getList(jopip, jobdate):
+    print("################ CVE 데이터 GET ###########################")
     result = []
-    cve = []
-    status = []
-    merge = []
-    no = []
     list = []
-    i = 0
     conn = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
     cur = conn.cursor()
-    sql = "SELECT * FROM cve WHERE status = 0"
+    sql = "SELECT * FROM cve WHERE status = 0 AND ipip = '"+ str(jopip)+"' AND time = '" + str(jobdate)+ "'"
+    print(sql)
     cur.execute(sql)
     # 여러 줄 출력
     i = 0
@@ -41,7 +37,7 @@ def getList(fromIp, fromMail, fromCount,fromDateDate):
         print(list[j][1])
         result.append(list[j][1])
 
-    sql2 = "UPDATE cve SET status = '1' WHERE status = '0'"
+    sql2 = "UPDATE cve SET status = '1' WHERE status = '0'AND ipip = '"+ str(jopip)+"' AND time = '" + str(jobdate)+ "'"
     cur.execute(sql2)
     conn.commit()
 
@@ -100,7 +96,7 @@ def getList(fromIp, fromMail, fromCount,fromDateDate):
 
     return result
 
-def sendMail(filename, name, address, yy, mm, dd, line, fromIp, fromMail, fromCount,fromDateDate):
+def sendMail(filename, name, address, line):
     # 보내는사람
 
     list = []
@@ -117,7 +113,6 @@ def sendMail(filename, name, address, yy, mm, dd, line, fromIp, fromMail, fromCo
     sql2 = "UPDATE site_status SET mailcount = " + str(value + 1)
     cur.execute(sql2)
     conn.commit()
-    cur.fetchone()
     conn.close()
 
     from_addr = formataddr(('업무도우미', 'bh.lee@s-oil.com'))
@@ -183,39 +178,55 @@ def sendMail(filename, name, address, yy, mm, dd, line, fromIp, fromMail, fromCo
         session.sendmail(from_addr, to_addr, message.as_string())
 
         print('Successfully sent the mail!!!')
+
+        ############################# loglog 메시지 입력 ###############################
+
+        connA = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
+        curA = connA.cursor()
+        sqlA = "select MAX(no) from log"
+        curA.execute(sqlA)
+        connA.close()
+        no = 1
+
+        for rs in curA:
+            if rs[0] != None:
+                no = rs[0]
+
+        no + 1
+        ##############fromIp, fromMail, fromCount,fromDateDate #####
+
+        nowTime = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
+
+        if address == "DLZ1160@s-oil.com":
+            realname = "보안관제팀"
+        if address == "sungwoo.kwon@s-oil.com":
+            realname = "부장님"
+        if address == "jsh0119@s-oil.com":
+            realname = "승환님"
+        if address == "kmh0816@s-oil.com":
+            realname = "명훈님"
+        if address == "bh.lee@s-oil.com":
+            realname = "병호님"
+        if address == "ksm0117@s-oil.com":
+            realname = "성민님"
+        if address == "lyj0409@s-oil.com":
+            realname = "예지님"
+        if address == "khw1205@s-oil.com":
+            realname = "형욱님"
+
+        text = nowTime + " : CVE 데이터 결과 " + str(realname) + "에게 발송 완료."
+
+        connA = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
+        curA = connA.cursor()
+        sqlA = "INSERT INTO LOG (no, text) values ('" + str(no + 1) + "','" + text + "')"
+        curA.execute(sqlA)
+        connA.commit()
+        connA.close()
+
     except Exception as e:
         print(e)
     finally:
         if session is not None:
             session.quit()
-
-
-            ############################# loglog 메시지 입력 ###############################
-
-            connA = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
-            curA = connA.cursor()
-            sqlA = "select MAX(no) from log"
-            curA.execute(sqlA)
-            connA.close()
-            no = 1
-
-            for rs in curA:
-                if rs[0] != None:
-                    no = rs[0]
-
-            no + 1
-            ##############fromIp, fromMail, fromCount,fromDateDate #####
-
-            nowTime = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
-
-
-            text = nowTime + " : CVE 데이터 결과 "+fromMail+" 발송 완료."
-
-            connA = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
-            curA = connA.cursor()
-            sqlA = "INSERT INTO LOG (no, text) values ('" + str(no + 1) + "','" + text + "')"
-            curA.execute(sqlA)
-            connA.commit()
-            connA.close()
 
     #################################################################################################################
