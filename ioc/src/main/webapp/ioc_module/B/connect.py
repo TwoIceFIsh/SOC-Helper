@@ -287,38 +287,38 @@ def getList(fromIp, fromMail, fromCount,fromDateDate) :
 
     ###################################################################################################################
 
-        ############################# loglog 메시지 입력 ###############################
+    ############################# loglog 메시지 입력 ###############################
 
-        connA = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
-        curA = connA.cursor()
-        sqlA = "select MAX(no) from log"
-        curA.execute(sqlA)
-        connA.close()
-        no = 1
+    connA = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
+    curA = connA.cursor()
+    sqlA = "select MAX(no) from log"
+    curA.execute(sqlA)
+    connA.close()
+    no = 1
 
-        for rs in curA:
-            if rs[0] != None:
-                no = rs[0]
+    for rs in curA:
+        if rs[0] != None:
+            no = rs[0]
 
-        no + 1
-        ############## fromIp, fromMail, fromCount,fromDateDate #####
-
-
-        asdfasdf = md5 + sha1 + sha256
-
-        nowTime = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
+    no + 1
+    ############## fromIp, fromMail, fromCount,fromDateDate #####
 
 
-        text = nowTime + " :  IOC(MD5/SHA256/SHA1) 데이터" + str(len(asdfasdf)) + "건 처리 진행."
-        print("#####################"+text)
-        connA = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
-        curA = connA.cursor()
-        sqlA = "INSERT INTO LOG (no, text) values ('" + str(no + 1) + "','" + text + "')"
-        curA.execute(sqlA)
-        connA.commit()
-        connA.close()
+    asdfasdf = md5 + sha1 + sha256
 
-        ######################################################################
+    nowTime = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
+
+
+    text = nowTime + " :  IOC(MD5/SHA256/SHA1) 데이터" + str(len(asdfasdf)) + "건 처리 진행."
+    print("#####################"+text)
+    connA = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
+    curA = connA.cursor()
+    sqlA = "INSERT INTO LOG (no, text) values ('" + str(no + 1) + "','" + text + "')"
+    curA.execute(sqlA)
+    connA.commit()
+    connA.close()
+
+    ######################################################################
 
 
 
