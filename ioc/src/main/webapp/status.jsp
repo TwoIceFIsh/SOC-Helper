@@ -186,7 +186,7 @@ SimpleDateFormat sf = new SimpleDateFormat("yy.MM.dd");
 							<div id="statusMessage11" class=" mb-0 font-weight-bold "></div>
 							2022.02.11(금) : 메일 발송 대상 지정 기능 추가</br> 2022.02.12(토) : 남은 작업 시간 및 건 수
 							추가</br> 2022.02.13(일) : 데이터 변환 알고리즘 개선</br> 2022.02.13(일) : 작업 콘솔 로그 기능 추가</br>
-							2022.02.14(월) : 작업대기열 기능 추가</br> 기능개선 및 문의사항 : 병호🤑
+							2022.02.14(월) : 작업대기열 기능 추가</br></br> 기능개선 및 문의사항 : 병호🤑
 						</div>
 					</div>
 
