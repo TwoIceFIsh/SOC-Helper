@@ -41,10 +41,31 @@ public class status_log {
 				no = resultSet.getInt(1);
 
 			}
+			
+			
+			String query3 = "SELECT no FROM jobq WHERE ipip = ? AND time = ?";
+			pstm = conn.prepareStatement(query3);
+			pstm.setString(1, ipAddress);
+			pstm.setString(2, dateToStr);
 
+			resultSet = pstm.executeQuery();
+
+			int k = 0;
+			while (resultSet.next()) {
+				k = resultSet.getInt("no");
+			}
+			
+			
+			
+			
+			
+			
 			pstm = conn.prepareStatement(query);
-			pstm.setInt(1, no + 1);
- 
+		
+
+//			
+			pstm.setInt(1, no+1);
+
 			if (mailAddress.equals("DLZ1160@s-oil.com"))
 				mailAddress = "보안관제팀";
 			if (mailAddress.equals("sungwoo.kwon@s-oil.com"))
@@ -62,15 +83,25 @@ public class status_log {
 			if (mailAddress.equals("khw1205@s-oil.com"))
 				mailAddress = "형욱";
 
+//			if (string.equals("CVE")) {
+//				pstm.setString(2, dateToStr + " : 작업번호 [" +""+ "] : " + ipAddress
+//						+ "님께서 CVE 정보 등록을 요청했습니다.(" + count1 + "건) 수신 : " + mailAddress);
+//
+//			}
+//			if (string.equals("IOC")) {
+//				pstm.setString(2, dateToStr + " : 작업번호 [" +""+ "] : " + ipAddress
+//						+ "님께서 IOC 정보 등록을 요청했습니다.(" + count1 + "건) 수신 : " + mailAddress);
+//			}
+			
 			if (string.equals("CVE")) {
-				pstm.setString(2,
-						dateToStr + " : " + ipAddress + "님께서 CVE 정보 등록을 요청했습니다.(" + count1 + "건) 수신 : " + mailAddress);
+				pstm.setString(2, dateToStr + " : 작업번호 [" + Integer.toString(k) + "] : " + ipAddress
+						+ "님께서 CVE 정보 등록을 요청했습니다.(" + count1 + "건) 수신 : " + mailAddress);
 
 			}
 			if (string.equals("IOC")) {
-				pstm.setString(2,
-						dateToStr + " : " + ipAddress + "님께서 IOC 정보 등록을 요청했습니다.(" + count1 + "건) 수신 : " + mailAddress);
-			}
+				pstm.setString(2, dateToStr + " : 작업번호 [" + Integer.toString(k) + "] : " + ipAddress
+						+ "님께서 IOC 정보 등록을 요청했습니다.(" + count1 + "건) 수신 : " + mailAddress);
+		}
 
 			pstm.setString(3, ipAddress);
 			pstm.setString(4, mailAddress);
@@ -144,7 +175,7 @@ public class status_log {
 			while (resultSet2.next()) {
 				// no[count] = Integer.toString(resultSet2.getInt(1));
 				log[count] = resultSet2.getString(2);
-				System.out.println("log[count] " + log[count]);
+				//System.out.println("log[count] " + log[count]);
 				count += 1;
 			}
 

@@ -35,7 +35,7 @@ public class loglog extends HttpServlet {
  
 		String arrayToString = String.join(",", log);
 
-		System.out.println("arrayToString "+ arrayToString);
+		//System.out.println("arrayToString "+ arrayToString);
 
 		response.getWriter().println(arrayToString + "");
 		response.getWriter().close();
