@@ -94,12 +94,12 @@ public class status_log {
 //			}
 			
 			if (string.equals("CVE")) {
-				pstm.setString(2, dateToStr + " : 작업번호 [" + Integer.toString(k) + "] : " + ipAddress
+				pstm.setString(2, dateToStr + " : 작업[" + Integer.toString(k) + "] : " + ipAddress
 						+ "님께서 CVE 작업 요청 [" + count1 + "건] (To : " + mailAddress+"");
 
 			}
 			if (string.equals("IOC")) {
-				pstm.setString(2, dateToStr + " : 작업번호 [" + Integer.toString(k) + "] : " + ipAddress
+				pstm.setString(2, dateToStr + " : 작업[" + Integer.toString(k) + "] : " + ipAddress
 						+ "님께서 IOC 작업 요청 [" + count1 + "건] (To : " + mailAddress+")");
 		}
 
