@@ -137,7 +137,7 @@ SimpleDateFormat sf = new SimpleDateFormat("yy.MM.dd");
 					<div class="col-auto">
 						<div
 							class="text-xs font-weight-bold text-info text-uppercase mb-1">
-							작업 진행률(개발중)</div>
+							작업 진행률 - (개발중🛠️)</div>
 						<div class=" no-gutters align-items-left col-md-12">
 
 							CVE 작업[1] 진척율
@@ -150,7 +150,7 @@ SimpleDateFormat sf = new SimpleDateFormat("yy.MM.dd");
 							IOC 작업[2] 진척율
 							<div class="progress mb-1">
 								<div class="progress-bar bg-gradient-danger" role="progressbar"
-									style="width: 75%" aria-valuenow="75" aria-valuemin="0"
+									style="width: 100%" aria-valuenow="100" aria-valuemin="0"
 									aria-valuemax="100"></div>
 
 

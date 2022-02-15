@@ -58,7 +58,7 @@
 
 								<div class="p-3">
 									<h1 class="h6 text-gray-900 mb-2">1. 보안정보 자동수집(보안뉴스, KISA
-										등)</h1>
+										등) - (개발중🛠️)</h1>
 
 									<hr>
 
