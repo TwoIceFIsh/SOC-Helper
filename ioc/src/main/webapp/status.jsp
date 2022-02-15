@@ -14,7 +14,7 @@ SimpleDateFormat sf = new SimpleDateFormat("yy.MM.dd");
 
 	<!-- Earnings (Monthly) Card Example -->
 	<div class=" col-md-5 mb-2">
-		<div class="card border-left-primary h-60 py-2">
+		<div class="card border-left-primary h-60 py-3">
 			<div class="card-body">
 				<div class="row no-gutters align-items-left">
 					<div class="col-auto">
