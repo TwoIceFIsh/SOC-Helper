@@ -12,7 +12,7 @@ SimpleDateFormat sf = new SimpleDateFormat("yy.MM.dd");
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <div class="row ">
 
-	<!-- Earnings (Monthly) Card Example -->
+	<%-- 	<!-- Earnings (Monthly) Card Example -->
 	<div class=" col-md-5 mb-2">
 		<div class="card border-left-primary h-60 py-3">
 			<div class="card-body">
@@ -40,6 +40,41 @@ SimpleDateFormat sf = new SimpleDateFormat("yy.MM.dd");
 								class="h6 mb-1 font-weight-bold text-gray-800"></div>
 							건
 						</div>
+					</div>
+
+
+
+				</div>
+			</div>
+		</div>
+	</div> --%>
+
+	<div class=" col-md-5 mb-2">
+		<div class="card border-left-primary h-60 py-3">
+			<div class="card-body">
+				<div class="row no-gutters align-items-left">
+					<div class="col-auto">
+						<div
+							class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+							오늘은</div>
+
+
+						<div class="h6 mb-1 font-weight-bold text-gray-800"></div>
+						<div><%=sf.format(nowTime)%></div>
+
+
+						<div
+							class="text-xs font-weight-bold text-success text-uppercase mb-1">
+							누적 데이터 처리건수(실시간)</div>
+						<div id="statusMessage2"
+							class="h6 mb-1 font-weight-bold text-gray-800"></div>
+
+						<div
+							class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+							누적 메일발송건(실시간)</div>
+						<div id="statusMessage"
+							class="h6 mb-1 font-weight-bold text-gray-800"></div>
+
 					</div>
 
 
@@ -152,7 +187,7 @@ SimpleDateFormat sf = new SimpleDateFormat("yy.MM.dd");
 								<div class="progress-bar bg-gradient-danger" role="progressbar"
 									style="width: 100%" aria-valuenow="100" aria-valuemin="0"
 									aria-valuemax="100"></div>
- 
+
 
 							</div>
 
@@ -201,7 +236,8 @@ SimpleDateFormat sf = new SimpleDateFormat("yy.MM.dd");
 							<div id="statusMessage11" class=" mb-1 font-weight-bold "></div>
 							2022.02.11(금) : 메일 발송 대상 지정 기능 추가</br> 2022.02.12(토) : 남은 작업 시간 및 건 수
 							추가</br> 2022.02.13(일) : 데이터 변환 알고리즘 개선</br> 2022.02.13(일) : 작업 콘솔 로그 기능 추가</br>
-							2022.02.14(월) : 작업대기열 기능 추가</br>2022.02.15(화) : 1차 개발 완료(알고리즘 개선 및 버그 픽스) </br></br> 기능개선 및 문의사항 : 병호🤑
+							2022.02.14(월) : 작업대기열 기능 추가</br>2022.02.15(화) : 1차 개발 완료(알고리즘 개선 및 버그
+							픽스) </br> </br> 기능개선 및 문의사항 : 병호🤑
 						</div>
 					</div>
 

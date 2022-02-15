@@ -29,7 +29,7 @@ function siteStatus() {
 		},
 		success: function(result) {
 
-			$('#statusMessage').html("&gt; "+result);
+			$('#statusMessage').html(""+result);
 
 
 		}
@@ -49,7 +49,7 @@ function siteStatus2() {
 		},
 		success: function(result) {
 
-			$('#statusMessage2').html("&gt; "+result);
+			$('#statusMessage2').html(""+result);
 
 
 		}
