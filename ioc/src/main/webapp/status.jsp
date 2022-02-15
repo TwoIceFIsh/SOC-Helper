@@ -43,6 +43,15 @@ SimpleDateFormat sf = new SimpleDateFormat("yy.MM.dd");
 								class="h4 mb-0 font-weight-bold text-gray-800"></div>
 							건
 						</div>
+
+						<div
+							class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+							누적 메일발송건(실시간)</div>
+						<div class="row h4 mb-0 font-weight-bold text-gray-800">
+							<div id="statusMessage"
+								class="h4 mb-0 font-weight-bold text-gray-800"></div>
+							건
+						</div>
 					</div>
 
 				</div>
@@ -51,7 +60,7 @@ SimpleDateFormat sf = new SimpleDateFormat("yy.MM.dd");
 	</div>
 
 	<!-- Earnings (Monthly) Card Example -->
-	<div class=" col-md-6 mb-4">
+	<div class=" col-md-12 mb-4">
 		<div class="card border-left-info shadow h-100 py-2">
 			<div class="card-body">
 				<div class="row no-gutters align-items-center">
@@ -88,27 +97,7 @@ SimpleDateFormat sf = new SimpleDateFormat("yy.MM.dd");
 			</div>
 		</div>
 	</div>
-
-	<!-- Pending Requests Card Example -->
-	<div class=" col-md-6 mb-4">
-		<div class="card border-left-warning shadow h-100 py-2">
-			<div class="card-body">
-				<div class="row no-gutters align-items-center">
-					<div class="col-auto">
-						<div
-							class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-							누적 메일발송건(실시간)</div>
-						<div class="row h4 mb-0 font-weight-bold text-gray-800">
-							<div id="statusMessage"
-								class="h4 mb-0 font-weight-bold text-gray-800"></div>
-							건
-						</div>
-					</div>
-
-				</div>
-			</div>
-		</div>
-	</div>
+ 
 
 	<!-- Pending Requests Card Example -->
 	<div class=" col-md-6 mb-4">
@@ -186,7 +175,8 @@ SimpleDateFormat sf = new SimpleDateFormat("yy.MM.dd");
 							<div id="statusMessage11" class=" mb-0 font-weight-bold "></div>
 							2022.02.11(금) : 메일 발송 대상 지정 기능 추가</br> 2022.02.12(토) : 남은 작업 시간 및 건 수
 							추가</br> 2022.02.13(일) : 데이터 변환 알고리즘 개선</br> 2022.02.13(일) : 작업 콘솔 로그 기능 추가</br>
-							2022.02.14(월) : 작업대기열 기능 추가</br></br> 기능개선 및 문의사항 : 병호🤑
+							2022.02.14(월) : 작업대기열 기능 추가</br>
+							</br> 기능개선 및 문의사항 : 병호🤑
 						</div>
 					</div>
 
