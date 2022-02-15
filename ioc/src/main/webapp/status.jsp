@@ -59,13 +59,13 @@ SimpleDateFormat sf = new SimpleDateFormat("yy.MM.dd");
 							오늘은</div>
 						<div class="h6 mb-1 font-weight-bold text-gray-800"><%=sf.format(nowTime)%></div>
 
-
+						</br>
 						<div
 							class="text-xs font-weight-bold text-success text-uppercase mb-1">
 							누적 데이터 처리건수(실시간)</div>
 						<div id="statusMessage2"
 							class="h6 mb-1 font-weight-bold text-gray-800"></div>
-
+						</br>
 						<div
 							class="text-xs font-weight-bold text-warning text-uppercase mb-1">
 							누적 메일발송건(실시간)</div>
