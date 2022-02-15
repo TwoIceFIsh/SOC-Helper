@@ -90,9 +90,6 @@
 
 
 
-
-
-
 									
 									<form class=" form-control-user" method="POST"
 										action="FileHandleServlet2" enctype="multipart/form-data">
@@ -102,19 +99,19 @@
 											value="txt 파일 업로드" name="upload" id="upload" />
 									</form>
 									<hr>
-
-								</div>
-								<div class="p-3 text-left">
-									<h1 class="h6 text-gray-900 mb-2">4. 사이트캡쳐 솔루션</h1>
-									<p class="mb-4">
-										외부망 IP를 통하여 접속된 웹사이트 캡처본을 받아보세요! </br> URL을 입력하여 해당 사이트를 사진으로 확인해 볼
-										수 있습니다!</br>
-									<div>
-										<input class="btn btn-warning btn-user btn-block"
-											type="submit" value="개발중🛠️" name="#" id="#" />
+									<div class="p-3 text-left">
+										<h1 class="h6 text-gray-900 mb-2">4. 사이트캡쳐 솔루션</h1>
+										<p class="mb-4">
+											외부망 IP를 통하여 접속된 웹사이트 캡처본을 받아보세요! </br> URL을 입력하여 해당 사이트를 사진으로 확인해
+											볼 수 있습니다!</br>
+										<div>
+											<input class="btn btn-warning btn-user btn-block"
+												type="submit" value="개발중🛠️" name="#" id="#" />
+										</div>
+										<hr>
 									</div>
-									<hr>
 								</div>
+
 
 							</div>
 
