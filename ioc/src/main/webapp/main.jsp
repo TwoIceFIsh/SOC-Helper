@@ -57,14 +57,14 @@
 							<div class="col-lg-6">
 
 								<div class="p-3">
-									<h1 class="h4 text-gray-900 mb-2">1. 보안정보 자동수집(보안뉴스, KISA
+									<h1 class="h6 text-gray-900 mb-2">1. 보안정보 자동수집(보안뉴스, KISA
 										등)</h1>
 
 									<hr>
 
 									<div class="text-left">
-										<h1 class="h4 text-gray-900 mb-2">2. CVE 정보수집 솔루션 1.0v</h1>
-										<p class="mb-4">
+										<h1 class="h6 text-gray-900 mb-2">2. CVE 정보수집 솔루션 1.0v</h1>
+										<p class="mb-4 h6">
 											CVE 코드와 관련된 정보를 수집하여 보고서로 받아보세요!</br> </br> CVE로 시작하는 코드를 다음과 같은 텍스트 파일
 											업로드!</br> </br> (sample.txt) </br> CVE-2020-1123 </br> CVE-2020-1231 </br>
 											CVE-2020-11245
@@ -84,7 +84,7 @@
 									<hr>
 
 									<div class="text-left">
-										<h1 class="h4 text-gray-900 mb-2">3. IOC 지표생성 솔루션 1.0v</h1>
+										<h1 class="h6 text-gray-900 mb-2">3. IOC 지표생성 솔루션 1.0v</h1>
 										<p class="mb-4">
 											HX 파일(MD5/SHA256/SHA1/),(IP/URL)을 생성해요!</br> </br>타입에 상관없이 다음과 같이 텍스트
 											파일 업로드!</br> </br> (sample.txt)</br> https://www.sdifjsod.com</br>111.222.111.222</br>md5</br>sha1</br>sha256
@@ -106,7 +106,7 @@
 									<hr>
 
 									<div class="text-left">
-										<h1 class="h4 text-gray-900 mb-2">4. 사이트캡쳐 솔루션</h1>
+										<h1 class="h6 text-gray-900 mb-2">4. 사이트캡쳐 솔루션</h1>
 										<p class="mb-4">
 											외부망 IP를 통하여 접속된 웹사이트 캡처본을 받아보세요! </br> URL을 입력하여 해당 사이트를 사진으로 확인해
 											볼 수 있습니다!</br><div> <input class="btn btn-warning btn-user btn-block"

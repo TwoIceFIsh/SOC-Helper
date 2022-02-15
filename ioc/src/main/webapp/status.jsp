@@ -13,55 +13,89 @@ SimpleDateFormat sf = new SimpleDateFormat("yy.MM.dd");
 <div class="row ">
 
 	<!-- Earnings (Monthly) Card Example -->
-	<div class=" col-md-6 mb-4">
-		<div class="card border-left-primary shadow h-100 py-2">
+	<div class=" col-md-5 mb-2">
+		<div class="card border-left-primary h-80 py-2">
 			<div class="card-body">
 				<div class="row no-gutters align-items-center">
 					<div class="col-auto">
 						<div
 							class="text-xs font-weight-bold text-primary text-uppercase mb-1">
 							오늘은</div>
-						<div class="h4 mb-0 font-weight-bold text-gray-800"><%=sf.format(nowTime)%></div>
-					</div>
+						<div class="h6 mb-0 font-weight-bold text-gray-800"><%=sf.format(nowTime)%></div>
 
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<!-- Earnings (Monthly) Card Example -->
-	<div class=" col-md-6 mb-4">
-		<div class="card border-left-success shadow h-100 py-2">
-			<div class="card-body">
-				<div class="row no-gutters align-items-center">
-					<div class="col-auto">
 						<div
 							class="text-xs font-weight-bold text-success text-uppercase mb-1">
 							누적 데이터 처리건수(실시간)</div>
-						<div class="row h4 mb-0 font-weight-bold text-gray-800">
+						<div class="row h6 mb-0 font-weight-bold text-gray-800">
 							<div id="statusMessage2"
-								class="h4 mb-0 font-weight-bold text-gray-800"></div>
+								class="h6 mb-0 font-weight-bold text-gray-800"></div>
 							건
 						</div>
 
 						<div
 							class="text-xs font-weight-bold text-warning text-uppercase mb-1">
 							누적 메일발송건(실시간)</div>
-						<div class="row h4 mb-0 font-weight-bold text-gray-800">
+						<div class="row h6 mb-0 font-weight-bold text-gray-800">
 							<div id="statusMessage"
-								class="h4 mb-0 font-weight-bold text-gray-800"></div>
+								class="h6 mb-0 font-weight-bold text-gray-800"></div>
 							건
 						</div>
 					</div>
+
+
 
 				</div>
 			</div>
 		</div>
 	</div>
 
+	<div class=" col-md-7 mb-2">
+		<div class="card border-left-secondary  h-80 py-2">
+			<div class="card-body">
+				<div class="row no-gutters align-items-center">
+					<div class="col-auto">
+						<div
+							class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+							메일수신대상</div>
+						<div id="statusMessage6"
+							class="h6 mb-0 font-weight-bold text-gray-800"></div>
+
+						<div id="aas" class="text-xs mb-0 font-weight-bold text-gray-800">업로드
+							버튼 클릭 전 메일 수신자를 선택해주세요!</div>
+					</div>
+
+				</div>
+			</div>
+
+			<div class=" col-md-12 dropdown mb-4 ">
+				<div>
+					<button class="h6 btn btn-primary dropdown-toggle" type="button"
+						id="dropdownMenuButton" data-toggle="dropdown"
+						aria-haspopup="true" aria-expanded="false">메일수신변경</button>
+					<div class="dropdown-menu animated--fade-in"
+						aria-labelledby="dropdownMenuButton">
+						<a id="a" class="dropdown-item" href="#">보안관제팀👍</a> <a id="b"
+							class="dropdown-item" href="#">부장님😁</a> <a id="c"
+							class="dropdown-item" href="#">승환😎</a> <a id="d"
+							class="dropdown-item" href="#">명훈😊</a> <a id="e"
+							class="dropdown-item" href="#">병호🤑</a> <a id="f"
+							class="dropdown-item" href="#">성민😴</a> <a id="g"
+							class="dropdown-item" href="#">예지😚</a> <a id="h"
+							class="dropdown-item" href="#">형욱😡</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+
+
+
+
 	<!-- Earnings (Monthly) Card Example -->
-	<div class=" col-md-12 mb-4">
-		<div class="card border-left-info shadow h-100 py-2">
+	<div class=" col-md-5 mb-4">
+		<div class="card border-left-info shadow h-80 py-2">
 			<div class="card-body">
 				<div class="row no-gutters align-items-center">
 					<div class="col-auto">
@@ -97,46 +131,10 @@ SimpleDateFormat sf = new SimpleDateFormat("yy.MM.dd");
 			</div>
 		</div>
 	</div>
- 
+
 
 	<!-- Pending Requests Card Example -->
-	<div class=" col-md-6 mb-4">
-		<div class="card border-left-secondary shadow h-100 py-2">
-			<div class="card-body">
-				<div class="row no-gutters align-items-center">
-					<div class="col-auto">
-						<div
-							class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-							메일수신대상</div>
-						<div id="statusMessage6"
-							class="h4 mb-0 font-weight-bold text-gray-800"></div>
 
-						<div id="aas" class="text-xs mb-0 font-weight-bold text-gray-800">업로드
-							버튼 클릭 전 메일 수신자를 선택해주세요!</div>
-					</div>
-
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div class=" col-md-6 dropdown mb-4">
-		<button class="btn btn-primary dropdown-toggle" type="button"
-			id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-			aria-expanded="false">메일수신변경</button>
-		<div class="dropdown-menu animated--fade-in"
-			aria-labelledby="dropdownMenuButton">
-			<a id="a" class="dropdown-item" href="#">보안관제팀👍</a> <a id="b"
-				class="dropdown-item" href="#">부장님😁</a> <a id="c"
-				class="dropdown-item" href="#">승환😎</a> <a id="d"
-				class="dropdown-item" href="#">명훈😊</a> <a id="e"
-				class="dropdown-item" href="#">병호🤑</a> <a id="f"
-				class="dropdown-item" href="#">성민😴</a> <a id="g"
-				class="dropdown-item" href="#">예지😚</a> <a id="h"
-				class="dropdown-item" href="#">형욱😡</a>
-
-		</div>
-	</div>
 
 	<!-- 로그 -->
 	<div class=" col-md-12 mb-8">
@@ -175,8 +173,7 @@ SimpleDateFormat sf = new SimpleDateFormat("yy.MM.dd");
 							<div id="statusMessage11" class=" mb-0 font-weight-bold "></div>
 							2022.02.11(금) : 메일 발송 대상 지정 기능 추가</br> 2022.02.12(토) : 남은 작업 시간 및 건 수
 							추가</br> 2022.02.13(일) : 데이터 변환 알고리즘 개선</br> 2022.02.13(일) : 작업 콘솔 로그 기능 추가</br>
-							2022.02.14(월) : 작업대기열 기능 추가</br>
-							</br> 기능개선 및 문의사항 : 병호🤑
+							2022.02.14(월) : 작업대기열 기능 추가</br> </br> 기능개선 및 문의사항 : 병호🤑
 						</div>
 					</div>
 
