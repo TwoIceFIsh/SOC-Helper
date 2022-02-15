@@ -90,6 +90,35 @@ def setup1(list, type, jobip, jobdate):
         connq.commit()
     connq.close()
 
+def setup2(list, type, jobip, jobdate):
+    # setup1(md5, "md5", jobip, jobdate)
+    #setup1(md5, "md5", jobip, jobdate)
+
+    # md5 변환 완료 (status 0 > 1)
+    connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
+    curq = connq.cursor()
+    for i in list:
+        sql4 = "UPDATE work_place SET status = '2' WHERE "+type+" = '" + i + "' AND ipip = '" + str(jobip) + "' AND time = '" + str(jobdate) + "' AND status = '1'"
+        print(sql4)
+        curq.execute(sql4)
+        connq.commit()
+    connq.close()
+
+def setup3(list, type, jobip, jobdate):
+    # setup1(md5, "md5", jobip, jobdate)
+    #setup1(md5, "md5", jobip, jobdate)
+
+    # md5 변환 완료 (status 0 > 1)
+    connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
+    curq = connq.cursor()
+    for i in list:
+        sql4 = "UPDATE work_place SET status = '3' WHERE "+type+" = '" + i + "' AND ipip = '" + str(jobip) + "' AND time = '" + str(jobdate) + "' AND status = '2'"
+        print(sql4)
+        curq.execute(sql4)
+        connq.commit()
+    connq.close()
+
+
 def sitecountUp(num):
 
     conn7 = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
@@ -136,8 +165,6 @@ def loglog(logText):
 
 def getList(jobno, jobip, jobdate):
     print("################ IOC 데이터 GET ###########################")
-
-
     value = 0
     x = 1
     md5 = []
@@ -204,33 +231,34 @@ def getList(jobno, jobip, jobdate):
     ###################################################################################################################
     md5List = []
     ipList = []
-    url1List = []
+    urlList = []
     sha256List= []
     sha1List=[]
 
     # sha1, sha256 변환 시작
     if len(md5)> 0:
-        md5List.append(md5)
+        for i in md5:
+            md5List.append(i)
         print("out md5 " + str(md5List))
 
     if len(ip1) > 0:
-        ipList.append(ip1)
+        for i in ip1:
+            ipList.append(i)
         print("out ip1 " + str(ipList))
 
     if len(url1) > 0:
-        url1List.append(url1)
-        print("out url1 " + str(url1List))
+        for i in url1:
+            urlList.append(i)
+        print("out url1 " + str(urlList))
 
     if len(sha256) > 0 :
         out = virusTotal(sha256, "sha256", jobip, jobdate)
-
         if len(out) > 0:
             sha256List.append(out)
             print("out sha256 " + str(out))
 
     if len(sha1) > 0 :
         out2 = virusTotal(sha1, "sha1", jobip, jobdate)
-
         if len(out2) > 0:
             sha1List.append(out2)
             print("out sha1 " + str(out2))
@@ -244,7 +272,9 @@ def getList(jobno, jobip, jobdate):
     input2 = ip1 + url1
 
     output = md5List + sha256List + sha1List
-    output2 = ipList + url1List
+    output2 = ipList + urlList
+
+    print(" output2 = ipList + url1List " + str(output2))
 
     md5Text2 = ""
     sha1Text2 = ""
@@ -260,11 +290,19 @@ def getList(jobno, jobip, jobdate):
         sha256Text2 = "[sha256: " + str(len(sha256List))+"/"+ str(len(sha256))+"] "
     if len(ipList) > 0:
         ipText2 = "[ip: " + str(len(ipList)) + "/" + str(len(ip1)) + "] "
-    if len(url1List) > 0:
-        urlText2 = "[url: " + str(len(url1List)) + "/" + str(len(url1)) + "] "
+    if len(urlList) > 0:
+        urlText2 = "[url: " + str(len(urlList)) + "/" + str(len(url1)) + "] "
 
-    sumoutput = str(len(output)+len(output2))
-    suminput = str(len(input)+len(input2))
+    print("output + output2 " +str(output) + str(output2))
+    print("input + input2 " + str(input )+ str(input2))
+
+    sum1 = len(output)+ len(output2)
+    sum2 = len(input) + len(input2)
+    sumoutput = str(sum1)
+    suminput = str(sum2)
+
+    print("sumoutput " + str(sumoutput))
+    print("suminput " + str( suminput))
 
     logText = "작업["+str(jobno)+ "] 총 [" + sumoutput +"/" + suminput + "]개 데이터 변환완료 "+md5Text2+sha1Text2+sha256Text2+ipText2+urlText2
     print(logText)
