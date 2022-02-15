@@ -92,7 +92,7 @@ public class status_log {
 //				pstm.setString(2, dateToStr + " : 작업번호 [" +""+ "] : " + ipAddress
 //						+ "님께서 IOC 정보 등록을 요청했습니다.(" + count1 + "건) 수신 : " + mailAddress);
 //			}
-			
+			 
 			if (string.equals("CVE")) {
 				pstm.setString(2, dateToStr + ": 작업[" + Integer.toString(k) + "] : " + ipAddress
 						+ "님께서 CVE 작업 요청 [" + count1 + "건] (To : " + mailAddress+"");
