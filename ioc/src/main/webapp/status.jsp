@@ -55,12 +55,9 @@ SimpleDateFormat sf = new SimpleDateFormat("yy.MM.dd");
 				<div class="row no-gutters align-items-left">
 					<div class="col-auto">
 						<div
-							class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+							class="text-xs font-weight-bold text-success text-uppercase mb-1">
 							오늘은</div>
-
-
-						<div class="h6 mb-1 font-weight-bold text-gray-800"></div>
-						<div><%=sf.format(nowTime)%></div>
+						<div class="h6 mb-1 font-weight-bold text-gray-800"><%=sf.format(nowTime)%></div>
 
 
 						<div
