@@ -214,6 +214,7 @@ def excel(list, jobip, jobdate):
                     sheet['H' + str(line)] = url + i
                     sheet['I' + str(line)] = "수동조회 대상"
                     sheet['J' + str(line)] = ''
+                    setup1(i, "cve", jobip, jobdate)
                     continue
 
                 html = response.text
@@ -260,18 +261,31 @@ def excel(list, jobip, jobdate):
                 sheet['I' + str(line)] = infokr_text
                 sheet['J' + str(line)] = ''
 
+                setup1(i, "cve", jobip, jobdate)
+
+            else:
+                setup1(i, "cve", jobip, jobdate)
+
             count += 1
             line += 1
 
-            connA = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
-            curA = connA.cursor()
-            sql2 = "UPDATE cve SET status = '1' WHERE status = '0'AND ipip = '" + str(jobip) + "' AND time = '" + str(
-                jobdate) + "'"
-            curA.execute(sql2)
-            connA.close()
-
         wb.save(filename)
     return filename
+
+
+def setup1(result, type, jobip, jobdate):
+    # setup1(md5, "md5", jobip, jobdate)
+    #setup1(md5, "md5", jobip, jobdate)
+
+    # md5 변환 완료 (status 0 > 1)
+    connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
+    curq = connq.cursor()
+
+    sql4 = "UPDATE cve SET status = '1' WHERE "+type+" = '" + result + "' AND ipip = '" + str(jobip) + "' AND time = '" + str(jobdate) + "'"
+    print(sql4)
+    curq.execute(sql4)
+    connq.commit()
+    connq.close()
 
 def trans(TEXT):
     trans= Translator()

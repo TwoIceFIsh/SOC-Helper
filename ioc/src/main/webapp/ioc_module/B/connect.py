@@ -513,7 +513,7 @@ def writeHX(output, jobno):
         ioc = ioc1 + ioc2 + ioc3 + ioc4 + ioc5
         print("output 2 : " + ioc)
 
-    filename2 = "HX 파일_작업["+str(jobno)+"]_"+str(len(output))+"건"
+    filename2 = "HX 파일_작업["+str(jobno)+"]_"+str(len(output))+"건.hx"
     f = open(filename2, 'w')
     print(str(ioc))
     f.write(str(ioc))
