@@ -152,7 +152,7 @@ SimpleDateFormat sf = new SimpleDateFormat("yy.MM.dd");
 								<div class="progress-bar bg-gradient-danger" role="progressbar"
 									style="width: 100%" aria-valuenow="100" aria-valuemin="0"
 									aria-valuemax="100"></div>
-
+ 
 
 							</div>
 
