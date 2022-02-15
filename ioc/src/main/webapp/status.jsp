@@ -13,7 +13,7 @@ SimpleDateFormat sf = new SimpleDateFormat("yy.MM.dd");
 <div class="row ">
 
 	<!-- Earnings (Monthly) Card Example -->
-	<div class=" col-md-5 mb-1">
+	<div class=" col-md-5 mb-2">
 		<div class="card border-left-primary h-60 py-2">
 			<div class="card-body">
 				<div class="row no-gutters align-items-left">
@@ -26,9 +26,9 @@ SimpleDateFormat sf = new SimpleDateFormat("yy.MM.dd");
 						<div
 							class="text-xs font-weight-bold text-success text-uppercase mb-1">
 							누적 데이터 처리건수(실시간)</div>
-						<div class="row h6 mb-0 font-weight-bold text-gray-800">
+						<div class="row h6 mb-1 font-weight-bold text-gray-800">
 							<div id="statusMessage2"
-								class="h6 mb-0 font-weight-bold text-gray-800"></div>
+								class="h6 mb-1 font-weight-bold text-gray-800"></div>
 							건
 						</div>
 
@@ -49,8 +49,8 @@ SimpleDateFormat sf = new SimpleDateFormat("yy.MM.dd");
 		</div>
 	</div>
 
-	<div class=" col-md-7 mb-1">
-		<div class="card border-left-danger  h-60 py-2">
+	<div class=" col-md-7 mb-2">
+		<div class="card border-left-danger h-100 py-2">
 			<div class="card-body">
 				<div class="row no-gutters align-items-left">
 					<div class="col-auto">
@@ -63,7 +63,7 @@ SimpleDateFormat sf = new SimpleDateFormat("yy.MM.dd");
 						<div id="aas" class="text-xs mb-1 font-weight-bold text-gray-800">업로드
 							버튼 클릭 전 메일 수신자를 선택해주세요!</div>
 
-						<div class=" col-md-12 dropdown mb-1 ">
+						<div class="dropdown mb-1 ">
 
 							<button class="h6 btn btn-primary dropdown-toggle" type="button"
 								id="dropdownMenuButton" data-toggle="dropdown"
@@ -89,9 +89,10 @@ SimpleDateFormat sf = new SimpleDateFormat("yy.MM.dd");
 	</div>
 
 
+
 	<!-- Earnings (Monthly) Card Example -->
-	<div class=" col-md-5 mb-1">
-		<div class="card border-left-info   h-60 py-2">
+	<div class=" col-md-5 mb-2">
+		<div class="card border-left-info   h-100 py-2">
 			<div class="card-body">
 				<div class="row no-gutters align-items-left">
 					<div class="col-auto">
@@ -129,8 +130,8 @@ SimpleDateFormat sf = new SimpleDateFormat("yy.MM.dd");
 	</div>
 
 
-	<div class=" col-md-7 mb-1">
-		<div class="card border-left-info  h-60 py-2">
+	<div class=" col-md-7 mb-2">
+		<div class="card border-left-info  h-100 py-2">
 			<div class="card-body">
 				<div class="row no-gutters align-items-left">
 					<div class="col-auto">
@@ -167,7 +168,7 @@ SimpleDateFormat sf = new SimpleDateFormat("yy.MM.dd");
 
 
 	<!-- 로그 -->
-	<div class=" col-md-12 mb-1">
+	<div class=" col-md-12 mb-2">
 		<div class="card border-left-success shadow h-100 py-2">
 			<div class="card-body">
 				<div class=" no-gutters align-items-center">
@@ -188,7 +189,7 @@ SimpleDateFormat sf = new SimpleDateFormat("yy.MM.dd");
 		</div>
 	</div>
 
-	<div class=" col-md-12 mb-1">
+	<div class=" col-md-12 mb-4">
 		<div class="card border-left-warning shadow h-100 py-2">
 			<div class="card-body">
 				<div class="row no-gutters align-items-center">
