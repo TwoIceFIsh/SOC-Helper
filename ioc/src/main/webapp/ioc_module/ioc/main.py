@@ -2,7 +2,6 @@ import time
 from datetime import datetime
 import pymysql
 import connect
-import replit
 
 
 
@@ -16,21 +15,6 @@ count = 1
 while 1:
     print("START")
     time.sleep(1)
-
-    ##################################### 이메일 발송을 위한 명단 획득 #######################################
-    connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc',
-                            charset='utf8')
-    curq = connq.cursor()
-    sql4 = "SELECT address FROM site_status WHERE no = 1"
-    curq.execute(sql4)
-    connq.close()
-
-    ##### 메일 데이터가 없으면 기본팀메일 발송 #######
-    for r in curq:
-        if r[0] == None or r[0].strip() == "":
-            address = 'dlz1160@s-oil.com'
-        address = r[0]
-
     #################################### 작업큐에 대기중인 장업이 있는지 확인 ################################
     connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
     curq = connq.cursor()
@@ -64,7 +48,7 @@ while 1:
 
             realname = connect.mailCheck(jobmail)
 
-            logText = "작업[" + str(jobno) + "] " + str(jobip) + "님께서 " + str(jobtype) + " 작업 요청 (To : " +str(realname)+ ")"
+            logText = "작업[" + str(jobno) + "] " + str(jobip) + "님의 " + str(jobtype) + " 작업 진행 (To : " +str(realname)+ ")"
             print(logText)
             connect.loglog(logText)
 
@@ -84,7 +68,6 @@ while 1:
                 connq.close()
 
     print("END")
-    replit.clear()
 
 
 

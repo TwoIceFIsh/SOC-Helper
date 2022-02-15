@@ -18,9 +18,6 @@ def virusTotal(list, types, jobip, jobdate):
     # virusTotal(sha256, "sha256", jobip, jobdate)
     # virusTotal(sha1, "sha1", jobip, jobdate)
     result = []
-    result2 = []
-    result1 = []
-
     ########################################## Virus Total 검색 시도 ##############################################
     for i in list:
 
@@ -46,7 +43,7 @@ def virusTotal(list, types, jobip, jobdate):
             out = response.json()
 
             if out['md5'] != None:
-                result1.append(out['md5'])
+                result.append(out['md5'])
                 setup1Virustotal(out['md5'], i, types, jobip, jobdate)
                 sitecountUp(1)
 
@@ -56,9 +53,6 @@ def virusTotal(list, types, jobip, jobdate):
             print("sha1List KeyError :" + i)
             setup1Virustotal("변환실패", i, types, jobip, jobdate)
             sitecountUp(1)
-
-    result.append(result1)
-    result.append(result2)
 
     return result
 
@@ -141,12 +135,8 @@ def loglog(logText):
 
 
 def getList(jobno, jobip, jobdate):
-    ##################################### 데이터 추출, HX 파일 작성, 엑셀파일 이름##############################################
+    print("################ IOC 데이터 GET ###########################")
 
-    print("#######데이터 초기화")
-    yy = datetime.today().strftime('%y')
-    mm = datetime.today().strftime('%m')
-    dd = datetime.today().strftime('%d')
 
     value = 0
     x = 1
@@ -220,29 +210,30 @@ def getList(jobno, jobip, jobdate):
 
     # sha1, sha256 변환 시작
     if len(md5)> 0:
-        md5List = md5
+        md5List.append(md5)
+        print("out md5 " + str(md5List))
 
     if len(ip1) > 0:
-        ipList = ip1
+        ipList.append(ip1)
+        print("out ip1 " + str(ipList))
 
     if len(url1) > 0:
-        url1List = url1
+        url1List.append(url1)
+        print("out url1 " + str(url1List))
 
     if len(sha256) > 0 :
         out = virusTotal(sha256, "sha256", jobip, jobdate)
-        print("out2 " + str(out))
-        if len(out[0]) > 0:
-            sha256List.append(out[0])
+
+        if len(out) > 0:
+            sha256List.append(out)
+            print("out sha256 " + str(out))
 
     if len(sha1) > 0 :
         out2 = virusTotal(sha1, "sha1", jobip, jobdate)
-        print("out2 "+ str(out2))
-        if len(out2[1]) > 0:
-            sha1List.append(out2[1])
 
-    print(str(md5) + " "+str(sha256List)+" " + str(sha1List))
-
-    output =[]
+        if len(out2) > 0:
+            sha1List.append(out2)
+            print("out sha1 " + str(out2))
 
     # 변환 완료 (status 0 > 1)
     setup1(md5, "md5", jobip, jobdate)
@@ -275,19 +266,13 @@ def getList(jobno, jobip, jobdate):
     sumoutput = str(len(output)+len(output2))
     suminput = str(len(input)+len(input2))
 
-    logText = "작업["+str(jobno)+ "] 총 [" + sumoutput +"/" + suminput + "]개 데이터 가공 "+md5Text2+sha1Text2+sha256Text2+ipText2+urlText2
+    logText = "작업["+str(jobno)+ "] 총 [" + sumoutput +"/" + suminput + "]개 데이터 변환완료 "+md5Text2+sha1Text2+sha256Text2+ipText2+urlText2
     print(logText)
     loglog(logText)
 
     filename =""
     filename2 = ""
-    ################################################################################################################
-    if len(output) > 0 or len(output2) > 0:
-        filename = writeExcel(jobip, jobdate, jobno)
-        # 작업번호 [41] 총 [6/4]개 데이터 EXCEL 데이터 작성 완료 [md5: 1/1] [sha1: 2/1] [sha256: 2/1] [ip: 1/1]
-        logText = "작업["+str(jobno)+ "] 총 ["+suminput+"/" + suminput + "]개 데이터 엑셀 작성 "+md5Text+sha1Text+sha256Text+ipText+urlText
-        print(logText)
-        loglog(logText)
+
     ################################################################################################################
 
     print("output ######"+str(output))
@@ -301,13 +286,22 @@ def getList(jobno, jobip, jobdate):
            else:
                outout.append(i)
 
-        logText = "작업["+str(jobno)+ "] 총 [" + str(len(outout))+ "/" +  str(len(output))  + "]개 데이터 HX 파일 생성 완료 "+md5Text+sha1Text+sha256Text
+        logText = "작업["+str(jobno)+ "] 총 [" + str(len(outout))+ "/" +  str(len(input))  + "]개 데이터 HX 파일 생성 완료 "+md5Text+sha1Text+sha256Text
         print(logText)
         loglog(logText)
-        sendMail(filename, filename2, jobno, jobip, jobdate, len(output), len(output2), total2)
-    else :
+    else:
         filename2 = 0
-        sendMail(filename, filename2, jobno, jobip, jobdate, len(output), len(output2), total2)
+
+        ################################################################################################################
+    if len(output) > 0 or len(output2) > 0:
+        filename = writeExcel(jobip, jobdate, jobno)
+        # 작업번호 [41] 총 [6/4]개 데이터 EXCEL 데이터 작성 완료 [md5: 1/1] [sha1: 2/1] [sha256: 2/1] [ip: 1/1]
+        logText = "작업[" + str(
+            jobno) + "] 총 [" + suminput + "/" + suminput + "]개 데이터 엑셀 작성 " + md5Text + sha1Text + sha256Text + ipText + urlText
+        print(logText)
+        loglog(logText)
+
+    sendMail(filename, filename2, jobno, jobip, jobdate, len(output), len(output2), total2)
 
     return 1
 
@@ -381,8 +375,7 @@ def sendMail(filename, filename2,jobno, jobip, jobdate, num1, num2, num3):
         message.set_charset('utf-8')
         message['From'] = from_addr
         message['To'] = to_addr
-        message['Subject'] = "[보안관제] HX 정보등록 데이터(MD5, SHA1, SHA256, IP, URL) " + " " + str(total) + "/" + str(
-            num3) + "건_" + str(jobdate)
+        message['Subject'] = "[보안관제] HX 정보등록 데이터_작업[" + str(jobno)+"] "+str(num3) + "건"
 
         # 메일 콘텐츠 - 내용
         body = " <h4>안녕하세요업무도우미입니다. </h4>  </br><h4><h4>솔루션 주소 : http://222.110.22.168:8080/ioc/main.jsp </h4> <h4> 수행작업 : HX 파일 및 결과보고서 생성</h4> </br></br> 요청 건수(" + str(
@@ -453,7 +446,6 @@ def mailCheck(address):
 
 ############################## HX 데이터 파일 만들기 #################################################################
 def writeHX(output, jobno):
-    count = 1
 
     yy = datetime.today().strftime('%y')
     mm = datetime.today().strftime('%m')
@@ -483,8 +475,6 @@ def writeHX(output, jobno):
 
     # 2줄 이상 로직
     if len(output) >= 2:
-
-        value = output[0]
 
         count = 0
         count2 = 0
@@ -523,20 +513,20 @@ def writeHX(output, jobno):
         ioc = ioc1 + ioc2 + ioc3 + ioc4 + ioc5
         print("output 2 : " + ioc)
 
-    filename2 = "HX("+str(jobno)+")_" + yy + mm + dd
+    filename2 = "HX 파일_작업["+str(jobno)+"]_"+str(len(output))+"건"
     f = open(filename2, 'w')
-
-    f.write(ioc)
+    print(str(ioc))
+    f.write(str(ioc))
     f.close()
 
-    return filename
+    return filename2
         ##################################################################################################################
 
 def writeExcel(jobip,jobdate,jobno):
     ##################################################################################################################
 
     print("######################################### 변환된 데이터를 excel 작성하기##############################################")
-    excelfilename = "HX_DATA_결과파일_" + str(jobno) + ".xlsx"
+    excelfilename = "HX_DATA_결과파일_작업["+str(jobno)+"].xlsx"
     wb = openpyxl.Workbook()
     sheet = wb.active
 

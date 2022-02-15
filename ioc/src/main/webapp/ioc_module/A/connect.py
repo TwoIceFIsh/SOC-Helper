@@ -1,103 +1,62 @@
+from datetime import datetime, time
+from bs4 import BeautifulSoup
+import time
+import openpyxl as openpyxl
 import pymysql
 import os
 import smtplib
-from datetime import datetime, time
+from datetime import datetime
 from email import encoders
 from email.utils import formataddr
 from email.mime.base import MIMEBase
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+import requests
+from googletrans import Translator
 
 
-########(jobip, jobmail, jobdate)
-def getList(jopip, jobdate):
+def getList(jobno, jobip, jobdate):
     print("################ CVE 데이터 GET ###########################")
-    result = []
-    list = []
     conn = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
     cur = conn.cursor()
-    sql = "SELECT * FROM cve WHERE status = 0 AND ipip = '"+ str(jopip)+"' AND time = '" + str(jobdate)+ "'"
-    print(sql)
+    sql = "SELECT no, cve, status FROM cve WHERE status = 0 AND ipip = '"+ str(jobip)+"' AND time = '" + str(jobdate)+ "'"
     cur.execute(sql)
-    # 여러 줄 출력
-    i = 0
+    conn.close()
 
+    result = []
     for row in cur:
-        list.append([])
-        list[i].append(row[0])
-        list[i].append(row[1])
-        list[i].append(row[2])
-        i += 1
-
-    print(list)
-
-    j = 0
-
-    for j in range(0, len(list)):
-        print(list[j][1])
-        result.append(list[j][1])
-
-    sql2 = "UPDATE cve SET status = '1' WHERE status = '0'AND ipip = '"+ str(jopip)+"' AND time = '" + str(jobdate)+ "'"
-    cur.execute(sql2)
-    conn.commit()
+        result.append(row[1])
 
     print(result)
 
-    conn.close()
+    logText = "작업[" + str(jobno) + "] 총 [" + str(len(result)) + "]개 데이터 등록 "
+    loglog(logText)
 
-    ############################# loglog 메시지 입력 ###############################
+    filename = excel(result,jobip, jobdate)
 
-    connA = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
-    curA = connA.cursor()
-    sqlA = "select MAX(no) from log"
-    curA.execute(sqlA)
-    connA.close()
-    no = 1
+    logText = "작업[" + str(jobno) + "] 총 [" + str(len(result)) + "]개 데이터 변환완료 "
+    loglog(logText)
 
-    for rs in curA:
-        if rs[0] != None:
-            no = rs[0]
-
-    no + 1
-    ############## fromIp, fromMail, fromCount,fromDateDate #####
-
-    asdfasdf = result
-
-
-    nowTime = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
-    text = nowTime + " :  CVE 데이터" + str(len(asdfasdf)) + "건 처리 진행."
-    print("#####################" + text)
-    connA = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
-    curA = connA.cursor()
-    sqlA = "INSERT INTO LOG (no, text) values ('" + str(no + 1) + "','" + text + "')"
-    curA.execute(sqlA)
-    connA.commit()
-    connA.close()
-
+    sendMail(filename, jobno, jobip, jobdate, len(result))
     ######################################################################
+    return 1
 
-    # Stauts DB RW
+def sendMail(filename, jobno, jobip, jobdate, num1):
+    # 보내는사람
+
+    name = '보안관제'
+
     conn = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
     cur = conn.cursor()
-    sql = "SELECT count FROM site_status"
+    sql = "SELECT no, email FROM jobq WHERE ipip = '" + str(jobip) + "' AND time = '" + str(jobdate) + "'"
     cur.execute(sql)
-    # 여러 줄 출력
-    i = 0
-    value=0
-    for row in cur:
-        value = row[0]
-
-    data = value + len(result)
-    sql2 = "UPDATE site_status SET count = " + str(data)
-    cur.execute(sql2)
     conn.commit()
-    cur.fetchone()
     conn.close()
 
-    return result
+    for a in cur:
+        address = a[1]
 
-def sendMail(filename, name, address, line):
-    # 보내는사람
+    realname = mailCheck(address)
 
     list = []
     conn = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
@@ -138,8 +97,7 @@ def sendMail(filename, name, address, line):
         message.set_charset('utf-8')
         message['From'] = from_addr
         message['To'] = to_addr
-        message['Subject'] = '[보안관제] ' + datetime.today().strftime(
-            '%Y.%m') + "_CVE_CVSS_List(" + datetime.today().strftime('%y%m%d') + ")_백데이터 " + str(line-1) + "건"
+        message['Subject'] = "[보안관제] CVE 정보등록 데이터_작업[" + str(jobno)+"] "+str(num1) + "건"
 
         # 메일 콘텐츠 - 내용
         body = '''
@@ -179,49 +137,9 @@ def sendMail(filename, name, address, line):
 
         print('Successfully sent the mail!!!')
 
-        ############################# loglog 메시지 입력 ###############################
-
-        connA = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
-        curA = connA.cursor()
-        sqlA = "select MAX(no) from log"
-        curA.execute(sqlA)
-        connA.close()
-        no = 1
-
-        for rs in curA:
-            if rs[0] != None:
-                no = rs[0]
-
-        no + 1
-        ##############fromIp, fromMail, fromCount,fromDateDate #####
-
-        nowTime = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
-
-        if address == "DLZ1160@s-oil.com":
-            realname = "보안관제팀"
-        if address == "sungwoo.kwon@s-oil.com":
-            realname = "부장님"
-        if address == "jsh0119@s-oil.com":
-            realname = "승환님"
-        if address == "kmh0816@s-oil.com":
-            realname = "명훈님"
-        if address == "bh.lee@s-oil.com":
-            realname = "병호님"
-        if address == "ksm0117@s-oil.com":
-            realname = "성민님"
-        if address == "lyj0409@s-oil.com":
-            realname = "예지님"
-        if address == "khw1205@s-oil.com":
-            realname = "형욱님"
-
-        text = nowTime + " : CVE 데이터 결과 " + str(realname) + "에게 발송 완료."
-
-        connA = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
-        curA = connA.cursor()
-        sqlA = "INSERT INTO LOG (no, text) values ('" + str(no + 1) + "','" + text + "')"
-        curA.execute(sqlA)
-        connA.commit()
-        connA.close()
+        logText = "작업[" + str(jobno) + "] CVE 결과 메일 발송 완료(수신:" + realname + ")"
+        print(logText)
+        loglog(logText)
 
     except Exception as e:
         print(e)
@@ -230,3 +148,173 @@ def sendMail(filename, name, address, line):
             session.quit()
 
     #################################################################################################################
+
+def loglog(logText):
+    connA = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
+    curA = connA.cursor()
+    sqlA = "select MAX(no) from log"
+    curA.execute(sqlA)
+    connA.close()
+
+    no = 1
+    for rs in curA:
+        if rs[0] != None and no > 0:
+            no = rs[0]
+        else:
+            no = 1
+
+    nowTime = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
+    connA = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
+    curA = connA.cursor()
+    sqlA = "INSERT INTO LOG (no, text) values ('" + str(no + 1) + "','" + nowTime+" : " + logText + "')"
+    curA.execute(sqlA)
+    connA.commit()
+    connA.close()
+
+def excel(list, jobip, jobdate):
+    if len(list) >= 1:
+        print("DATA IN")
+        count = 1
+        url = 'https://nvd.nist.gov/vuln/detail/'
+        url2 = 'https://translate.google.com/?hl=ko&sl=en&tl=ko&op=translate&text='
+
+        filename = datetime.today().strftime('%Y.%m') + "_CVE_CVSS_List(" + datetime.today().strftime(
+            '%y%m%d') + ")_백데이터.xlsx"
+        wb = openpyxl.Workbook()
+        sheet = wb.active
+
+        sheet['A1'] = '번호'
+        sheet['B1'] = '년월'
+        sheet['C1'] = '발표일'
+        sheet['D1'] = 'CVE'
+        sheet['E1'] = 'CVSS Score'
+        sheet['F1'] = '중요도'
+        sheet['G1'] = '해당 여부'
+        sheet['H1'] = '출처(URL)'
+        sheet['I1'] = '내용'
+        sheet['J1'] = '비고'
+
+        line = 2
+
+        for i in list:
+            time.sleep(1)
+            sitecountUp(1)
+            response = requests.get(url + i)
+            if response.status_code == 200:
+                if 'Not Found' in response.text:
+                    print(str(count) + " " + i + " : " + "Not Found 수동조회 진행")
+
+                    sheet['A' + str(line)] = str(count)
+                    sheet['B' + str(line)] = "수동조회 대상"
+                    sheet['C' + str(line)] = "수동조회 대상"
+                    sheet['D' + str(line)] = i
+                    sheet['E' + str(line)] = "수동조회 대상"
+                    sheet['F' + str(line)] = "수동조회 대상"
+                    sheet['G' + str(line)] = "수동조회 대상"
+                    sheet['H' + str(line)] = url + i
+                    sheet['I' + str(line)] = "수동조회 대상"
+                    sheet['J' + str(line)] = ''
+                    continue
+
+                html = response.text
+                soup = BeautifulSoup(html, 'html.parser')
+                cvss = soup.select_one('a[id="Cvss3NistCalculatorAnchor"]')
+                date = soup.select_one('span[data-testid="vuln-published-on"]')
+                cve = soup.select_one('a[data-testid="vuln-cve-dictionary-entry"]')
+                info = soup.select_one('p[data-testid="vuln-description"]')
+                cvss_text = ""
+                try:
+                    cvss_text = cvss.get_text()
+
+                except AttributeError:
+                    cvss = soup.select_one('a[id="Cvss3CnaCalculatorAnchor"]')
+                    cvss_text = cvss.get_text()
+
+                tmp = cvss_text.split(" ")
+                score_text = tmp[0]
+                severity_text = tmp[1]
+                date_text = date.get_text()
+                tmp2 = date_text.split("/")
+                mm_text = tmp2[0]
+                dd_text = tmp2[1]
+                yy_text = tmp2[2]
+                cve_text = cve.get_text()
+                info_text = info.get_text()
+
+                yymm_text = yy_text + "." + mm_text
+                yymmdd_text = yy_text + "." + mm_text + "." + dd_text
+
+                infokr_text = trans(info_text)
+
+                print(str(
+                    count) + " " + yymm_text + " " + yymmdd_text + " " + i + " " + score_text + " " + severity_text + " " + "O/X" + url + i + " " + infokr_text)
+
+                sheet['A' + str(line)] = str(count)
+                sheet['B' + str(line)] = yymm_text
+                sheet['C' + str(line)] = yymmdd_text
+                sheet['D' + str(line)] = i
+                sheet['E' + str(line)] = score_text
+                sheet['F' + str(line)] = severity_text
+                sheet['G' + str(line)] = 'O/X'
+                sheet['H' + str(line)] = url + i
+                sheet['I' + str(line)] = infokr_text
+                sheet['J' + str(line)] = ''
+
+            count += 1
+            line += 1
+
+            connA = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
+            curA = connA.cursor()
+            sql2 = "UPDATE cve SET status = '1' WHERE status = '0'AND ipip = '" + str(jobip) + "' AND time = '" + str(
+                jobdate) + "'"
+            curA.execute(sql2)
+            connA.close()
+
+        wb.save(filename)
+    return filename
+
+def trans(TEXT):
+    trans= Translator()
+    result = trans.translate(TEXT,src="en",dest="ko")
+    return result.text
+
+def sitecountUp(num):
+
+    conn7 = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
+    cur7 = conn7.cursor()
+
+    sql7 = "SELECT count FROM site_status where no = 1"
+    cur7.execute(sql7)
+
+    for a in cur7:
+        count = a[0]
+        if a[0] is None:
+            count = 0
+
+    out = count + num
+
+    sql4 = "UPDATE site_status SET count =" + str(out) + " where no = 1"
+    cur7.execute(sql4)
+    conn7.commit()
+    conn7.close()
+
+def mailCheck(address):
+    realname = ""
+    if address == "DLZ1160@s-oil.com":
+        realname = "보안관제팀"
+    if address == "sungwoo.kwon@s-oil.com":
+        realname = "부장님"
+    if address == "jsh0119@s-oil.com":
+        realname = "승환"
+    if address == "kmh0816@s-oil.com":
+        realname = "명훈"
+    if address == "bh.lee@s-oil.com":
+        realname = "병호"
+    if address == "ksm0117@s-oil.com":
+        realname = "성민"
+    if address == "lyj0409@s-oil.com":
+        realname = "예지"
+    if address == "khw1205@s-oil.com":
+        realname = "형욱"
+
+    return realname
