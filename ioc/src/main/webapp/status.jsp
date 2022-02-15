@@ -13,15 +13,15 @@ SimpleDateFormat sf = new SimpleDateFormat("yy.MM.dd");
 <div class="row ">
 
 	<!-- Earnings (Monthly) Card Example -->
-	<div class=" col-md-5 mb-2">
-		<div class="card border-left-primary h-80 py-2">
+	<div class=" col-md-5 mb-1">
+		<div class="card border-left-primary h-60 py-2">
 			<div class="card-body">
-				<div class="row no-gutters align-items-center">
+				<div class="row no-gutters align-items-left">
 					<div class="col-auto">
 						<div
 							class="text-xs font-weight-bold text-primary text-uppercase mb-1">
 							오늘은</div>
-						<div class="h6 mb-0 font-weight-bold text-gray-800"><%=sf.format(nowTime)%></div>
+						<div class="h6 mb-1 font-weight-bold text-gray-800"><%=sf.format(nowTime)%></div>
 
 						<div
 							class="text-xs font-weight-bold text-success text-uppercase mb-1">
@@ -35,9 +35,9 @@ SimpleDateFormat sf = new SimpleDateFormat("yy.MM.dd");
 						<div
 							class="text-xs font-weight-bold text-warning text-uppercase mb-1">
 							누적 메일발송건(실시간)</div>
-						<div class="row h6 mb-0 font-weight-bold text-gray-800">
+						<div class="row h6 mb-1 font-weight-bold text-gray-800">
 							<div id="statusMessage"
-								class="h6 mb-0 font-weight-bold text-gray-800"></div>
+								class="h6 mb-1 font-weight-bold text-gray-800"></div>
 							건
 						</div>
 					</div>
@@ -49,55 +49,51 @@ SimpleDateFormat sf = new SimpleDateFormat("yy.MM.dd");
 		</div>
 	</div>
 
-	<div class=" col-md-7 mb-2">
-		<div class="card border-left-secondary  h-80 py-2">
+	<div class=" col-md-7 mb-1">
+		<div class="card border-left-danger  h-60 py-2">
 			<div class="card-body">
-				<div class="row no-gutters align-items-center">
+				<div class="row no-gutters align-items-left">
 					<div class="col-auto">
 						<div
 							class="text-xs font-weight-bold text-warning text-uppercase mb-1">
 							메일수신대상</div>
 						<div id="statusMessage6"
-							class="h6 mb-0 font-weight-bold text-gray-800"></div>
+							class="h6 mb-1 font-weight-bold text-gray-800"></div>
 
-						<div id="aas" class="text-xs mb-0 font-weight-bold text-gray-800">업로드
+						<div id="aas" class="text-xs mb-1 font-weight-bold text-gray-800">업로드
 							버튼 클릭 전 메일 수신자를 선택해주세요!</div>
+
+						<div class=" col-md-12 dropdown mb-1 ">
+
+							<button class="h6 btn btn-primary dropdown-toggle" type="button"
+								id="dropdownMenuButton" data-toggle="dropdown"
+								aria-haspopup="true" aria-expanded="false">메일수신변경</button>
+							<div class="dropdown-menu animated--fade-in"
+								aria-labelledby="dropdownMenuButton">
+								<a id="a" class="dropdown-item" href="#">보안관제팀👍</a> <a id="b"
+									class="dropdown-item" href="#">부장님😁</a> <a id="c"
+									class="dropdown-item" href="#">승환😎</a> <a id="d"
+									class="dropdown-item" href="#">명훈😊</a> <a id="e"
+									class="dropdown-item" href="#">병호🤑</a> <a id="f"
+									class="dropdown-item" href="#">성민😴</a> <a id="g"
+									class="dropdown-item" href="#">예지😚</a> <a id="h"
+									class="dropdown-item" href="#">형욱😡</a>
+							</div>
+
+						</div>
 					</div>
 
-				</div>
-			</div>
-
-			<div class=" col-md-12 dropdown mb-4 ">
-				<div>
-					<button class="h6 btn btn-primary dropdown-toggle" type="button"
-						id="dropdownMenuButton" data-toggle="dropdown"
-						aria-haspopup="true" aria-expanded="false">메일수신변경</button>
-					<div class="dropdown-menu animated--fade-in"
-						aria-labelledby="dropdownMenuButton">
-						<a id="a" class="dropdown-item" href="#">보안관제팀👍</a> <a id="b"
-							class="dropdown-item" href="#">부장님😁</a> <a id="c"
-							class="dropdown-item" href="#">승환😎</a> <a id="d"
-							class="dropdown-item" href="#">명훈😊</a> <a id="e"
-							class="dropdown-item" href="#">병호🤑</a> <a id="f"
-							class="dropdown-item" href="#">성민😴</a> <a id="g"
-							class="dropdown-item" href="#">예지😚</a> <a id="h"
-							class="dropdown-item" href="#">형욱😡</a>
-					</div>
 				</div>
 			</div>
 		</div>
-
 	</div>
 
 
-
-
-
 	<!-- Earnings (Monthly) Card Example -->
-	<div class=" col-md-5 mb-4">
-		<div class="card border-left-info shadow h-80 py-2">
+	<div class=" col-md-5 mb-1">
+		<div class="card border-left-info   h-60 py-2">
 			<div class="card-body">
-				<div class="row no-gutters align-items-center">
+				<div class="row no-gutters align-items-left">
 					<div class="col-auto">
 						<div
 							class="text-xs font-weight-bold text-info text-uppercase mb-1">
@@ -106,21 +102,21 @@ SimpleDateFormat sf = new SimpleDateFormat("yy.MM.dd");
 							<div class="col-auto">
 
 								<div id="statusMessage5"
-									class="h5 mb-0 mr-3 font-weight-bold text-gray-800">보안정보
+									class="h6 mb-0 mr-3 font-weight-bold text-gray-800">보안정보
 									: 🛠️</div>
 								<div id="statusMessage3"
-									class="h5 mb-0 mr-3 font-weight-bold text-gray-800"></div>
+									class="h6 mb-0 mr-3 font-weight-bold text-gray-800"></div>
 
 
 								<div id="statusMessage4"
-									class="h5 mb-0 mr-3 font-weight-bold text-gray-800"></div>
+									class="h6 mb-0 mr-3 font-weight-bold text-gray-800"></div>
 
 
 								<div id="statusMessage5"
-									class="h5 mb-0 mr-3 font-weight-bold text-gray-800">캡쳐 :
+									class="h6 mb-0 mr-3 font-weight-bold text-gray-800">캡쳐 :
 									🛠️</div>
 								<div id="nokori"
-									class="h8 mb-0 mr-3 font-weight-bold text-gray-800"></div>
+									class="h6 mb-0 mr-3 font-weight-bold text-gray-800"></div>
 
 							</div>
 
@@ -133,11 +129,45 @@ SimpleDateFormat sf = new SimpleDateFormat("yy.MM.dd");
 	</div>
 
 
+	<div class=" col-md-7 mb-1">
+		<div class="card border-left-info  h-60 py-2">
+			<div class="card-body">
+				<div class="row no-gutters align-items-left">
+					<div class="col-auto">
+						<div
+							class="text-xs font-weight-bold text-info text-uppercase mb-1">
+							작업 진행률(개발중)</div>
+						<div class=" no-gutters align-items-left col-md-12">
+
+							CVE 작업[1] 진척율
+							<div class="progress mb-1">
+								<div class="progress-bar" role="progressbar" style="width: 75%"
+									aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+							</div>
+
+
+							IOC 작업[2] 진척율
+							<div class="progress mb-1">
+								<div class="progress-bar bg-gradient-danger" role="progressbar"
+									style="width: 75%" aria-valuenow="75" aria-valuemin="0"
+									aria-valuemax="100"></div>
+
+
+							</div>
+
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<!-- Pending Requests Card Example -->
 
 
 	<!-- 로그 -->
-	<div class=" col-md-12 mb-8">
+	<div class=" col-md-12 mb-1">
 		<div class="card border-left-success shadow h-100 py-2">
 			<div class="card-body">
 				<div class=" no-gutters align-items-center">
@@ -158,10 +188,7 @@ SimpleDateFormat sf = new SimpleDateFormat("yy.MM.dd");
 		</div>
 	</div>
 
-
-	<div class=" col-md-12 mb-4"></div>
-
-	<div class=" col-md-12 mb-4">
+	<div class=" col-md-12 mb-1">
 		<div class="card border-left-warning shadow h-100 py-2">
 			<div class="card-body">
 				<div class="row no-gutters align-items-center">
