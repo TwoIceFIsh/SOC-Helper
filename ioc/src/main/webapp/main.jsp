@@ -51,15 +51,12 @@
 						<!-- Nested Row within Card Body -->
 						<div class="row">
 
-							<div class="col-lg-6 d-none d-lg-block bg-password-image">
+							<div class="col-lg-6 d-none d-lg-block   bg-password-image">
 								<div class="p-2"><jsp:include page="status.jsp" /></div>
 							</div>
+
 							<div class="col-lg-6">
-
 								<div class="p-3 text-left">
-
-
-
 									<h1 class="h6 text-gray-900 mb-2">1. 보안정보 자동수집(보안뉴스, KISA
 										등)</h1>
 									<p class="mb-4 h6">
@@ -90,6 +87,9 @@
 									<p class="mb-4">
 										HX 파일(MD5/SHA256/SHA1/),(IP/URL)을 생성해요!</br> </br>타입에 상관없이 다음과 같이 텍스트 파일
 										업로드!</br> </br> (sample.txt)</br> https://www.sdifjsod.com</br>111.222.111.222</br>md5</br>sha1</br>sha256
+
+
+
 
 
 
