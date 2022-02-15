@@ -14,17 +14,29 @@ import requests
 countzero = 0
 asdfasdf = []
 
-
-def virusTotal(sha256List, sha1List, jobip, jobdate):
-
-    searchList = sha256List + sha1List
-
+def virusTotal(list, types, jobip, jobdate):
+    # virusTotal(sha256, "sha256", jobip, jobdate)
+    # virusTotal(sha1, "sha1", jobip, jobdate)
     result = []
     result2 = []
     result1 = []
 
-    print("########################################## Virus Total 검색 시도 ##############################################")
-    for i in sha256List:
+    ########################################## Virus Total 검색 시도 ##############################################
+    for i in list:
+
+        conn = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
+        cur = conn.cursor()
+        sql2 = "SELECT no, md5, sha1, sha256 from work_place WHERE " + types + " = '" + str(i) + "' AND ipip ='" + str(
+            jobip) + "' AND time = '" + str(jobdate) + "'"
+        cur.execute(sql2)
+        conn.commit()
+        conn.close()
+
+        for a in cur:
+            a[1] != 'X'
+            print("기존데이터 md5 탐지 : "+a[1])
+            continue
+
         time.sleep(15)
         try:
             url = 'https://www.virustotal.com/vtapi/v2/file/report'
@@ -35,35 +47,14 @@ def virusTotal(sha256List, sha1List, jobip, jobdate):
 
             if out['md5'] != None:
                 result1.append(out['md5'])
-                updateVirustotal(out['md5'], i, jobip, jobdate)
+                setup1Virustotal(out['md5'], i, types, jobip, jobdate)
                 sitecountUp(1)
 
         except KeyError:
             print(
                 "############################### 데이터 정상조회 실패 시에러처리 ######################################################")
             print("sha1List KeyError :" + i)
-            updateVirustotal("변환실패", i, jobip, jobdate)
-            sitecountUp(1)
-
-    for i in sha1List:
-        time.sleep(15)
-        try:
-            url = 'https://www.virustotal.com/vtapi/v2/file/report'
-            params = {'apikey': '645c62843256a387939a6ab31b55f4e9a409971cdfe488d78b97881443289e6a', 'resource': i}
-            response = requests.get(url, params=params)
-
-            out = response.json()
-
-            if out['md5'] != None:
-                result2.append(out['md5'])
-                updateVirustotal(out['md5'], i, jobip, jobdate)
-                sitecountUp(1)
-
-        except KeyError:
-            print(
-                "############################### 데이터 정상조회 실패 시에러처리 ######################################################")
-            print("sha1List KeyError :" + i)
-            updateVirustotal("변환실패", i, jobip, jobdate)
+            setup1Virustotal("변환실패", i, types, jobip, jobdate)
             sitecountUp(1)
 
     result.append(result1)
@@ -71,35 +62,59 @@ def virusTotal(sha256List, sha1List, jobip, jobdate):
 
     return result
 
+def setup1Virustotal(result, input, types, jobip, jobdate):
+    # virusTotal(sha256, "sha256", jobip, jobdate)
+    # virusTotal(sha1, "sha1", jobip, jobdate)
 
-def updateVirustotal(a, b, jobip, jobdate):
-
-    print("#################################### SHA256 > 에러처리 데이터 작성 ######################################")
-
-
-
-    if len(b) == 64:
-        types = "sha256"
-
-    if len(b) == 20:
-        types = "sha1"
+    #  setup1Virustotal(out['md5'], i, types, jobip, jobdate)
+    #  setup1Virustotal("변환실패", i, types, jobip, jobdate)
 
     conn = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
     cur = conn.cursor()
-    sql2 = "UPDATE work_place SET md5 = '" + str(a) +"' WHERE " + types + " = '" + str(b) + "' AND ipip ='" + str(
+    sql2 = "UPDATE work_place SET md5 = '" + str(result) +"' WHERE " + types + " = '" + str(input) + "' AND ipip ='" + str(
         jobip) + "' AND time = '" + str(jobdate) + "'"
     cur.execute(sql2)
     conn.commit()
 
-
-    print("################################# 변환실패가 작성된 SHA256 Status를 1로 변경 ###############################")
-    sql2 = "UPDATE work_place SET status= 1 WHERE " + types + " = '" + str(b) + "' AND ipip ='" + str(
+    sql2 = "UPDATE work_place SET status= 1 WHERE " + types + " = '" + str(input) + "' AND ipip ='" + str(
         jobip) + "' AND time = '" + str(jobdate) + "'"
     cur.execute(sql2)
     conn.commit()
     conn.close()
 
+def setup1(list, type, jobip, jobdate):
+    # setup1(md5, "md5", jobip, jobdate)
+    #setup1(md5, "md5", jobip, jobdate)
 
+    # md5 변환 완료 (status 0 > 1)
+    connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
+    curq = connq.cursor()
+    for i in list:
+        sql4 = "UPDATE work_place SET status = '1' WHERE "+type+" = '" + i + "' AND ipip = '" + str(jobip) + "' AND time = '" + str(jobdate) + "'"
+        print(sql4)
+        curq.execute(sql4)
+        connq.commit()
+    connq.close()
+
+def sitecountUp(num):
+
+    conn7 = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
+    cur7 = conn7.cursor()
+
+    sql7 = "SELECT count FROM site_status where no = 1"
+    cur7.execute(sql7)
+
+    for a in cur7:
+        count = a[0]
+        if a[0] is None:
+            count = 0
+
+    out = count + num
+
+    sql4 = "UPDATE site_status SET count =" + str(out) + " where no = 1"
+    cur7.execute(sql4)
+    conn7.commit()
+    conn7.close()
 
 def loglog(logText):
     connA = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
@@ -123,27 +138,10 @@ def loglog(logText):
     connA.commit()
     connA.close()
 
-def sitecountUp(num):
 
-    conn7 = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
-    cur7 = conn7.cursor()
-
-    sql7 = "SELECT count FROM site_status where no = 1"
-    cur7.execute(sql7)
-
-    for a in cur7:
-        count = a[0]
-        if a[0] is None:
-            count = 0
-
-    sql4 = "UPDATE site_status SET count =" + str(count + num) + " where no = 1"
-    cur7.execute(sql4)
-    conn7.commit()
-    conn7.close()
 
 def getList(jobno, jobip, jobdate):
-    print(
-        "##################################### 데이터 추출, HX 파일 작성, 엑셀파일 이름##############################################")
+    ##################################### 데이터 추출, HX 파일 작성, 엑셀파일 이름##############################################
 
     print("#######데이터 초기화")
     yy = datetime.today().strftime('%y')
@@ -183,31 +181,35 @@ def getList(jobno, jobip, jobdate):
         if row[4] != 'X':
             url1.append(row[4])
 
-    connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
-    curq = connq.cursor()
-    sqlq = "SELECT count(no) FROM work_place WHERE status = '0' AND ipip = '" + str(
-        jobip) + "' AND time = '" + str(jobdate) + "'"
-    curq.execute(sqlq)
-    curq.close()
+    md5Text = ""
+    sha1Text = ""
+    sha256Text = ""
+    ipText  = ""
+    urlText = ""
 
-    for ain in curq:
-        total = ain[0]
+    if len(md5) > 0:
+        md5Text = "[md5: " + str(len(md5)) + "] "
+    if len(sha1) > 0:
+        sha1Text = "[sha1: " + str(len(sha1))  + "] "
+    if len(sha256) > 0:
+        sha256Text = "[sha256: " + str(len(sha256))+ "] "
+    if len(ip1) > 0:
+        ipText = "[ip: " + str(len(ip1)) + "] "
+    if len(url1) > 0:
+        urlText = "[url: " + str(len(url1)) + "] "
 
-    # 데이터 처리 수 로그
-    logText ="작업번호 ["+str(jobno)+ "] : 총 "+str(total)+"개 데이터 처리(md5: "+str(len(md5))+"/sha1: "+str(len(sha1))+"/sha256: "+str(len(sha256))+"/ip: "+str(len(ip1))+"/url: "+str(len(url1))+")"
+    total = []
+    total = md5 + sha1 + sha256 + ip1 + url1
+    total2  = len(total)
+
+
+    # 작업번호 [41] 총 [4]개 데이터 처리진행 [md5: 1] [sha1: 1] [sha256: 1] [ip: 1]
+    logText = "작업[" + str(jobno) + "] 총 [" + str(total2) + "]개 데이터 등록 " + md5Text +  sha1Text +   sha256Text +   ipText +   urlText
     loglog(logText)
-
+    print(logText)
     # 데이터 처리 수 추가
-    sitecountUp(total)
 
-    # md5 변환 완료 (status 0 > 1)
-    connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
-    curq = connq.cursor()
-    for i in md5:
-        sql4 = "UPDATE work_place SET status = '1' WHERE md5 = '" + i + "' AND ipip = '" + str(jobip) + "' AND time = '" + str(jobdate) + "'"
-        curq.execute(sql4)
-        connq.commit()
-    connq.close()
+    sitecountUp(total2)
 
     ###################################################################################################################
     md5List = []
@@ -215,6 +217,7 @@ def getList(jobno, jobip, jobdate):
     url1List = []
     sha256List= []
     sha1List=[]
+
     # sha1, sha256 변환 시작
     if len(md5)> 0:
         md5List = md5
@@ -225,39 +228,89 @@ def getList(jobno, jobip, jobdate):
     if len(url1) > 0:
         url1List = url1
 
-    if len(sha256) > 0 or len(sha1) > 0:
-        out = virusTotal(sha256, sha1, jobip, jobdate)
-        if len(out) > 0:
-            sha256List = out[0]
-            sha1List = out[1]
+    if len(sha256) > 0 :
+        out = virusTotal(sha256, "sha256", jobip, jobdate)
+        print("out2 " + str(out))
+        if len(out[0]) > 0:
+            sha256List.append(out[0])
+
+    if len(sha1) > 0 :
+        out2 = virusTotal(sha1, "sha1", jobip, jobdate)
+        print("out2 "+ str(out2))
+        if len(out2[1]) > 0:
+            sha1List.append(out2[1])
+
+    print(str(md5) + " "+str(sha256List)+" " + str(sha1List))
 
     output =[]
+
+    # 변환 완료 (status 0 > 1)
+    setup1(md5, "md5", jobip, jobdate)
+    setup1(ip1, "ip", jobip, jobdate)
+    setup1(url1, "url", jobip, jobdate)
+
+    input = md5 + sha256 + sha1
+    input2 = ip1 + url1
+
     output = md5List + sha256List + sha1List
-    output2 = ip1 + url1
+    output2 = ipList + url1List
 
+    md5Text2 = ""
+    sha1Text2 = ""
+    sha256Text2 = ""
+    ipText2 = ""
+    urlText2 = ""
 
-    md5Text = "md5: [" +str(len(md5List))+"/"+ str(len(md5)) + "]"
-    sha1Text = "sha1: [" +str(len(sha1List))+"/"+ str(len(sha1)) + "]"
-    sha256Text = "sha256: [" + str(len(sha256List))+"/"+ str(len(sha256))+"]"
-    ipText = "ip: [" + str(len(ipList)) + "/" + str(len(ip1)) + "]"
-    urlText = "url: [" + str(len(url1List)) + "/" + str(len(url1)) + "]"
-    logText = "작업번호 ["+str(jobno)+ "] 총 " +str(len(output+output2))+"/"+ str(total) + "개 데이터 가공완료 ("+md5Text+"/"+sha1Text+"/"+sha256Text+"/"+ipText+"/"+urlText+")"
+    if len(md5List) > 0 :
+        md5Text2 = "[md5: " +str(len(md5List))+"/"+ str(len(md5)) + "] "
+    if len(sha1List) > 0:
+        sha1Text2 = "[sha1: " +str(len(sha1List))+"/"+ str(len(sha1)) + "] "
+    if len(sha256List) > 0:
+        sha256Text2 = "[sha256: " + str(len(sha256List))+"/"+ str(len(sha256))+"] "
+    if len(ipList) > 0:
+        ipText2 = "[ip: " + str(len(ipList)) + "/" + str(len(ip1)) + "] "
+    if len(url1List) > 0:
+        urlText2 = "[url: " + str(len(url1List)) + "/" + str(len(url1)) + "] "
+
+    sumoutput = str(len(output)+len(output2))
+    suminput = str(len(input)+len(input2))
+
+    logText = "작업["+str(jobno)+ "] 총 [" + sumoutput +"/" + suminput + "]개 데이터 가공 "+md5Text2+sha1Text2+sha256Text2+ipText2+urlText2
+    print(logText)
     loglog(logText)
 
+    filename =""
+    filename2 = ""
     ################################################################################################################
-    filename = writeExcel(jobip, jobdate, jobno)
-    logText = "작업번호 ["+str(jobno)+ "] 총 " + str(len(output)) + "/" + str(total-len(output2)) + "개 데이터 EXCEL 데이터 작성 완료(" + md5Text + "/" + sha1Text + "/" + sha256Text + ")"
-    loglog(logText)
+    if len(output) > 0 or len(output2) > 0:
+        filename = writeExcel(jobip, jobdate, jobno)
+        # 작업번호 [41] 총 [6/4]개 데이터 EXCEL 데이터 작성 완료 [md5: 1/1] [sha1: 2/1] [sha256: 2/1] [ip: 1/1]
+        logText = "작업["+str(jobno)+ "] 총 ["+suminput+"/" + suminput + "]개 데이터 엑셀 작성 "+md5Text+sha1Text+sha256Text+ipText+urlText
+        print(logText)
+        loglog(logText)
     ################################################################################################################
 
-    filename2 = writeHX(output,jobno)
-    logText = "작업번호 ["+str(jobno)+ "] 총 " + str(len(output)) + "/" + str(total-len(output2)) + "개 데이터 HX 데이터 작성 완료(" + md5Text + "/" + sha1Text + "/" + sha256Text + ")"
-    loglog(logText)
+    print("output ######"+str(output))
+    if len(output) > 0:
+        filename2 = writeHX(output,jobno)
 
-    sendMail(filename, filename2, jobno, jobip, jobdate, len(output), len(output2), total)
+        outout = []
+        for i in output:
+           if i == "변환실패":
+               continue
+           else:
+               outout.append(i)
 
+        logText = "작업["+str(jobno)+ "] 총 [" + str(len(outout))+ "/" +  str(len(output))  + "]개 데이터 HX 파일 생성 완료 "+md5Text+sha1Text+sha256Text
+        print(logText)
+        loglog(logText)
+        sendMail(filename, filename2, jobno, jobip, jobdate, len(output), len(output2), total2)
+    else :
+        filename2 = 0
+        sendMail(filename, filename2, jobno, jobip, jobdate, len(output), len(output2), total2)
 
     return 1
+
 
 
 
@@ -277,22 +330,7 @@ def sendMail(filename, filename2,jobno, jobip, jobdate, num1, num2, num3):
     for a in cur :
         address = a[1]
 
-    if address == "DLZ1160@s-oil.com":
-        realname = "보안관제팀"
-    if address == "sungwoo.kwon@s-oil.com":
-        realname = "부장님"
-    if address == "jsh0119@s-oil.com":
-        realname = "승환님"
-    if address == "kmh0816@s-oil.com":
-        realname = "명훈님"
-    if address == "bh.lee@s-oil.com":
-        realname = "병호님"
-    if address == "ksm0117@s-oil.com":
-        realname = "성민님"
-    if address == "lyj0409@s-oil.com":
-        realname = "예지님"
-    if address == "khw1205@s-oil.com":
-        realname = "형욱님"
+    realname =  mailCheck(address)
 
 
     yy = datetime.today().strftime('%y')
@@ -347,16 +385,18 @@ def sendMail(filename, filename2,jobno, jobip, jobdate, num1, num2, num3):
             num3) + "건_" + str(jobdate)
 
         # 메일 콘텐츠 - 내용
-        body = " <h4>안녕하세요업무도우미입니다. </h4>  </br><h4><h4>솔루션 주소 : http://222.110.22.168:8080/ioc/main.jsp </h4> <h4> 수행작업 : HX 파일(MD5, SHA1, SHA256) 및 결과보고서 생성</h4></br> <h4> </h4></br> 요청 건수(" + str(
-            num3) + ")</br> 변환 건수(" + str(total) + ") 제외 건수(" + str(ex) + ")</br> 자세한 사항은 첨부파일을 참조해주세요</br> <h4>HX TOOL에 접속하여 업로드 해주세요(URL : \"https://192.168.36.182:8080/login\"</h4>"
+        body = " <h4>안녕하세요업무도우미입니다. </h4>  </br><h4><h4>솔루션 주소 : http://222.110.22.168:8080/ioc/main.jsp </h4> <h4> 수행작업 : HX 파일 및 결과보고서 생성</h4> </br></br> 요청 건수(" + str(
+            num3) + ")</br> 변환 건수[" + str(total) + "] 제외 건수[" + str(ex) + "]</br> </br> 자세한 사항은 첨부파일을 참조해주세요</br> <h4>HX TOOL에 접속하여 업로드 해주세요(URL : \"https://192.168.36.182:8080/login\"</h4>"
 
         bodyPart = MIMEText(body, 'html', 'utf-8')
         message.attach(bodyPart)
 
         # 메일 콘텐츠 - 첨부파일
-        attachments = [
-            os.path.join(os.getcwd(), filename), os.path.join(os.getcwd(), filename2)
-        ]
+
+        if filename2 == 0 :
+            attachments = [os.path.join(os.getcwd(), filename)]
+        else:
+            attachments = [os.path.join(os.getcwd(), filename), os.path.join(os.getcwd(), filename2)]
 
         for attachment in attachments:
             attach_binary = MIMEBase("application", "octect-stream")
@@ -378,7 +418,8 @@ def sendMail(filename, filename2,jobno, jobip, jobdate, num1, num2, num3):
 
         print('Successfully sent the mail!!!')
 
-        logText = "작업번호 ["+str(jobno)+"] 메일 발송 완료(수신:"+realname+")"
+        logText = "작업["+str(jobno)+"] IOC 결과 메일 발송 완료(수신:"+realname+")"
+        print(logText)
         loglog(logText)
 
     except Exception as e:
@@ -389,6 +430,26 @@ def sendMail(filename, filename2,jobno, jobip, jobdate, num1, num2, num3):
 
     #################################################################################################################
 
+def mailCheck(address):
+    realname = ""
+    if address == "DLZ1160@s-oil.com":
+        realname = "보안관제팀"
+    if address == "sungwoo.kwon@s-oil.com":
+        realname = "부장님"
+    if address == "jsh0119@s-oil.com":
+        realname = "승환"
+    if address == "kmh0816@s-oil.com":
+        realname = "명훈"
+    if address == "bh.lee@s-oil.com":
+        realname = "병호"
+    if address == "ksm0117@s-oil.com":
+        realname = "성민"
+    if address == "lyj0409@s-oil.com":
+        realname = "예지"
+    if address == "khw1205@s-oil.com":
+        realname = "형욱"
+
+    return realname
 
 ############################## HX 데이터 파일 만들기 #################################################################
 def writeHX(output, jobno):
@@ -404,20 +465,21 @@ def writeHX(output, jobno):
     filename = "igloo_" + yy+mm+dd
     ioc = ""
 
+    print(len(output))
+
     # 1줄 로직
-    if (len(output) == 1) and (output[0] != '변환실패'):
+    if len(output) == 1 and output[0] != '변환실패':
         value = output[0]
 
         ioc1 = "{\"igloo\":{\"execution\":["
-        ioc2 = "[{\"operator\":\"equal\",\"token\":\"processEvent/md5\",\"type\":\"md5\",\"value\":\"" + value + "\"}]"
+        ioc2 = "[{\"operator\":\"equal\",\"token\":\"processEvent/md5\",\"type\":\"md5\",\"value\":\"" + str(value) + "\"}]"
         ioc3 = "],\"presence\":["
-        ioc4 = "[{\"operator\":\"equal\",\"token\":\"fileWriteEvent/md5\",\"type\":\"md5\",\"value\":\"" + value + "\"}]"
-        ioc5 = "],\"name\":\"" + filename + "\",\"category\":\"Custom\",\"platforms\":[\"win\",\"osx\"]}}"
+        ioc4 = "[{\"operator\":\"equal\",\"token\":\"fileWriteEvent/md5\",\"type\":\"md5\",\"value\":\"" + str(value) + "\"}]"
+        ioc5 = "],\"name\":\"" + str(filename) + "\",\"category\":\"Custom\",\"platforms\":[\"win\",\"osx\"]}}"
 
         ioc = ioc1 + ioc2 + ioc3 + ioc4 + ioc5
 
-        output[0] = ioc.strip()
-        print("output 1 : " + output[0])
+        print("output 1 : " + str(ioc))
 
     # 2줄 이상 로직
     if len(output) >= 2:
@@ -429,7 +491,7 @@ def writeHX(output, jobno):
         ioc1 = "{\"igloo\":{\"execution\":["
 
         for value in output:
-            ioc2 = "[{\"operator\":\"equal\",\"token\":\"processEvent/md5\",\"type\":\"md5\",\"value\":\"" + value + "\"}]"
+            ioc2 = "[{\"operator\":\"equal\",\"token\":\"processEvent/md5\",\"type\":\"md5\",\"value\":\"" + str(value) + "\"}]"
             count += 1
 
             if value == '변환실패':
@@ -445,7 +507,7 @@ def writeHX(output, jobno):
         ioc3 = "],\"presence\":["
 
         for value in output:
-            ioc4 = "[{\"operator\":\"equal\",\"token\":\"fileWriteEvent/md5\",\"type\":\"md5\",\"value\":\"" + value + "\"}]"
+            ioc4 = "[{\"operator\":\"equal\",\"token\":\"fileWriteEvent/md5\",\"type\":\"md5\",\"value\":\"" + str(value) + "\"}]"
             count2 += 1
 
             if value == '변환실패':
@@ -459,10 +521,11 @@ def writeHX(output, jobno):
 
         ioc5 = "],\"name\":\"" + filename + "\",\"category\":\"Custom\",\"platforms\":[\"win\",\"osx\"]}}"
         ioc = ioc1 + ioc2 + ioc3 + ioc4 + ioc5
+        print("output 2 : " + ioc)
 
-    f = open(filename, 'w')
+    filename2 = "HX("+str(jobno)+")_" + yy + mm + dd
+    f = open(filename2, 'w')
 
-    print("writeHX IN" + str(list))
     f.write(ioc)
     f.close()
 
@@ -473,7 +536,7 @@ def writeExcel(jobip,jobdate,jobno):
     ##################################################################################################################
 
     print("######################################### 변환된 데이터를 excel 작성하기##############################################")
-    excelfilename = "HX_DATA(MD5,SHA1,SHA256)_결과파일_" + str(jobno) + ".xlsx"
+    excelfilename = "HX_DATA_결과파일_" + str(jobno) + ".xlsx"
     wb = openpyxl.Workbook()
     sheet = wb.active
 
@@ -495,7 +558,7 @@ def writeExcel(jobip,jobdate,jobno):
 
     print("########### 액셀 내용 작성")
     for r in curq:
-        print("row after : " + str(r[0]) + " " + r[1] + " " + r[2] + " " + r[3])
+        print("row after : " + str(r[0]) + " " + r[1] + " " + r[2] + " " + r[3]+ " " + r[4]+ " " + r[5])
 
         # no
         sheet['A' + str(line)] = no
@@ -512,17 +575,17 @@ def writeExcel(jobip,jobdate,jobno):
             sheet['D' + str(line)] = "sha1"
 
         # md5 데이터 입력 처리
-        if r[2] == 'X' and r[3] == 'X':
+        if r[1] != 'X' and r[2] == 'X' and r[3] == 'X':
             sheet['B' + str(line)] = r[1]
             sheet['C' + str(line)] = r[1]
             sheet['D' + str(line)] = "md5"
 
-        if r[4] == 'X':
+        if r[4] != 'X':
             sheet['B' + str(line)] = r[4]
             sheet['C' + str(line)] = r[4]
             sheet['D' + str(line)] = "ip"
 
-        if r[5] == 'X':
+        if r[5] != 'X':
             sheet['B' + str(line)] = r[5]
             sheet['C' + str(line)] = r[5]
             sheet['D' + str(line)] = "url"

@@ -2,6 +2,9 @@ import time
 from datetime import datetime
 import pymysql
 import connect
+import replit
+
+
 
 line = 2
 
@@ -14,7 +17,7 @@ while 1:
     print("START")
     time.sleep(1)
 
-    print("##################################### 이메일 발송을 위한 명단 획득 #######################################")
+    ##################################### 이메일 발송을 위한 명단 획득 #######################################
     connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc',
                             charset='utf8')
     curq = connq.cursor()
@@ -27,7 +30,6 @@ while 1:
         if r[0] == None or r[0].strip() == "":
             address = 'dlz1160@s-oil.com'
         address = r[0]
-    print("메일 수신대상 : " + address)
 
     #################################### 작업큐에 대기중인 장업이 있는지 확인 ################################
     connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
@@ -58,8 +60,14 @@ while 1:
                 jobstatus = i[3]
                 jobtype = i[4]
                 jobmail = i[5]
-
             connq.close()
+
+            realname = connect.mailCheck(jobmail)
+
+            logText = "작업[" + str(jobno) + "] " + str(jobip) + "님께서 " + str(jobtype) + " 작업 요청 (To : " +str(realname)+ ")"
+            print(logText)
+            connect.loglog(logText)
+
             #################################
             time.sleep(60)
             ####추출된 데이터 총 길이, HX 파일 내용, 엑셀파일 이름
@@ -76,6 +84,7 @@ while 1:
                 connq.close()
 
     print("END")
+    replit.clear()
 
 
 

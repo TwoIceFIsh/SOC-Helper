@@ -52,8 +52,8 @@ public class dbrw {
 					count1 += 1;
 				}
 
-				status_log status_log = new status_log();
-				status_log.insert_log(dateToStr, ipAddress, count1, "CVE", mailAddress);
+//				status_log status_log = new status_log();
+//				status_log.insert_log(dateToStr, ipAddress, count1, "CVE", mailAddress);
 
 				return no;
 			} catch (IOException e) {
@@ -157,8 +157,8 @@ public class dbrw {
 					count2 += 1;
 				}
 
-				status_log status_log = new status_log();
-				status_log.insert_log(dateToStr, ipAddress, count2, "IOC", mailAddress);
+//				status_log status_log = new status_log();
+//				status_log.insert_log(dateToStr, ipAddress, count2, "IOC", mailAddress);
 
 				return no;
 			} catch (IOException e) {
