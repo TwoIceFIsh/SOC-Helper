@@ -320,12 +320,12 @@ def getList(jobno, jobip, jobdate):
 
         outout = []
         for i in output:
-           if i == "변환실패":
+           if i == "변환실패" or i is None:
                continue
            else:
                outout.append(i)
 
-        logText = "작업["+str(jobno)+ "] 총 [" + str(len(outout))+ "/" +  str(len(input))  + "]개 데이터 HX 파일 생성 완료 "+md5Text+sha1Text+sha256Text
+        logText = "작업["+str(jobno)+ "] 총 [" + str(len(outout))+ "/" +  str(len(input))  + "]개 데이터 HX 파일 생성 완료 "+md5Text+sha1Text+sha256Text+ipText+urlText
         print(logText)
         loglog(logText)
     else:
@@ -493,37 +493,40 @@ def findHX(value):
     ptype = ""
     T = ""
 
-    for i in value:
-        print(i)
-        tmp = i
-        tmp2 = tmp.replace(".","")
+    print("value: " + str(value))
 
-        if "." in i and tmp2.isdigit():
-            T = "IP"
-            eoperator = "equal"
-            etoken = "ipv4NetworkEvent/remoteIP"
-            etype = "text"
-            poperator = "equal"
-            ptoken = "ipv4NetworkEvent/remoteIP"
-            ptype = "text"
+    if value is None:
+        return
+    i = value
+    tmp = i
+    tmp2 = tmp.replace(".","")
 
-        elif "." in i:
-            T = "URL"
-            eoperator = "equal"
-            etoken = "dnsLookupEvent/hostname"
-            etype = "text"
-            poperator = "equal"
-            ptoken = "urlMonitorEvent/hostname"
-            ptype = "text"
+    if "." in i and tmp2.isdigit():
+        T = "IP"
+        eoperator = "equal"
+        etoken = "ipv4NetworkEvent/remoteIP"
+        etype = "text"
+        poperator = "equal"
+        ptoken = "ipv4NetworkEvent/remoteIP"
+        ptype = "text"
 
-        if "." not in i and ":" not in i and "/" not in i and len(i) == 32:
-            T = "MD5"
-            eoperator = "equal"
-            etoken = "processEvent/md5"
-            etype = "md5"
-            poperator = "equal"
-            ptoken = "fileWriteEvent/md5"
-            ptype = "md5"
+    elif "." in i:
+        T = "URL"
+        eoperator = "equal"
+        etoken = "dnsLookupEvent/hostname"
+        etype = "text"
+        poperator = "equal"
+        ptoken = "urlMonitorEvent/hostname"
+        ptype = "text"
+
+    if "." not in i and ":" not in i and "/" not in i and len(i) == 32:
+        T = "MD5"
+        eoperator = "equal"
+        etoken = "processEvent/md5"
+        etype = "md5"
+        poperator = "equal"
+        ptoken = "fileWriteEvent/md5"
+        ptype = "md5"
 
     return eoperator,etoken,etype,poperator,ptoken,ptype
 
@@ -536,7 +539,7 @@ def writeHX(output, jobno):
     poperator = ""
     ptoken = ""
     ptype = ""
-    T = ""
+
 
     yy = datetime.today().strftime('%y')
     mm = datetime.today().strftime('%m')
@@ -545,8 +548,7 @@ def writeHX(output, jobno):
         "###########################################[생성] HX 텍스트 작성 ######################################################")
     tmp = ""
     tmp2 = ""
-    filename = "igloo_" + T +"_" + yy+mm+dd
-    ioc = ""
+    filename = "igloo_" + yy+mm+dd
 
     # 1줄 로직
     if len(output) == 1 and output[0] != '변환실패':
@@ -577,13 +579,16 @@ def writeHX(output, jobno):
         ioc1 = "{\"igloo\":{\"execution\":["
 
         for value in output:
+            if value is None:
+                continue
+
+            if value == '변환실패':
+                continue
+
             eoperator, etoken, etype, poperator, ptoken, ptype = findHX(value)
 
             ioc2 = "[{\"operator\":\""+str(eoperator)+"\",\"token\":\""+str(etoken)+"\",\"type\":\""+str(etype)+"\",\"value\":\"" + str(value) + "\"}]"
             count += 1
-
-            if value == '변환실패':
-                continue
 
             if len(output) == count:
                 tmp = tmp + ioc2
@@ -595,11 +600,17 @@ def writeHX(output, jobno):
         ioc3 = "],\"presence\":["
 
         for value in output:
-            ioc4 = "[{\"operator\":\""+str(poperator)+"\",\"token\":\""+str(ptoken)+"\",\"type\":\""+str(ptype)+"\",\"value\":\"" + str(value) + "\"}]"
-            count2 += 1
+            if value is None:
+                continue
 
             if value == '변환실패':
                 continue
+
+            eoperator, etoken, etype, poperator, ptoken, ptype = findHX(value)
+
+            ioc4 = "[{\"operator\":\""+str(poperator)+"\",\"token\":\""+str(ptoken)+"\",\"type\":\""+str(ptype)+"\",\"value\":\"" + str(value) + "\"}]"
+            count2 += 1
+
 
             if len(output) == count2:
                 tmp2 = tmp2 + ioc4
