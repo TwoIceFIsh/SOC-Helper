@@ -17,7 +17,7 @@ while 1:
     yesyes = 0
     for rs in curq:
         if rs[0] > 0:
-            print("############################### 작업큐에 작업 내용 불러오기 #############################")
+            print("############################### 작업큐의 내용 불러오기 #############################")
             connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
             curq = connq.cursor()
             sql4 = "SELECT * FROM jobq WHERE status = 0 AND type = 'cve' limit 1"
@@ -39,33 +39,58 @@ while 1:
                 jobmail = i[5]
 
             connq.close()
-            realname = connect.mailCheck(jobmail)
 
-            logText = "작업[" + str(jobno) + "] " + str(jobip) + "님의 " + str(jobtype) + " 작업 진행 (To : " + str(
-                realname) + ")"
-            print(logText)
-            connect.loglog(logText)
-            #####################################
-            time.sleep(60)
-            v = connect.getList(jobno, jobip, jobdate)
+            print("############################### 작업큐의 작업 갯수 확인 #############################")
+            connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
+            curq = connq.cursor()
+            sql4 = "SELECT count(no) FROM cve WHERE status = '0' AND ipip = '" + str(
+                    jobip) + "' AND time = '" + str(jobdate) +"'"
+            curq.execute(sql4)
+            connq.close()
 
-            if v == 1:
+            for j in curq:
+                num = j[0]
+
+            if num > 0:
+                #####################################
+                realname = connect.mailCheck(jobmail)
+                logText = "작업[" + str(jobno) + "] " + str(jobip) + "님의 " + str(jobtype) + " 작업 진행 (To : " + str(
+                    realname) + ")"
+                print(logText)
+                connect.loglog(logText)
+                time.sleep(60)
+
+                v = connect.getList(jobno, jobip, jobdate)
+
+                if v == 1:
+                    connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc',
+                                            charset='utf8')
+                    curq = connq.cursor()
+                    sql4 = "UPDATE jobq SET status ='1' WHERE status = '0' AND ipip = '" + str(
+                        jobip) + "' AND time = '" + str(
+                        jobdate) + "'"
+                    print(sql4)
+                    curq.execute(sql4)
+                    connq.commit()
+                    connq.close()
+
+                    logText = "작업[" + str(jobno) + "] " + str(jobip) + "님의 " + str(jobtype) + " 작업 완료"
+                    connect.loglog(logText)
+                    print(logText)
+
+            else:
                 connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc',
                                         charset='utf8')
                 curq = connq.cursor()
-                sql4 = "UPDATE jobq SET status ='1' WHERE status = '0' AND ipip = '" + str(
+                sql4 = "UPDATE jobq SET status ='2' WHERE status = '0' AND ipip = '" + str(
                     jobip) + "' AND time = '" + str(
                     jobdate) + "'"
                 print(sql4)
                 curq.execute(sql4)
                 connq.commit()
                 connq.close()
-
-                logText = "작업[" + str(jobno) + "] " + str(jobip) + "님의 " + str(jobtype) + " 작업 완료"
-                print(logText)
-
-            elif v == 0:
-                logText = "작업[" + str(jobno) + "] " + str(jobip) + "님의 " + str(jobtype) + " 작업 실패(파일내용없응)"
+                logText = "작업[" + str(jobno) + "] " + str(jobip) + "님의 " + str(jobtype) + " 작업 실패(파일내용없음)"
+                connect.loglog(logText)
                 print(logText)
 
         print("END")

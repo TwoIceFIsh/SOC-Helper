@@ -29,7 +29,7 @@ public class loglog extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 		
-		System.out.println("loglog Servlet");
+	 
 		status_log status_log = new status_log();
 		String[] log = status_log.loglog();
  

@@ -59,7 +59,7 @@
 										<p class="mb-5">오우 이런!!</p>
 									</div>
 									<div>
-										</br> 파일을 선택해주지 않으셨어요!</br> </br>기타문의사항은 병호에게 문의주세요!</br>.</br> <a
+										</br> txt파일 확장자가 아니거나 파일을 선택해주지 않으셨어요!</br> </br>기타문의사항은 병호에게 문의주세요!</br>.</br> <a
 											href="javascript:history.back()"
 											class="btn btn-primary btn-user btn-block">돌아가기</a>
 

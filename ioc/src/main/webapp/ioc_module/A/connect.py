@@ -30,6 +30,8 @@ def getList(jobno, jobip, jobdate):
         else:
             result.append(row[1])
 
+
+
     logText = "작업[" + str(jobno) + "] 총 [" + str(len(result)) + "]개 데이터 등록 "
     loglog(logText)
 

@@ -61,10 +61,21 @@ public class FIleHandleServlet2 extends HttpServlet {
 
 		final Part filePart = request.getPart("file");
 
-		if (filePart == null)
+		if (filePart == null) {
 			response.sendRedirect("http://222.110.22.168:8080/ioc/oops.jsp");
-
+			return;
+		}
+	
 		String fileName = getFileName(filePart);
+		
+		String extension = fileName.replace(".","#");
+		String []res = extension.split("#");
+		
+		if(!res[res.length-1].equals("txt")) {
+			response.sendRedirect("http://222.110.22.168:8080/ioc/oops.jsp");
+			return;
+		}
+		
 		// NAME SLICE AND FIX
 		DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
 		Date date = new Date();
@@ -96,12 +107,12 @@ public class FIleHandleServlet2 extends HttpServlet {
 
 			// 데이터 DB 작성
 			dbrw dbrw = new dbrw();
-
 			String address = dbrw.getMail();
+						String date21 = dbrw.setDate(dateToStr2);
+			dbrw.setJobq(dateToStr2 , ipAddress, "IOC", address);
 			
-			String date21 = dbrw.setDate(dateToStr2);
 			if (dbrw.readFile2(location, fileName, ipAddress, dateToStr2, address) == 1) {
-				dbrw.setJobq(dateToStr2 , ipAddress, "IOC", address);
+				
 				response.sendRedirect("http://222.110.22.168:8080/ioc/ok.jsp");
 			} else {
 				response.sendRedirect("http://222.110.22.168:8080/ioc/oops.jsp");

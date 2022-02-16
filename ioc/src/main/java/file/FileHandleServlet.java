@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
-import ioc.dbrw;
+import ioc.dbrw; 
 
 /**
  * Servlet implementation class FileHandleServlet
@@ -58,10 +58,23 @@ public class FileHandleServlet extends HttpServlet {
 
 		final Part filePart = request.getPart("file");
 
-		if (filePart == null)
+		if (filePart == null) {
 			response.sendRedirect("http://222.110.22.168:8080/ioc/oops.jsp");
+			return;
+		}
+		
 
 		String fileName = getFileName(filePart);
+		
+		String extension = fileName.replace(".","#");
+		String []res = extension.split("#");
+		
+		if(!res[res.length-1].equals("txt")) {
+			response.sendRedirect("http://222.110.22.168:8080/ioc/oops.jsp");
+			return;
+		}
+			
+		
 
 		DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
 		Date date = new Date();
@@ -96,10 +109,10 @@ public class FileHandleServlet extends HttpServlet {
 			dbrw dbrw = new dbrw();
 			String mailaddress = dbrw.getMail();
 			String date21 = dbrw.setDate(dateToStr2);
-			
+			dbrw.setJobq(dateToStr2 ,  ipAddress, "CVE", mailaddress);
 
 			if (dbrw.readFile(location, fileName, ipAddress, dateToStr2, mailaddress) == 1) {
-				dbrw.setJobq(dateToStr2 ,  ipAddress, "CVE", mailaddress);
+				
 				response.sendRedirect("http://222.110.22.168:8080/ioc/ok.jsp");
 			} else {
 				response.sendRedirect("http://222.110.22.168:8080/ioc/oops.jsp");
