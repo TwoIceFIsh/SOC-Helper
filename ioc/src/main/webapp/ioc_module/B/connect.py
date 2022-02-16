@@ -1,3 +1,4 @@
+import itertools
 import time
 import openpyxl as openpyxl
 import pymysql
@@ -14,47 +15,44 @@ import requests
 countzero = 0
 asdfasdf = []
 
-def virusTotal(list, types, jobip, jobdate):
+def virusTotal(i, types, jobip, jobdate):
     # virusTotal(sha256, "sha256", jobip, jobdate)
     # virusTotal(sha1, "sha1", jobip, jobdate)
-    result = []
-    ########################################## Virus Total 검색 시도 ##############################################
-    for i in list:
 
-        conn = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
-        cur = conn.cursor()
-        sql2 = "SELECT no, md5, sha1, sha256 from work_place WHERE " + types + " = '" + str(i) + "' AND ipip ='" + str(
-            jobip) + "' AND time = '" + str(jobdate) + "'"
-        cur.execute(sql2)
-        conn.commit()
-        conn.close()
+    conn = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
+    cur = conn.cursor()
+    sql2 = "SELECT no, md5, sha1, sha256 from work_place WHERE " + types + " = '" + str(i) + "' AND ipip ='" + str(
+        jobip) + "' AND time = '" + str(jobdate) + "'"
+    cur.execute(sql2)
+    conn.commit()
+    conn.close()
 
-        for a in cur:
-            a[1] != 'X'
-            print("기존데이터 md5 탐지 : "+a[1])
-            continue
+    for a in cur:
+        a[1] != 'X'
+        print("기존데이터 md5 탐지 : "+a[1])
+        continue
 
-        time.sleep(15)
-        try:
-            url = 'https://www.virustotal.com/vtapi/v2/file/report'
-            params = {'apikey': '645c62843256a387939a6ab31b55f4e9a409971cdfe488d78b97881443289e6a', 'resource': i}
-            response = requests.get(url, params=params)
+    time.sleep(15)
+    try:
+        url = 'https://www.virustotal.com/vtapi/v2/file/report'
+        params = {'apikey': '645c62843256a387939a6ab31b55f4e9a409971cdfe488d78b97881443289e6a', 'resource': i}
+        response = requests.get(url, params=params)
 
-            out = response.json()
+        out = response.json()
 
-            if out['md5'] != None:
-                result.append(out['md5'])
-                setup1Virustotal(out['md5'], i, types, jobip, jobdate)
-                sitecountUp(1)
-
-        except KeyError:
-            print(
-                "############################### 데이터 정상조회 실패 시에러처리 ######################################################")
-            print("sha1List KeyError :" + i)
-            setup1Virustotal("변환실패", i, types, jobip, jobdate)
+        if out['md5'] != None:
+            setup1Virustotal(out['md5'], i, types, jobip, jobdate)
             sitecountUp(1)
+            return out['md5']
 
-    return result
+    except KeyError:
+        print(
+            "############################### 데이터 정상조회 실패 시에러처리 ######################################################")
+        print("sha1List KeyError :" + i)
+        setup1Virustotal("변환실패", i, types, jobip, jobdate)
+        sitecountUp(1)
+
+
 
 def setup1Virustotal(result, input, types, jobip, jobdate):
     # virusTotal(sha256, "sha256", jobip, jobdate)
@@ -254,14 +252,15 @@ def getList(jobno, jobip, jobdate):
         print("out url1 " + str(urlList))
 
     if len(sha256) > 0 :
-        out = virusTotal(sha256, "sha256", jobip, jobdate)
-        if len(out) > 0:
+        for i in sha256:
+            out = virusTotal(i, "sha256", jobip, jobdate)
             sha256List.append(out)
             print("out sha256 " + str(out))
 
     if len(sha1) > 0 :
-        out2 = virusTotal(sha1, "sha1", jobip, jobdate)
-        if len(out2) > 0:
+        for i in sha1:
+            out2 = virusTotal(i, "sha1", jobip, jobdate)
+
             sha1List.append(out2)
             print("out sha1 " + str(out2))
 
@@ -270,13 +269,13 @@ def getList(jobno, jobip, jobdate):
     setup1(ip1, "ip", jobip, jobdate)
     setup1(url1, "url", jobip, jobdate)
 
-    input = md5 + sha256 + sha1
-    input2 = ip1 + url1
+    input = md5 + sha256 + sha1 + ip1 + url1
 
-    output = md5List + sha256List + sha1List
-    output2 = ipList + urlList
 
-    print(" output2 = ipList + url1List " + str(output2))
+    output = md5List + sha256List + sha1List + ipList + urlList
+
+
+    print("output" + str(output))
 
     md5Text2 = ""
     sha1Text2 = ""
@@ -295,11 +294,8 @@ def getList(jobno, jobip, jobdate):
     if len(urlList) > 0:
         urlText2 = "[url: " + str(len(urlList)) + "/" + str(len(url1)) + "] "
 
-    print("output + output2 " +str(output) + str(output2))
-    print("input + input2 " + str(input )+ str(input2))
-
-    sum1 = len(output)+ len(output2)
-    sum2 = len(input) + len(input2)
+    sum1 = len(output)
+    sum2 = len(input)
     sumoutput = str(sum1)
     suminput = str(sum2)
 
@@ -317,7 +313,10 @@ def getList(jobno, jobip, jobdate):
 
     print("output ######"+str(output))
     if len(output) > 0:
-        filename2 = writeHX(output,jobno)
+        sumr = []
+        sumr = output
+        filename2 = writeHX(sumr, jobno)
+
 
         outout = []
         for i in output:
@@ -333,7 +332,7 @@ def getList(jobno, jobip, jobdate):
         filename2 = 0
 
         ################################################################################################################
-    if len(output) > 0 or len(output2) > 0:
+    if len(output) > 0 :
         filename = writeExcel(jobip, jobdate, jobno)
         # 작업번호 [41] 총 [6/4]개 데이터 EXCEL 데이터 작성 완료 [md5: 1/1] [sha1: 2/1] [sha256: 2/1] [ip: 1/1]
         logText = "작업[" + str(
@@ -341,14 +340,14 @@ def getList(jobno, jobip, jobdate):
         print(logText)
         loglog(logText)
 
-    sendMail(filename, filename2, jobno, jobip, jobdate, len(output), len(output2), total2)
+    sendMail(filename, filename2, jobno, jobip, jobdate, len(output), total2)
 
     return 1
 
 
 
 
-def sendMail(filename, filename2,jobno, jobip, jobdate, num1, num2, num3):
+def sendMail(filename, filename2,jobno, jobip, jobdate, num1, num3):
     print(
         "############################################## 메일 보내기 ##########################################################")
 
@@ -409,8 +408,8 @@ def sendMail(filename, filename2,jobno, jobip, jobdate, num1, num2, num3):
         # 메일 콘텐츠 설정
         message = MIMEMultipart("mixed")
 
-        total = num1+num2
-        ex = num3-num1-num2
+        total = num1
+        ex = num3-num1
         # 메일 송/수신 옵션 설정
         message.set_charset('utf-8')
         message['From'] = from_addr
@@ -484,8 +483,60 @@ def mailCheck(address):
 
     return realname
 
+
+def findHX(value):
+    eoperator = ""
+    etoken = ""
+    etype = ""
+    poperator = ""
+    ptoken = ""
+    ptype = ""
+    T = ""
+
+    for i in value:
+        print(i)
+        tmp = i
+        tmp2 = tmp.replace(".","")
+
+        if "." in i and tmp2.isdigit():
+            T = "IP"
+            eoperator = "equal"
+            etoken = "ipv4NetworkEvent/remoteIP"
+            etype = "text"
+            poperator = "equal"
+            ptoken = "ipv4NetworkEvent/remoteIP"
+            ptype = "text"
+
+        elif "." in i:
+            T = "URL"
+            eoperator = "equal"
+            etoken = "dnsLookupEvent/hostname"
+            etype = "text"
+            poperator = "equal"
+            ptoken = "urlMonitorEvent/hostname"
+            ptype = "text"
+
+        if "." not in i and ":" not in i and "/" not in i and len(i) == 32:
+            T = "MD5"
+            eoperator = "equal"
+            etoken = "processEvent/md5"
+            etype = "md5"
+            poperator = "equal"
+            ptoken = "fileWriteEvent/md5"
+            ptype = "md5"
+
+    return eoperator,etoken,etype,poperator,ptoken,ptype
+
 ############################## HX 데이터 파일 만들기 #################################################################
 def writeHX(output, jobno):
+
+    eoperator = ""
+    etoken = ""
+    etype = ""
+    poperator = ""
+    ptoken = ""
+    ptype = ""
+    T = ""
 
     yy = datetime.today().strftime('%y')
     mm = datetime.today().strftime('%m')
@@ -494,24 +545,29 @@ def writeHX(output, jobno):
         "###########################################[생성] HX 텍스트 작성 ######################################################")
     tmp = ""
     tmp2 = ""
-    filename = "igloo_" + yy+mm+dd
+    filename = "igloo_" + T +"_" + yy+mm+dd
     ioc = ""
-
-    print(len(output))
 
     # 1줄 로직
     if len(output) == 1 and output[0] != '변환실패':
         value = output[0]
+        eoperator, etoken, etype, poperator, ptoken, ptype = findHX(value)
 
         ioc1 = "{\"igloo\":{\"execution\":["
-        ioc2 = "[{\"operator\":\"equal\",\"token\":\"processEvent/md5\",\"type\":\"md5\",\"value\":\"" + str(value) + "\"}]"
+        ioc2 = "[{\"operator\":\""+str(eoperator)+"\",\"token\":\""+str(etoken)+"\",\"type\":\""+str(etype)+"\",\"value\":\"" + str(value) + "\"}]"
         ioc3 = "],\"presence\":["
-        ioc4 = "[{\"operator\":\"equal\",\"token\":\"fileWriteEvent/md5\",\"type\":\"md5\",\"value\":\"" + str(value) + "\"}]"
+        ioc4 = "[{\"operator\":\""+str(poperator)+"\",\"token\":\""+str(ptoken)+"\",\"type\":\""+str(ptype)+"\",\"value\":\"" + str(value) + "\"}]"
         ioc5 = "],\"name\":\"" + str(filename) + "\",\"category\":\"Custom\",\"platforms\":[\"win\",\"osx\"]}}"
 
         ioc = ioc1 + ioc2 + ioc3 + ioc4 + ioc5
 
         print("output 1 : " + str(ioc))
+
+        filename2 = "HX 파일_작업[" + str(jobno) + "]_" + str(len(output)) + "건_.hx"
+        f = open(filename2, 'w')
+        print(str(ioc))
+        f.write(str(ioc))
+        f.close()
 
     # 2줄 이상 로직
     if len(output) >= 2:
@@ -521,7 +577,9 @@ def writeHX(output, jobno):
         ioc1 = "{\"igloo\":{\"execution\":["
 
         for value in output:
-            ioc2 = "[{\"operator\":\"equal\",\"token\":\"processEvent/md5\",\"type\":\"md5\",\"value\":\"" + str(value) + "\"}]"
+            eoperator, etoken, etype, poperator, ptoken, ptype = findHX(value)
+
+            ioc2 = "[{\"operator\":\""+str(eoperator)+"\",\"token\":\""+str(etoken)+"\",\"type\":\""+str(etype)+"\",\"value\":\"" + str(value) + "\"}]"
             count += 1
 
             if value == '변환실패':
@@ -537,7 +595,7 @@ def writeHX(output, jobno):
         ioc3 = "],\"presence\":["
 
         for value in output:
-            ioc4 = "[{\"operator\":\"equal\",\"token\":\"fileWriteEvent/md5\",\"type\":\"md5\",\"value\":\"" + str(value) + "\"}]"
+            ioc4 = "[{\"operator\":\""+str(poperator)+"\",\"token\":\""+str(ptoken)+"\",\"type\":\""+str(ptype)+"\",\"value\":\"" + str(value) + "\"}]"
             count2 += 1
 
             if value == '변환실패':
@@ -553,11 +611,10 @@ def writeHX(output, jobno):
         ioc = ioc1 + ioc2 + ioc3 + ioc4 + ioc5
         print("output 2 : " + ioc)
 
-    filename2 = "HX 파일_작업["+str(jobno)+"]_"+str(len(output))+"건.hx"
-    f = open(filename2, 'w')
-    print(str(ioc))
-    f.write(str(ioc))
-    f.close()
+        filename2 = "HX 파일_작업["+str(jobno)+"]_"+str(len(output))+"건_.hx"
+        f = open(filename2, 'w')
+        f.write(str(ioc))
+        f.close()
 
     return filename2
         ##################################################################################################################
@@ -624,4 +681,3 @@ def writeExcel(jobip,jobdate,jobno):
         no += 1
     wb.save(excelfilename)
     return excelfilename
-

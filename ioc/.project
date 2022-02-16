@@ -28,16 +28,4 @@
 		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>org.eclipse.wst.jsdt.core.jsNature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>src/main/webapp/ioc_module/B/connect.py</name>
-			<type>1</type>
-			<location>C:/Users/IGLOO/PycharmProjects/pythonProject99/connect.py</location>
-		</link>
-		<link>
-			<name>src/main/webapp/ioc_module/B/main.py</name>
-			<type>1</type>
-			<location>C:/Users/IGLOO/PycharmProjects/pythonProject99/main.py</location>
-		</link>
-	</linkedResources>
 </projectDescription>
