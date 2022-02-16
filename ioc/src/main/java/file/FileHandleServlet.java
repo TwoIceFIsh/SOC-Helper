@@ -96,9 +96,10 @@ public class FileHandleServlet extends HttpServlet {
 			dbrw dbrw = new dbrw();
 			String mailaddress = dbrw.getMail();
 			String date21 = dbrw.setDate(dateToStr2);
-			dbrw.setJobq(dateToStr2 ,  ipAddress, "CVE", mailaddress);
+			
 
 			if (dbrw.readFile(location, fileName, ipAddress, dateToStr2, mailaddress) == 1) {
+				dbrw.setJobq(dateToStr2 ,  ipAddress, "CVE", mailaddress);
 				response.sendRedirect("http://222.110.22.168:8080/ioc/ok.jsp");
 			} else {
 				response.sendRedirect("http://222.110.22.168:8080/ioc/oops.jsp");

@@ -98,10 +98,10 @@ public class FIleHandleServlet2 extends HttpServlet {
 			dbrw dbrw = new dbrw();
 
 			String address = dbrw.getMail();
-			dbrw.setJobq(dateToStr2 , ipAddress, "IOC", address);
+			
 			String date21 = dbrw.setDate(dateToStr2);
 			if (dbrw.readFile2(location, fileName, ipAddress, dateToStr2, address) == 1) {
-
+				dbrw.setJobq(dateToStr2 , ipAddress, "IOC", address);
 				response.sendRedirect("http://222.110.22.168:8080/ioc/ok.jsp");
 			} else {
 				response.sendRedirect("http://222.110.22.168:8080/ioc/oops.jsp");
