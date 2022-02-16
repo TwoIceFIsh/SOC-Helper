@@ -55,7 +55,7 @@
 							<div class="col-lg-6">
 								<div class="p-3">
 									<div class="text-center">
-										<h1 class="h4 text-gray-900 mb-2">CVE 정보수집 솔루션 1.0v</h1>
+										<h1 class="h4 text-gray-900 mb-2">500</h1>
 										<p class="mb-5">오우 이런!!</p>
 									</div>
 									<div>
