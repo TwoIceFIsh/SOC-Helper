@@ -30,24 +30,14 @@
 	</natures>
 	<linkedResources>
 		<link>
-			<name>src/main/webapp/ioc_module/A/connect.py</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/PycharmProjects/pythonProject55/connect.py</locationURI>
-		</link>
-		<link>
-			<name>src/main/webapp/ioc_module/A/main.py</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/PycharmProjects/pythonProject55/main.py</locationURI>
-		</link>
-		<link>
 			<name>src/main/webapp/ioc_module/B/connect.py</name>
 			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/PycharmProjects/pythonProject99/connect.py</locationURI>
+			<location>C:/Users/IGLOO/PycharmProjects/pythonProject99/connect.py</location>
 		</link>
 		<link>
 			<name>src/main/webapp/ioc_module/B/main.py</name>
 			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/PycharmProjects/pythonProject99/main.py</locationURI>
+			<location>C:/Users/IGLOO/PycharmProjects/pythonProject99/main.py</location>
 		</link>
 	</linkedResources>
 </projectDescription>
