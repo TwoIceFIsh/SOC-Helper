@@ -13,7 +13,7 @@ dd=datetime.today().strftime('%d')
 count = 1
 
 while 1:
-    print("START")
+    #print("START")
     time.sleep(1)
     #################################### 작업큐에 대기중인 장업이 있는지 확인 ################################
     connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
@@ -103,7 +103,7 @@ while 1:
                 connect.loglog(logText)
                 print(logText)
 
-    print("END")
+    #("END")
 
 
 

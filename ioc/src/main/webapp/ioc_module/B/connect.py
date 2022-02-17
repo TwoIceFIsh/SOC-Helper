@@ -573,7 +573,6 @@ def isIP(value):
 def writeHX(output, jobno, jobfilename):
     filename = jobfilename[14:len(jobfilename) - 4]
 
-
     yy = datetime.today().strftime('%y')
     mm = datetime.today().strftime('%m')
     dd = datetime.today().strftime('%d')
@@ -581,8 +580,6 @@ def writeHX(output, jobno, jobfilename):
         "###########################################[생성] HX 텍스트 작성 ######################################################")
     tmp = ""
     tmp2 = ""
-
-
 
     # 1줄 로직
     if len(output) == 1 and output[0] != '변환실패':
@@ -621,57 +618,60 @@ def writeHX(output, jobno, jobfilename):
     # 2줄 이상 로직
 
     if len(output) >= 2:
+        print(len(output))
         count = 0
         count2 = 0
-        ioc1 = "{\"igloo\":{\"execution\":["
-
+        ioc1 = "{\"igloo\":{\"execution\":[\n"
         ipnum = 0
-        rere = 1
+        rere = 2
+        ipconut = 0
+        data = []
+        outputoutput = 0
+        ############################# 데이터 하나씩 문구 작성 ##############################
         for value in output:
-            if value is None:
+            if value is None or value == '변환실패':
                 rere += 1
                 continue
-
-            if value == '변환실패':
-                rere += 1
-                continue
-
-            #해당값이 IP냐? 그럼 continue
             if isIP(value):
-                print("################value is IP : " + value)
                 rere += 1
                 continue
+
+            data.append(value)
 
             findHXout  = []
             findHXout = findHX(value)
-            print("AAAAA : "+str(findHXout))
+            outputoutput += 1
+
             outhx = findHXout
             eoperator = outhx[0]
             etoken = outhx[1]
             etype = outhx[2]
 
             ioc2 = "[{\"operator\":\""+str(eoperator)+"\",\"token\":\""+str(etoken)+"\",\"type\":\""+str(etype)+"\",\"value\":\"" + str(value) + "\"}]"
-            rere += 1
-            print("rere : " + str(rere))
-            print("count : " + str(count))
-            print("output : " + str(len(output)))
+
+            print(len(output))
+            print("RERE" + str(rere))
             if len(output) == rere:
-                tmp = tmp + ioc2
-            else:
-                tmp = tmp + ioc2 + ","
+                print("마지막")
+                tmp = tmp + ioc2+"\n"
+                continue
+            tmp = tmp + ioc2 + ",\n"
+
+            rere += 1
+
+
+
 
         ioc2 = tmp
 
-        ioc3 = "],\"presence\":["
+        ioc3 = "\n],\"presence\":[\n"
 
+        rere2 = 1
         for value in output:
-            if value is None:
+            if value is None or value == '변환실패':
+                rere2 += 1
                 continue
 
-            if value == '변환실패':
-                continue
-
-            print("value 1 : " + str(value))
             findHXout  = []
             findHXout = findHX(value)
             eoperator = findHXout[0]
@@ -680,14 +680,15 @@ def writeHX(output, jobno, jobfilename):
             poperator = findHXout[3]
             ptoken = findHXout[4]
             ptype = findHXout[5]
-
             ioc4 = "[{\"operator\":\""+str(poperator)+"\",\"token\":\""+str(ptoken)+"\",\"type\":\""+str(ptype)+"\",\"value\":\"" + str(value) + "\"}]"
-            count2 += 1
 
-            if len(output) == count2:
-                tmp2 = tmp2 + ioc4
-            else:
-                tmp2 = tmp2 + ioc4 + ","
+            if len(output) == rere2:
+                tmp2 = tmp2 + ioc4+"\n"
+                continue
+            tmp2 = tmp2 + ioc4 + ",\n"
+            rere2 += 1
+
+
         ioc4 = tmp2
 
         ioc5 = "],\"name\":\"" + filename + "\",\"category\":\"Custom\",\"platforms\":[\"win\",\"osx\"]}}"
@@ -704,19 +705,16 @@ def writeHX(output, jobno, jobfilename):
             if value is not None and value != "변환실패":
                 valuelen += 1
 
-        print("iplen : "+str(iplen))
-        print("valuelen : " + str(valuelen))
+
 
         if iplen == valuelen:
             ioc = ioc11 + ioc4 + ioc5
-            print("output IPs : " + ioc)
-
         else:
             ioc = ioc1 + ioc2 + ioc3 + ioc4 + ioc5
-            print("output : " + ioc)
+
 
     #filename2 = "HX 파일_작업[" + str(jobno) + "]_" + str(len(output)) + "건_.hx"
-
+    print(ioc)
     filename2 = jobfilename[14:len(jobfilename) - 4] + ".hx"
     f = open(filename2, 'w')
     f.write(str(ioc))
