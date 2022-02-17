@@ -152,7 +152,12 @@ public class dbrw {
 			try {
 				String filePath = location + "\\" + fileName;
 				while ((sLine = inFile.readLine()) != null) {
-
+					
+					if(sLine.contains("[.]") || sLine.contains("hxxp")) {
+						sLine = sLine.replace("[.]", ".");
+						sLine = sLine.replace("hxxp", "http");
+					}
+					
 					no = writeLine2(sLine, filePath, returnType(sLine), ipAddress, dateToStr);
 					count2 += 1;
 				}
