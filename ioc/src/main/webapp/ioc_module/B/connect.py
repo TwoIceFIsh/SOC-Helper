@@ -571,7 +571,7 @@ def isIP(value):
 
 ############################## HX 데이터 파일 만들기 #################################################################
 def writeHX(output, jobno, jobfilename):
-    filename = jobfilename[8:len(jobfilename) - 3]
+    filename = jobfilename[14:len(jobfilename) - 4]
 
 
     yy = datetime.today().strftime('%y')
