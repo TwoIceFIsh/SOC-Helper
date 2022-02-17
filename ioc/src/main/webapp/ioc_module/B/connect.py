@@ -1,4 +1,4 @@
-import itertools
+
 import time
 import openpyxl as openpyxl
 import pymysql
@@ -130,6 +130,7 @@ def sitecountUp(num):
         if a[0] is None:
             count = 0
 
+    out = 0
     out = count + num
 
     sql4 = "UPDATE site_status SET count =" + str(out) + " where no = 1"
@@ -221,7 +222,7 @@ def getList(jobno, jobip, jobdate):
 
 
     # 작업번호 [41] 총 [4]개 데이터 처리진행 [md5: 1] [sha1: 1] [sha256: 1] [ip: 1]
-    logText = "작업[" + str(jobno) + "] 총 [" + str(total2) + "]개 데이터 등록 " + md5Text +  sha1Text +   sha256Text +   ipText +   urlText
+    logText = "작업[" + str(jobno) + "] 총 [" + str(total2) + "]개 데이터 등록 " + md5Text +sha1Text + sha256Text + ipText + urlText
     loglog(logText)
     print(logText)
     # 데이터 처리 수 추가
@@ -340,7 +341,7 @@ def getList(jobno, jobip, jobdate):
         print(logText)
         loglog(logText)
 
-    sendMail(filename, filename2, jobno, jobip, jobdate, len(output), total2)
+    #sendMail(filename, filename2, jobno, jobip, jobdate, len(output), total2)
 
     return 1
 
@@ -360,6 +361,7 @@ def sendMail(filename, filename2,jobno, jobip, jobdate, num1, num3):
     conn.commit()
     conn.close()
 
+    address = ""
     for a in cur :
         address = a[1]
 
@@ -377,6 +379,7 @@ def sendMail(filename, filename2,jobno, jobip, jobdate, num1, num3):
     cur.execute(sql)
     # 여러 줄 출력
     i = 0
+
 
     for row in cur:
         value = row[0]
@@ -485,15 +488,14 @@ def mailCheck(address):
 
 
 def findHX(value):
-    eoperator = ""
-    etoken = ""
-    etype = ""
-    poperator = ""
-    ptoken = ""
-    ptype = ""
-    T = ""
 
     print("value: " + str(value))
+    # eoperator = ""
+    # etoken =""
+    # etype = ""
+    # poperator = ""
+    # ptoken =""
+    # ptype = ""
 
     if value is None:
         return
@@ -501,14 +503,18 @@ def findHX(value):
     tmp = i
     tmp2 = tmp.replace(".","")
 
+    findHXout = []
+
     if "." in i and tmp2.isdigit():
-        T = "IP"
         eoperator = "equal"
         etoken = "ipv4NetworkEvent/remoteIP"
         etype = "text"
         poperator = "equal"
         ptoken = "ipv4NetworkEvent/remoteIP"
         ptype = "text"
+        findHXout = [eoperator , etoken, etype , poperator,ptoken,ptype]
+        print("findHXout IP" + str(findHXout))
+        return findHXout
 
     elif "." in i:
         T = "URL"
@@ -518,6 +524,16 @@ def findHX(value):
         poperator = "equal"
         ptoken = "urlMonitorEvent/hostname"
         ptype = "text"
+        findHXout.append(eoperator)
+        findHXout.append(etoken)
+        findHXout.append(etype)
+        findHXout.append(poperator)
+        findHXout.append(ptoken)
+        findHXout.append(ptype)
+        findHXout = [eoperator , etoken, etype , poperator,ptoken,ptype]
+        print("findHXout URL " + str(findHXout))
+        return findHXout
+
 
     if "." not in i and ":" not in i and "/" not in i and len(i) == 32:
         T = "MD5"
@@ -527,18 +543,29 @@ def findHX(value):
         poperator = "equal"
         ptoken = "fileWriteEvent/md5"
         ptype = "md5"
+        findHXout = [eoperator , etoken, etype , poperator,ptoken,ptype]
+        print("findHXout MD5" + str(findHXout))
+        return findHXout
 
-    return eoperator,etoken,etype,poperator,ptoken,ptype
+
+
+
+def isIP(value):
+    if value is None:
+        return "NO"
+    i = value
+    tmp = i
+    tmp2 = tmp.replace(".", "")
+
+    if "." in i and tmp2.isdigit():
+        print("isIP value : "+value)
+        return True
+
 
 ############################## HX 데이터 파일 만들기 #################################################################
 def writeHX(output, jobno):
 
-    eoperator = ""
-    etoken = ""
-    etype = ""
-    poperator = ""
-    ptoken = ""
-    ptype = ""
+
 
 
     yy = datetime.today().strftime('%y')
@@ -552,45 +579,76 @@ def writeHX(output, jobno):
 
     # 1줄 로직
     if len(output) == 1 and output[0] != '변환실패':
+        value = ""
         value = output[0]
-        eoperator, etoken, etype, poperator, ptoken, ptype = findHX(value)
+
+        findHXout = []
+        findHXout = findHX(value)
+        eoperator = findHXout[0]
+        etoken = findHXout[1]
+        etype = findHXout[2]
+        poperator = findHXout[3]
+        ptoken = findHXout[4]
+        ptype = findHXout[5]
 
         ioc1 = "{\"igloo\":{\"execution\":["
         ioc2 = "[{\"operator\":\""+str(eoperator)+"\",\"token\":\""+str(etoken)+"\",\"type\":\""+str(etype)+"\",\"value\":\"" + str(value) + "\"}]"
+        ioc11 = "{\"igloo\":{\"presence\":["
         ioc3 = "],\"presence\":["
         ioc4 = "[{\"operator\":\""+str(poperator)+"\",\"token\":\""+str(ptoken)+"\",\"type\":\""+str(ptype)+"\",\"value\":\"" + str(value) + "\"}]"
         ioc5 = "],\"name\":\"" + str(filename) + "\",\"category\":\"Custom\",\"platforms\":[\"win\",\"osx\"]}}"
 
-        ioc = ioc1 + ioc2 + ioc3 + ioc4 + ioc5
+
+        if "NO" != isIP(value):
+            ioc = ioc11 + ioc4 + ioc5
+        else:
+            ioc = ioc1 + ioc2 + ioc3 + ioc4 + ioc5
 
         print("output 1 : " + str(ioc))
 
         filename2 = "HX 파일_작업[" + str(jobno) + "]_" + str(len(output)) + "건_.hx"
         f = open(filename2, 'w')
-        print(str(ioc))
         f.write(str(ioc))
         f.close()
 
     # 2줄 이상 로직
-    if len(output) >= 2:
 
+    if len(output) >= 2:
         count = 0
         count2 = 0
         ioc1 = "{\"igloo\":{\"execution\":["
 
+        ipnum = 0
+        rere = 1
         for value in output:
             if value is None:
+                rere += 1
                 continue
 
             if value == '변환실패':
+                rere += 1
                 continue
 
-            eoperator, etoken, etype, poperator, ptoken, ptype = findHX(value)
+            #해당값이 IP냐? 그럼 continue
+            if isIP(value):
+                print("################value is true : " + value)
+                rere += 1
+                continue
+
+            findHXout  = []
+            findHXout = findHX(value)
+            print("AAAAA : "+str(findHXout))
+            outhx = findHXout
+            eoperator = outhx[0]
+            etoken = outhx[1]
+            etype = outhx[2]
 
             ioc2 = "[{\"operator\":\""+str(eoperator)+"\",\"token\":\""+str(etoken)+"\",\"type\":\""+str(etype)+"\",\"value\":\"" + str(value) + "\"}]"
-            count += 1
-
-            if len(output) == count:
+            rere += 1
+            print("rere : " + str(rere))
+            print("count : " + str(count))
+            print("output : " + str(len(output)))
+            if len(output) == rere:
                 tmp = tmp + ioc2
             else:
                 tmp = tmp + ioc2 + ","
@@ -606,11 +664,18 @@ def writeHX(output, jobno):
             if value == '변환실패':
                 continue
 
-            eoperator, etoken, etype, poperator, ptoken, ptype = findHX(value)
+            print("value 1 : " + str(value))
+            findHXout  = []
+            findHXout = findHX(value)
+            eoperator = findHXout[0]
+            etoken = findHXout[1]
+            etype = findHXout[2]
+            poperator = findHXout[3]
+            ptoken = findHXout[4]
+            ptype = findHXout[5]
 
             ioc4 = "[{\"operator\":\""+str(poperator)+"\",\"token\":\""+str(ptoken)+"\",\"type\":\""+str(ptype)+"\",\"value\":\"" + str(value) + "\"}]"
             count2 += 1
-
 
             if len(output) == count2:
                 tmp2 = tmp2 + ioc4
@@ -619,20 +684,39 @@ def writeHX(output, jobno):
         ioc4 = tmp2
 
         ioc5 = "],\"name\":\"" + filename + "\",\"category\":\"Custom\",\"platforms\":[\"win\",\"osx\"]}}"
-        ioc = ioc1 + ioc2 + ioc3 + ioc4 + ioc5
-        print("output 2 : " + ioc)
+        filename2 = ""
+        ioc11 = "{\"igloo\":{\"presence\":["
 
-        filename2 = "HX 파일_작업["+str(jobno)+"]_"+str(len(output))+"건_.hx"
-        f = open(filename2, 'w')
-        f.write(str(ioc))
-        f.close()
+        iplen = 0
+        valuelen= 0
+        for value in output:
+            aa = value
+            tmp0 = aa.replace(".","")
+            if value is not None and value !="변환실패" and "NO" != isIP(value) and tmp0.isdigit():
+                iplen += 1
+            if value is not None and value != "변환실패":
+                valuelen += 1
+
+        print("iplen : "+str(iplen))
+        print("valuelen : " + str(valuelen))
+
+        if iplen == valuelen:
+            ioc = ioc11 + ioc4 + ioc5
+            print("output IPs : " + ioc)
+
+        else:
+            ioc = ioc1 + ioc2 + ioc3 + ioc4 + ioc5
+            print("output : " + ioc)
+
+    filename2 = "HX 파일_작업[" + str(jobno) + "]_" + str(len(output)) + "건_.hx"
+    f = open(filename2, 'w')
+    f.write(str(ioc))
+    f.close()
 
     return filename2
         ##################################################################################################################
 
 def writeExcel(jobip,jobdate,jobno):
-    ##################################################################################################################
-
     print("######################################### 변환된 데이터를 excel 작성하기##############################################")
     excelfilename = "HX_DATA_결과파일_작업["+str(jobno)+"].xlsx"
     wb = openpyxl.Workbook()
