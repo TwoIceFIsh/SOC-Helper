@@ -838,7 +838,7 @@ public class dbrw {
 				pstm.setString(3, dateToStr2);
 				pstm.setInt(4, 0);
 				pstm.setString(5, type);
-				pstm.setString(6, mailaddress);
+				pstm.setString(6, mailaddress); 
 				pstm.setString(7, fileName);
 				pstm.executeUpdate();
 			}
