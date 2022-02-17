@@ -97,7 +97,7 @@ while 1:
                     connq.commit()
                     connq.close()
 
-                    logText = "작업[" + str(jobno) + "] " + str(jobip) + "님의 " + str(jobtype) + " 작업 실패(공백)"
+                    logText = "작업[" + str(jobno) + "] " + str(jobip) + "님의 " + str(jobtype) + " 작업실패(한글포함)"
                     print(logText)
                     connect.loglog(logText)
 
