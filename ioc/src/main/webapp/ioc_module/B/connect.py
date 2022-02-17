@@ -573,9 +573,6 @@ def isIP(value):
 def writeHX(output, jobno, jobfilename):
     filename = jobfilename[14:len(jobfilename) - 4]
 
-    yy = datetime.today().strftime('%y')
-    mm = datetime.today().strftime('%m')
-    dd = datetime.today().strftime('%d')
     print(
         "###########################################[생성] HX 텍스트 작성 ######################################################")
     tmp = ""
@@ -608,7 +605,6 @@ def writeHX(output, jobno, jobfilename):
         else:
             ioc = ioc1 + ioc2 + ioc3 + ioc4 + ioc5
 
-        print("output 1 : " + str(ioc))
 
         filename2 = "HX 파일_작업[" + str(jobno) + "]_" + str(len(output)) + "건_.hx"
         f = open(filename2, 'w')
@@ -616,26 +612,24 @@ def writeHX(output, jobno, jobfilename):
         f.close()
 
     # 2줄 이상 로직
-
     if len(output) >= 2:
         print(len(output))
-        count = 0
-        count2 = 0
+
         ioc1 = "{\"igloo\":{\"execution\":[\n"
-        ipnum = 0
-        rere = 2
-        ipconut = 0
         data = []
         outputoutput = 0
         ############################# 데이터 하나씩 문구 작성 ##############################
+        P = 0
+        N = 0
+        O = 0
         for value in output:
-            if value is None or value == '변환실패':
-                rere += 1
-                continue
-            if isIP(value):
-                rere += 1
+            O += 1
+            ############ 변환 안되는 건은 N 증가 ###################
+            if value is None or value == '변환실패' or isIP(value):
+                N += 1
                 continue
 
+            ############# 변환된 친구들 P 증가 ####################
             data.append(value)
 
             findHXout  = []
@@ -648,51 +642,43 @@ def writeHX(output, jobno, jobfilename):
             etype = outhx[2]
 
             ioc2 = "[{\"operator\":\""+str(eoperator)+"\",\"token\":\""+str(etoken)+"\",\"type\":\""+str(etype)+"\",\"value\":\"" + str(value) + "\"}]"
+            P += 1
+            #######################################################
 
-            print(len(output))
-            print("RERE" + str(rere))
-            if len(output) == rere:
+            print("P : " + str(P) + " N : " + str(N))
+            if P+N == len(output):
                 print("마지막")
                 tmp = tmp + ioc2+"\n"
                 continue
             tmp = tmp + ioc2 + ",\n"
 
-            rere += 1
-
-
-
-
         ioc2 = tmp
 
         ioc3 = "\n],\"presence\":[\n"
 
-        rere2 = 1
+        P = 0
+        N = 0
         for value in output:
             if value is None or value == '변환실패':
-                rere2 += 1
+                N+=1
                 continue
 
-            findHXout  = []
             findHXout = findHX(value)
-            eoperator = findHXout[0]
-            etoken = findHXout[1]
-            etype = findHXout[2]
             poperator = findHXout[3]
             ptoken = findHXout[4]
             ptype = findHXout[5]
             ioc4 = "[{\"operator\":\""+str(poperator)+"\",\"token\":\""+str(ptoken)+"\",\"type\":\""+str(ptype)+"\",\"value\":\"" + str(value) + "\"}]"
 
-            if len(output) == rere2:
+            P += 1
+            if len(output) == N+P:
                 tmp2 = tmp2 + ioc4+"\n"
                 continue
             tmp2 = tmp2 + ioc4 + ",\n"
-            rere2 += 1
 
 
         ioc4 = tmp2
 
         ioc5 = "],\"name\":\"" + filename + "\",\"category\":\"Custom\",\"platforms\":[\"win\",\"osx\"]}}"
-        filename2 = ""
         ioc11 = "{\"igloo\":{\"presence\":["
 
         iplen = 0
@@ -705,15 +691,11 @@ def writeHX(output, jobno, jobfilename):
             if value is not None and value != "변환실패":
                 valuelen += 1
 
-
-
         if iplen == valuelen:
             ioc = ioc11 + ioc4 + ioc5
         else:
             ioc = ioc1 + ioc2 + ioc3 + ioc4 + ioc5
 
-
-    #filename2 = "HX 파일_작업[" + str(jobno) + "]_" + str(len(output)) + "건_.hx"
     print(ioc)
     filename2 = jobfilename[14:len(jobfilename) - 4] + ".hx"
     f = open(filename2, 'w')
@@ -721,6 +703,7 @@ def writeHX(output, jobno, jobfilename):
     f.close()
 
     return filename2
+
         ##################################################################################################################
 
 def writeExcel(jobip,jobdate,jobno):
