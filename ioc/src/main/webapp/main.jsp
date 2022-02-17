@@ -85,8 +85,7 @@
 
 									<h1 class="h6 text-gray-900 mb-2">3. IOC 지표생성 솔루션 2.0v</h1>
 									<p class="mb-4">
-										HX 파일(MD5/SHA256/SHA1/IP/URL)을 생성해요!</br> </br>타입에 상관없이 다음과 같이 텍스트 파일
-										업로드!</br> </br> (sample.txt)</br> https://www.sdifjsod.com</br>111.222.111.222</br>md5</br>sha1</br>sha256
+										정보를 올려 HX 파일(MD5/SHA256/SHA1/IP/URL)을 생성해요!</br>문자열 자동처리됨 hxxp -&gt; http  /  [.] -&gt; .</br></br> (sample.txt)</br> hxxps://www.sdifjsod.com</br>111.222[.]111.222</br>md5</br>sha1</br>sha256
 
 
 
