@@ -25,6 +25,9 @@ def getList(jobno, jobip, jobdate):
 
     result = []
     for row in cur:
+        if row[0] == "X" and row[1] == "X" and row[2] == "X" and row[3] == "X" and row[4]:
+            return 9
+
         if(row[0] is None or row[0] == ""):
             return 0
         else:

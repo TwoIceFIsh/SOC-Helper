@@ -7,9 +7,8 @@ line = 2
 
 
 while 1:
-    print("START")
+
     time.sleep(1)
-    print("#################################### 작업큐에 대기중인 장업이 있는지 확인 ################################")
     connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
     curq = connq.cursor()
     sql4 = "SELECT count(*) FROM jobq WHERE status = 0 AND type ='cve'  limit 1"
@@ -79,6 +78,22 @@ while 1:
                     connect.loglog(logText)
                     print(logText)
 
+                if v == 9:
+                    connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc',
+                                            charset='utf8')
+                    curq = connq.cursor()
+                    sql4 = "UPDATE jobq SET status ='9' WHERE status = '0' AND ipip = '" + str(
+                        jobip) + "' AND time = '" + str(
+                        jobdate) + "'"
+                    print(sql4)
+                    curq.execute(sql4)
+                    connq.commit()
+                    connq.close()
+
+                    logText = "작업[" + str(jobno) + "] " + str(jobip) + "님의 " + str(jobtype) + " 작업실패(한글포함)"
+                    print(logText)
+                    connect.loglog(logText)
+
             else:
                 connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc',
                                         charset='utf8')
@@ -94,4 +109,3 @@ while 1:
                 connect.loglog(logText)
                 print(logText)
 
-        print("END")
