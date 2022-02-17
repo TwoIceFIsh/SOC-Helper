@@ -571,8 +571,7 @@ def isIP(value):
 
 ############################## HX 데이터 파일 만들기 #################################################################
 def writeHX(output, jobno, jobfilename):
-
-
+    filename = jobfilename[8:len(jobfilename) - 3]
 
 
     yy = datetime.today().strftime('%y')
@@ -583,7 +582,7 @@ def writeHX(output, jobno, jobfilename):
     tmp = ""
     tmp2 = ""
 
-    filename = jobfilename[8:]
+
 
     # 1줄 로직
     if len(output) == 1 and output[0] != '변환실패':
@@ -716,8 +715,10 @@ def writeHX(output, jobno, jobfilename):
             ioc = ioc1 + ioc2 + ioc3 + ioc4 + ioc5
             print("output : " + ioc)
 
-    filename2 = "HX 파일_작업[" + str(jobno) + "]_" + str(len(output)) + "건_.hx"
-    f = open(filename, 'w')
+    #filename2 = "HX 파일_작업[" + str(jobno) + "]_" + str(len(output)) + "건_.hx"
+
+    filename2 = jobfilename[8:len(jobfilename) - 3] + ".hx"
+    f = open(filename2, 'w')
     f.write(str(ioc))
     f.close()
 
