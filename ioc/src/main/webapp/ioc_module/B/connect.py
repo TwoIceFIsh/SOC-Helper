@@ -194,10 +194,17 @@ def getList(jobno, jobip, jobdate):
             sha256.append(row[2])
 
         if row[3] != 'X':
-            ip1.append(row[3])
+            a = row[3]
+            a = a.replace("[.]",".")
+            print("replace [.] > . "+a)
+            ip1.append(a)
 
         if row[4] != 'X':
-            url1.append(row[4])
+            a = row[4]
+            a = a.replace("hxxp", "http")
+            a = a.replace("[.]",".")
+            print("replace hxxp [.]> http ."+ a)
+            url1.append(a)
 
     md5Text = ""
     sha1Text = ""
@@ -233,8 +240,8 @@ def getList(jobno, jobip, jobdate):
     md5List = []
     ipList = []
     urlList = []
-    sha256List= []
-    sha1List=[]
+    sha256List = []
+    sha1List = []
 
     # sha1, sha256 변환 시작
     if len(md5)> 0:
@@ -341,7 +348,7 @@ def getList(jobno, jobip, jobdate):
         print(logText)
         loglog(logText)
 
-    #sendMail(filename, filename2, jobno, jobip, jobdate, len(output), total2)
+    sendMail(filename, filename2, jobno, jobip, jobdate, len(output), total2)
 
     return 1
 
@@ -631,7 +638,7 @@ def writeHX(output, jobno):
 
             #해당값이 IP냐? 그럼 continue
             if isIP(value):
-                print("################value is true : " + value)
+                print("################value is IP : " + value)
                 rere += 1
                 continue
 
