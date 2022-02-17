@@ -820,7 +820,7 @@ public class dbrw {
 				result = resultSet.getInt(1);
 
 			}
-			sql = "INSERT INTO jobq VALUES (?,?,?,?,?,?)";
+			sql = "INSERT INTO jobq VALUES (?,?,?,?,?,?,?)";
 			if (result == 0) {
 				pstm = conn.prepareStatement(sql);
 				pstm.setInt(1, 1);
