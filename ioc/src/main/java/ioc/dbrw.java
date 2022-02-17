@@ -46,6 +46,10 @@ public class dbrw {
 			int count1 = 0;
 			try {
 				while ((sLine = inFile.readLine()) != null) {
+					sLine = sLine.strip();
+					if (sLine.matches(".*[¤¡-¤¾¤¿-¤Ó°¡-ÆR]+.*")) {
+						sLine = "";
+					}
 
 					// ÆÄÀÏÀ» ÇÑÁÙ¾¿ ÀÐ¾î¼­ DB¿¡ writeLine ÇÑ´Ù
 					no = writeLine(sLine, ipAddress, dateToStr);
@@ -152,12 +156,16 @@ public class dbrw {
 			try {
 				String filePath = location + "\\" + fileName;
 				while ((sLine = inFile.readLine()) != null) {
-					
-					if(sLine.contains("[.]") || sLine.contains("hxxp")) {
+					sLine = sLine.strip();
+					if (sLine.matches(".*[¤¡-¤¾¤¿-¤Ó°¡-ÆR]+.*")) {
+						sLine = "";
+					}
+
+					if (sLine.contains("[.]") || sLine.contains("hxxp")) {
 						sLine = sLine.replace("[.]", ".");
 						sLine = sLine.replace("hxxp", "http");
 					}
-					
+
 					no = writeLine2(sLine, filePath, returnType(sLine), ipAddress, dateToStr);
 					count2 += 1;
 				}
@@ -831,19 +839,18 @@ public class dbrw {
 				pstm.setString(6, mailaddress);
 				pstm.setString(7, fileName);
 				pstm.executeUpdate();
-			} else if(result > 0) {
+			} else if (result > 0) {
 				pstm = conn.prepareStatement(sql);
-				pstm.setInt(1, result+1);
+				pstm.setInt(1, result + 1);
 				pstm.setString(2, ipAddress);
 				pstm.setString(3, dateToStr2);
 				pstm.setInt(4, 0);
 				pstm.setString(5, type);
-				pstm.setString(6, mailaddress); 
+				pstm.setString(6, mailaddress);
 				pstm.setString(7, fileName);
 				pstm.executeUpdate();
 			}
- 
-		
+
 			return 1;
 
 		} catch (Exception e) {
