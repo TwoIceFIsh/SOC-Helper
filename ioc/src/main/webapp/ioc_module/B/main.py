@@ -85,6 +85,22 @@ while 1:
                     print(logText)
                     connect.loglog(logText)
 
+                if v == 9:
+                    connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc',
+                                            charset='utf8')
+                    curq = connq.cursor()
+                    sql4 = "UPDATE jobq SET status ='9' WHERE status = '0' AND ipip = '" + str(
+                        jobip) + "' AND time = '" + str(
+                        jobdate) + "'"
+                    print(sql4)
+                    curq.execute(sql4)
+                    connq.commit()
+                    connq.close()
+
+                    logText = "작업[" + str(jobno) + "] " + str(jobip) + "님의 " + str(jobtype) + " 작업 실패(공백)"
+                    print(logText)
+                    connect.loglog(logText)
+
 
 
             else:

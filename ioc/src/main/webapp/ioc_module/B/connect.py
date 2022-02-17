@@ -181,8 +181,12 @@ def getList(jobno, jobip, jobdate, jobfilename):
     curq.close()
 
     for row in curq:
+
+        if row[0] == "X" and row[1] == "X" and row[2] == "X" and row[3] == "X" and row[4]:
+            return 9
+
         if (row[0] is None or row[0] == ""):
-            return 0
+            return 9
 
         if row[0] != 'X':
             md5.append(row[0])

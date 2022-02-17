@@ -48,7 +48,7 @@ public class dbrw {
 				while ((sLine = inFile.readLine()) != null) {
 					sLine = sLine.strip();
 					if (sLine.matches(".*[¤¡-¤¾¤¿-¤Ó°¡-ÆR]+.*")) {
-						sLine = ""; 
+						sLine = "X"; 
 					}
 
 					// ÆÄÀÏÀ» ÇÑÁÙ¾¿ ÀÐ¾î¼­ DB¿¡ writeLine ÇÑ´Ù
@@ -158,7 +158,7 @@ public class dbrw {
 				while ((sLine = inFile.readLine()) != null) {
 					sLine = sLine.strip();
 					if (sLine.matches(".*[¤¡-¤¾¤¿-¤Ó°¡-ÆR]+.*")) {
-						sLine = "";
+						sLine = "X";
 					}
 
 					if (sLine.contains("[.]") || sLine.contains("hxxp")) {
