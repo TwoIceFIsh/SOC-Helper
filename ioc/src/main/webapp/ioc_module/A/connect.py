@@ -26,6 +26,14 @@ def getList(jobno, jobip, jobdate):
     result = []
     for row in cur:
         if row[0] == "X" and row[1] == "X" and row[2] == "X" and row[3] == "X" and row[4]:
+            connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
+            curq = connq.cursor()
+            sql4 = "UPDATE cve SET status = '3' WHERE ipip = '" + str(
+                jobip) + "' AND time = '" + str(jobdate) + "' AND status = '2'"
+            print(sql4)
+            curq.execute(sql4)
+            connq.commit()
+            connq.close()
             return 9
 
         if(row[0] is None or row[0] == ""):
