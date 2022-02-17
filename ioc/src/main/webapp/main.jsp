@@ -44,7 +44,7 @@
 						<div class="card shadow mb-4">
 							<div class="card-header py-3">
 								<h6 class="text-center m-0 font-weight-bold text-primary">보안관제팀
-									업무지원 통합 플랫폼 1.0v💕 by 병호</h6>
+									업무지원 통합 플랫폼 2.0v💕 by 병호</h6>
 							</div>
 
 						</div>
@@ -67,7 +67,7 @@
 									</div>
 									<hr>
 
-									<h1 class="h6 text-gray-900 mb-2">2. CVE 정보수집 솔루션 1.0v</h1>
+									<h1 class="h6 text-gray-900 mb-2">2. CVE 정보수집 솔루션 2.0v</h1>
 									<p class="mb-4 h6">
 										CVE 코드와 관련된 정보를 수집하여 보고서로 받아보세요!</br> </br> CVE로 시작하는 코드를 다음과 같은 텍스트 파일
 										업로드!</br> </br> (sample.txt) </br> CVE-2020-1123 </br> CVE-2020-1231 </br>
@@ -83,9 +83,9 @@
 
 									<hr>
 
-									<h1 class="h6 text-gray-900 mb-2">3. IOC 지표생성 솔루션 1.0v</h1>
+									<h1 class="h6 text-gray-900 mb-2">3. IOC 지표생성 솔루션 2.0v</h1>
 									<p class="mb-4">
-										HX 파일(MD5/SHA256/SHA1/),(IP/URL)을 생성해요!</br> </br>타입에 상관없이 다음과 같이 텍스트 파일
+										HX 파일(MD5/SHA256/SHA1,IP/URL)을 생성해요!</br> </br>타입에 상관없이 다음과 같이 텍스트 파일
 										업로드!</br> </br> (sample.txt)</br> https://www.sdifjsod.com</br>111.222.111.222</br>md5</br>sha1</br>sha256
 
 
