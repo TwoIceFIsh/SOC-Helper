@@ -49,6 +49,7 @@ public class dbrw {
 					sLine = sLine.strip();
 					if (sLine.matches(".*[¤¡-¤¾¤¿-¤Ó°¡-ÆR]+.*")) {
 						sLine = "X"; 
+						return 3;
 					}
 
 					// ÆÄÀÏÀ» ÇÑÁÙ¾¿ ÀÐ¾î¼­ DB¿¡ writeLine ÇÑ´Ù
@@ -159,6 +160,7 @@ public class dbrw {
 					sLine = sLine.strip();
 					if (sLine.matches(".*[¤¡-¤¾¤¿-¤Ó°¡-ÆR]+.*")) {
 						sLine = "X";
+						return 3;
 					}
 
 					if (sLine.contains("[.]") || sLine.contains("hxxp")) {
