@@ -162,7 +162,7 @@ def loglog(logText):
 
 
 
-def getList(jobno, jobip, jobdate):
+def getList(jobno, jobip, jobdate, jobfilename):
     print("################ IOC 데이터 GET ###########################")
     value = 0
     x = 1
@@ -323,7 +323,7 @@ def getList(jobno, jobip, jobdate):
     if len(output) > 0:
         sumr = []
         sumr = output
-        filename2 = writeHX(sumr, jobno)
+        filename2 = writeHX(sumr, jobno, jobfilename)
 
 
         outout = []
@@ -570,7 +570,7 @@ def isIP(value):
 
 
 ############################## HX 데이터 파일 만들기 #################################################################
-def writeHX(output, jobno):
+def writeHX(output, jobno, jobfilename):
 
 
 
@@ -582,7 +582,8 @@ def writeHX(output, jobno):
         "###########################################[생성] HX 텍스트 작성 ######################################################")
     tmp = ""
     tmp2 = ""
-    filename = "igloo_" + yy+mm+dd
+
+    filename = jobfilename[8:]
 
     # 1줄 로직
     if len(output) == 1 and output[0] != '변환실패':
@@ -716,7 +717,7 @@ def writeHX(output, jobno):
             print("output : " + ioc)
 
     filename2 = "HX 파일_작업[" + str(jobno) + "]_" + str(len(output)) + "건_.hx"
-    f = open(filename2, 'w')
+    f = open(filename, 'w')
     f.write(str(ioc))
     f.close()
 

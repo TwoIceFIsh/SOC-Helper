@@ -109,7 +109,7 @@ public class FIleHandleServlet2 extends HttpServlet {
 			dbrw dbrw = new dbrw();
 			String address = dbrw.getMail();
 						String date21 = dbrw.setDate(dateToStr2);
-			dbrw.setJobq(dateToStr2 , ipAddress, "IOC", address);
+			dbrw.setJobq(dateToStr2 , ipAddress, "IOC", address, fileName);
 			
 			if (dbrw.readFile2(location, fileName, ipAddress, dateToStr2, address) == 1) {
 				

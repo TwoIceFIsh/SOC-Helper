@@ -791,7 +791,7 @@ public class dbrw {
 
 	}
 
-	public int setJobq(String dateToStr2, String ipAddress, String type, String mailaddress) {
+	public int setJobq(String dateToStr2, String ipAddress, String type, String mailaddress, String fileName) {
 
 		int result = 0;
 		int result2 = 0;
@@ -829,6 +829,7 @@ public class dbrw {
 				pstm.setInt(4, 0);
 				pstm.setString(5, type);
 				pstm.setString(6, mailaddress);
+				pstm.setString(7, fileName);
 				pstm.executeUpdate();
 			} else if(result > 0) {
 				pstm = conn.prepareStatement(sql);
@@ -838,6 +839,7 @@ public class dbrw {
 				pstm.setInt(4, 0);
 				pstm.setString(5, type);
 				pstm.setString(6, mailaddress);
+				pstm.setString(7, fileName);
 				pstm.executeUpdate();
 			}
  

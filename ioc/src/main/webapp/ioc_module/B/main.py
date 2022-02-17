@@ -43,6 +43,7 @@ while 1:
                 jobstatus = i[3]
                 jobtype = i[4]
                 jobmail = i[5]
+                jobfilename = i[6]
             connq.close()
 
             print("############################### 작업큐의 작업 갯수 확인 #############################")
@@ -67,7 +68,7 @@ while 1:
                 time.sleep(60)
 
                 ####추출된 데이터 총 길이, HX 파일 내용, 엑셀파일 이름
-                v = connect.getList(jobno, jobip, jobdate)
+                v = connect.getList(jobno, jobip, jobdate, jobfilename)
 
                 if v == 1:
 

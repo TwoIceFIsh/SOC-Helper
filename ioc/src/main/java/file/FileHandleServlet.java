@@ -109,7 +109,7 @@ public class FileHandleServlet extends HttpServlet {
 			dbrw dbrw = new dbrw();
 			String mailaddress = dbrw.getMail();
 			String date21 = dbrw.setDate(dateToStr2);
-			dbrw.setJobq(dateToStr2 ,  ipAddress, "CVE", mailaddress);
+			dbrw.setJobq(dateToStr2 ,  ipAddress, "CVE", mailaddress, fileName);
 
 			if (dbrw.readFile(location, fileName, ipAddress, dateToStr2, mailaddress) == 1) {
 				
