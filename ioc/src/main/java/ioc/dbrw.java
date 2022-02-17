@@ -48,7 +48,7 @@ public class dbrw {
 				while ((sLine = inFile.readLine()) != null) {
 					sLine = sLine.strip();
 					if (sLine.matches(".*[¤¡-¤¾¤¿-¤Ó°¡-ÆR]+.*")) {
-						sLine = "";
+						sLine = ""; 
 					}
 
 					// ÆÄÀÏÀ» ÇÑÁÙ¾¿ ÀÐ¾î¼­ DB¿¡ writeLine ÇÑ´Ù
