@@ -163,10 +163,13 @@ public class dbrw {
 						return 3;
 					}
 
-					if (sLine.contains("[.]") || sLine.contains("hxxp")) {
+					if (sLine.contains("[.]") || sLine.contains("hxxp") || sLine.contains("HASH:")) {
 						sLine = sLine.replace("[.]", ".");
 						sLine = sLine.replace("hxxp", "http");
+						sLine = sLine.replace("HASH:", "");
 					}
+					
+					
 
 					no = writeLine2(sLine, filePath, returnType(sLine), ipAddress, dateToStr);
 					count2 += 1;
