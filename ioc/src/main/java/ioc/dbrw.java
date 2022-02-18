@@ -47,7 +47,7 @@ public class dbrw {
 			try {
 				while ((sLine = inFile.readLine()) != null) {
 					sLine = sLine.strip();
-					if (sLine.matches(".*[¤¡-¤¾¤¿-¤Ó°¡-ÆR]+.*") || sLine.matches(".*CVE.*")) {
+					if (sLine.matches(".*[¤¡-¤¾¤¿-¤Ó°¡-ÆR]+.*") || !sLine.matches(".*[CVE]+.*")) {
 						sLine = "X"; 
 						return 3;
 					}
