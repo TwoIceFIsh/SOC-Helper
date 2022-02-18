@@ -59,7 +59,7 @@
 										<p class="mb-5">오우 이런!!</p>
 									</div>
 									<div>
-										</br> 확인해주세요 </br>1. 파일확장자(txt) </br>2. 데이터안의 한글 유무 </br>3. 업로드 시 파일 선택</br> </br>기타문의사항은 병호에게 문의주세요!</br>.</br> <a
+										</br> 확인해주세요 </br>1. 허용 파일확장자 사용(txt)</br>2. 파일내용 한글 포함 금지 </br>4. 파일이름 한글 포함 금지</br>3. 업로드 시 파일 선택 필수</br> </br> </br>기타문의사항은 병호에게 문의주세요!</br>.</br> <a
 											href="javascript:history.back()"
 											class="btn btn-primary btn-user btn-block">돌아가기</a>
 

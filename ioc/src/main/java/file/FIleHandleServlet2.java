@@ -76,6 +76,11 @@ public class FIleHandleServlet2 extends HttpServlet {
 			return;
 		}
 		
+		if (fileName.matches(".*[¤¡-¤¾¤¿-¤Ó°¡-ÆR]+.*")) {
+			response.sendRedirect("http://222.110.22.168:8080/ioc/oops.jsp");
+			return;
+		}
+		
 		// NAME SLICE AND FIX
 		DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
 		Date date = new Date();

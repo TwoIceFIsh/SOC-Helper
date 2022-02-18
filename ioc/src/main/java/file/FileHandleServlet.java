@@ -73,6 +73,11 @@ public class FileHandleServlet extends HttpServlet {
 			response.sendRedirect("http://222.110.22.168:8080/ioc/oops.jsp");
 			return;
 		}
+		
+		if (fileName.matches(".*[¤¡-¤¾¤¿-¤Ó°¡-ÆR]+.*")) {
+			response.sendRedirect("http://222.110.22.168:8080/ioc/oops.jsp");
+			return;
+		}
 			
 		
 
