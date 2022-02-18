@@ -40,7 +40,7 @@ def virusTotal(i, types, jobip, jobdate):
 
         out = response.json()
 
-        if out['md5'] != None:
+        if out['md5'] != None or out['md5'] != "None":
             setup1Virustotal(out['md5'], i, types, jobip, jobdate)
             sitecountUp(1)
             return out['md5']
@@ -275,14 +275,15 @@ def getList(jobno, jobip, jobdate, jobfilename):
     if len(sha256) > 0 :
         for i in sha256:
             out = virusTotal(i, "sha256", jobip, jobdate)
-            sha256List.append(out)
+            if out is not None:
+                sha256List.append(out)
             print("out sha256 " + str(out))
 
     if len(sha1) > 0 :
         for i in sha1:
             out2 = virusTotal(i, "sha1", jobip, jobdate)
-
-            sha1List.append(out2)
+            if out2 is not None:
+                sha1List.append(out2)
             print("out sha1 " + str(out2))
 
     # 변환 완료 (status 0 > 1)
@@ -585,7 +586,8 @@ def isIP(value):
 ############################## HX 데이터 파일 만들기 #################################################################
 def writeHX(output, jobno, jobfilename):
     filename = jobfilename[14:len(jobfilename) - 4]
-
+    output2 = []
+    print(output)
     print(
         "###########################################[생성] HX 텍스트 작성 ######################################################")
     tmp = ""
@@ -618,33 +620,35 @@ def writeHX(output, jobno, jobfilename):
         else:
             ioc = ioc1 + ioc2 + ioc3 + ioc4 + ioc5
 
-
-        filename2 = "HX 파일_작업[" + str(jobno) + "]_" + str(len(output)) + "건_.hx"
+        print(ioc)
+        filename2 = jobfilename[14:len(jobfilename) - 4] + ".hx"
         f = open(filename2, 'w')
         f.write(str(ioc))
         f.close()
+        return filename2
 
     # 2줄 이상 로직
     if len(output) >= 2:
-        print(len(output))
 
         ioc1 = "{\"igloo\":{\"execution\":[\n"
-        data = []
+        ioc = ""
         outputoutput = 0
         ############################# 데이터 하나씩 문구 작성 ##############################
+
+        N2 = 0
+        O = len(output)
         P = 0
-        N = 0
-        O = 0
+        X = 0
+
+
         for value in output:
-            O += 1
+
+
             ############ 변환 안되는 건은 N 증가 ###################
             if value is None or value == '변환실패' or isIP(value):
-                N += 1
-                continue
+                N2 += 1
 
             ############# 변환된 친구들 P 증가 ####################
-            data.append(value)
-
             findHXout  = []
             findHXout = findHX(value)
             outputoutput += 1
@@ -655,15 +659,17 @@ def writeHX(output, jobno, jobfilename):
             etype = outhx[2]
 
             ioc2 = "[{\"operator\":\""+str(eoperator)+"\",\"token\":\""+str(etoken)+"\",\"type\":\""+str(etype)+"\",\"value\":\"" + str(value) + "\"}]"
-            P += 1
-            #######################################################
 
-            print("P : " + str(P) + " N : " + str(N))
-            if P+N == len(output):
+            #######################################################
+            P += 1
+            if P == O :
                 print("마지막")
                 tmp = tmp + ioc2+"\n"
-                continue
-            tmp = tmp + ioc2 + ",\n"
+            else:
+                tmp = tmp + ioc2 + ",\n"
+
+
+            print("P : " + str(P) + "/ N : " + str(N2) + "/ O : " + str(O))
 
         ioc2 = tmp
 
@@ -671,52 +677,41 @@ def writeHX(output, jobno, jobfilename):
 
         P = 0
         N = 0
+        O = len(output)
         for value in output:
             if value is None or value == '변환실패':
                 N+=1
-                continue
+            else:
 
-            findHXout = findHX(value)
-            poperator = findHXout[3]
-            ptoken = findHXout[4]
-            ptype = findHXout[5]
-            ioc4 = "[{\"operator\":\""+str(poperator)+"\",\"token\":\""+str(ptoken)+"\",\"type\":\""+str(ptype)+"\",\"value\":\"" + str(value) + "\"}]"
+                findHXout = findHX(value)
+                poperator = findHXout[3]
+                ptoken = findHXout[4]
+                ptype = findHXout[5]
+                ioc4 = "[{\"operator\":\""+str(poperator)+"\",\"token\":\""+str(ptoken)+"\",\"type\":\""+str(ptype)+"\",\"value\":\"" + str(value) + "\"}]"
 
-            P += 1
-            if len(output) == N+P:
-                tmp2 = tmp2 + ioc4+"\n"
-                continue
-            tmp2 = tmp2 + ioc4 + ",\n"
-
+                print("None : "+str(value))
+                P += 1
+                if O == N+P :
+                    tmp2 = tmp2 + ioc4+"\n"
+                else:
+                    tmp2 = tmp2 + ioc4 + ",\n"
 
         ioc4 = tmp2
 
         ioc5 = "],\"name\":\"" + filename + "\",\"category\":\"Custom\",\"platforms\":[\"win\",\"osx\"]}}"
         ioc11 = "{\"igloo\":{\"presence\":["
 
-        iplen = 0
-        valuelen= 0
-        for value in output:
-            aa = value
-            tmp0 = aa.replace(".","")
-            if value is not None and value !="변환실패" and "NO" != isIP(value) and tmp0.isdigit():
-                iplen += 1
-            if value is not None and value != "변환실패":
-                valuelen += 1
-
-        if iplen == valuelen:
+        if O == N2:
             ioc = ioc11 + ioc4 + ioc5
         else:
             ioc = ioc1 + ioc2 + ioc3 + ioc4 + ioc5
 
-    print(ioc)
-    filename2 = jobfilename[14:len(jobfilename) - 4] + ".hx"
-    f = open(filename2, 'w')
-    f.write(str(ioc))
-    f.close()
-
-    return filename2
-
+        print(ioc)
+        filename2 = jobfilename[14:len(jobfilename) - 4] + ".hx"
+        f = open(filename2, 'w')
+        f.write(str(ioc))
+        f.close()
+        return filename2
         ##################################################################################################################
 
 def writeExcel(jobip,jobdate,jobno):
