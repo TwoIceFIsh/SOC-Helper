@@ -59,7 +59,8 @@ public class hearthCheckServlet extends HttpServlet {
 			result = 7;
 		if (address.equals("khw1205@s-oil.com"))
 			result = 8;
-
+		if (address.equals("osh10105@s-oil.com"))
+			result = 9;
 		response.getWriter().println(result + "");
 		response.getWriter().close();
 	}

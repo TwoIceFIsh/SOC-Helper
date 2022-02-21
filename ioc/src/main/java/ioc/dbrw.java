@@ -535,6 +535,8 @@ public class dbrw {
 			address = "lyj0409@s-oil.com";
 		if (address.equals("h"))
 			address = "khw1205@s-oil.com";
+		if (address.equals("j"))
+			address = "osh1010@s-oil.com";
 
 		if (address.equals("") || address.isBlank())
 			address = "dlz1160@s-oil.com";

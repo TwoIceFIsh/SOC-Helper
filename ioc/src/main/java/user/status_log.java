@@ -82,6 +82,8 @@ public class status_log {
 				mailAddress = "예지";
 			if (mailAddress.equals("khw1205@s-oil.com"))
 				mailAddress = "형욱";
+			if (mailAddress.equals("osh1010@s-oil.com"))
+				mailAddress = "테스트";
 
 //			if (string.equals("CVE")) {
 //				pstm.setString(2, dateToStr + " : 작업번호 [" +""+ "] : " + ipAddress

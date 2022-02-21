@@ -29,7 +29,7 @@ function siteStatus() {
 		},
 		success: function(result) {
 
-			$('#statusMessage').html(""+result);
+			$('#statusMessage').html("" + result);
 
 
 		}
@@ -49,7 +49,7 @@ function siteStatus2() {
 		},
 		success: function(result) {
 
-			$('#statusMessage2').html(""+result);
+			$('#statusMessage2').html("" + result);
 
 
 		}
@@ -149,6 +149,12 @@ function showMailh() {
 	address = 'h'
 	setMail(address)
 }
+document.getElementById("j").addEventListener('click', showMailh);
+function showMailh() {
+	address = 'j'
+	setMail(address)
+}
+
 
 
 function setMail(address) {
@@ -177,6 +183,9 @@ function setMail(address) {
 				$('#statusMessage6').html('예지😎');
 			if (result == 8)
 				$('#statusMessage6').html('형욱😡');
+			if (result == 9)
+				$('#statusMessage6').html('테스트🥰');
+
 
 		}
 
@@ -211,6 +220,8 @@ function heartMail() {
 				$('#statusMessage6').html('예지😎');
 			if (result == 8)
 				$('#statusMessage6').html('형욱😡');
+			if (result == 9)
+				$('#statusMessage6').html('테스트🥰');
 
 
 		}
@@ -287,14 +298,14 @@ function loglog() {
 
 			tmp = '';
 			tmp2 = '';
-			for (i = 0; i < no-1; i++) {
+			for (i = 0; i < no   1; i++) {
 
 				if ('null' != splitResult[i])
 					tmp = tmp + splitResult[i] + '</br>';
 
 			}
-			
-			tmp2 = splitResult[no-1];
+
+			tmp2 = splitResult[no - 1];
 
 
 			$('#statusMessage99').html(tmp + '');
