@@ -298,7 +298,7 @@ function loglog() {
 
 			tmp = '';
 			tmp2 = '';
-			for (i = 0; i < no   1; i++) {
+			for (i = 0; i < no ; i++) {
 
 				if ('null' != splitResult[i])
 					tmp = tmp + splitResult[i] + '</br>';
