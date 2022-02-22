@@ -151,7 +151,7 @@ function showMailh() {
 }
 document.getElementById("j").addEventListener('click', showMailj);
 function showMailj() {
-	address = 'j'
+	address = 'j' 
 	setMail(address)
 }
 
