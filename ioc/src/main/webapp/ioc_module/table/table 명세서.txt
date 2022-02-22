@@ -13,8 +13,9 @@ CREATE TABLE `jobq` (
   `time` varchar(45) DEFAULT NULL,
   `status` int DEFAULT NULL,
   `type` varchar(45) DEFAULT NULL,
-  `email` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`no`)
+  `email` varchar(100) NOT NULL,
+  `filename` varchar(200) DEFAULT NULL,
+  PRIMARY KEY (`no`,`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
 
 CREATE TABLE `log` (
