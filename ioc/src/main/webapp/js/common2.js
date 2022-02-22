@@ -149,7 +149,7 @@ function showMailh() {
 	address = 'h'
 	setMail(address)
 }
-document.getElementById("j").addEventListener('click', showMailh);
+document.getElementById("j").addEventListener('click', showMailj);
 function showMailh() {
 	address = 'j'
 	setMail(address)
@@ -298,7 +298,7 @@ function loglog() {
 
 			tmp = '';
 			tmp2 = '';
-			for (i = 0; i < no ; i++) {
+			for (i = 0; i < no; i++) {
 
 				if ('null' != splitResult[i])
 					tmp = tmp + splitResult[i] + '</br>';

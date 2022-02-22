@@ -504,6 +504,8 @@ def mailCheck(address):
         realname = "예지"
     if address == "khw1205@s-oil.com":
         realname = "형욱"
+    if address == "osh1010@s-oil.com":
+        realname = "테스트"
 
     return realname
 
