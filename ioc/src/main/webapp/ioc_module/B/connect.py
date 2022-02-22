@@ -88,33 +88,6 @@ def setup1(list, type, jobip, jobdate):
         connq.commit()
     connq.close()
 
-def setup2(list, type, jobip, jobdate):
-    # setup1(md5, "md5", jobip, jobdate)
-    #setup1(md5, "md5", jobip, jobdate)
-
-    # md5 변환 완료 (status 0 > 1)
-    connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
-    curq = connq.cursor()
-    for i in list:
-        sql4 = "UPDATE work_place SET status = '2' WHERE "+type+" = '" + i + "' AND ipip = '" + str(jobip) + "' AND time = '" + str(jobdate) + "' AND status = '1'"
-        print(sql4)
-        curq.execute(sql4)
-        connq.commit()
-    connq.close()
-
-def setup3(list, type, jobip, jobdate):
-    # setup1(md5, "md5", jobip, jobdate)
-    #setup1(md5, "md5", jobip, jobdate)
-
-    # md5 변환 완료 (status 0 > 1)
-    connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
-    curq = connq.cursor()
-    for i in list:
-        sql4 = "UPDATE work_place SET status = '3' WHERE "+type+" = '" + i + "' AND ipip = '" + str(jobip) + "' AND time = '" + str(jobdate) + "' AND status = '2'"
-        print(sql4)
-        curq.execute(sql4)
-        connq.commit()
-    connq.close()
 
 
 def sitecountUp(num):
@@ -181,12 +154,13 @@ def getList(jobno, jobip, jobdate, jobfilename):
     curq.close()
 
     for row in curq:
-
-        if row[0] == "X" and row[1] == "X" and row[2] == "X" and row[3] == "X" and row[4]:
+        print(row)
+        if row[0] == "X" and row[1] == "X" and row[2] == "X" and row[3] == "X" and row[4] == "X":
             connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
             curq = connq.cursor()
             sql4 = "UPDATE work_place SET status = '3' WHERE ipip = '" + str(
-                jobip) + "' AND time = '" + str(jobdate) + "' AND status = '2'"
+                jobip) + "' AND time = '" + str(jobdate) + "' AND status = '0'"
+            print(sql4)
             print(sql4)
             curq.execute(sql4)
             connq.commit()
@@ -619,6 +593,7 @@ def writeHX(output, jobno, jobfilename):
 
         if "NO" != isIP(value):
             ioc = ioc11 + ioc4 + ioc5
+
         else:
             ioc = ioc1 + ioc2 + ioc3 + ioc4 + ioc5
 
