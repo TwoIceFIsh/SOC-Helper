@@ -28,7 +28,7 @@
 </head>
 
 <body class="bg-gradient-primary">
-
+	<script src="js/common2.js" charset="UTF-8"></script>
 	<div class="container">
 
 		<div class="card o-hidden border-0 shadow-lg my-5">
@@ -73,24 +73,32 @@
 								<div class="form-group row">
 									<div class="col-sm-6 mb-3 mb-sm-0">
 										<input type="password" class="form-control form-control-user"
-											id="pw1" placeholder="Password">
+											id="pw1" name="pw1" placeholder="비밀번호 입력"
+											onkeyup="passwordCheckFunction();">
 									</div>
 									<div class="col-sm-6">
 										<input type="password" class="form-control form-control-user"
-											id="pw2" placeholder="Repeat Password">
+											id="pw2" name="pw2" placeholder="비밀번호 재입력"
+											onkeyup="passwordCheckFunction();">
 									</div>
 								</div>
 
-								<div class="form-group row">
-									<div class="col-sm-6 mb-3 mb-sm-0">
-										<input type="text" class="form-control form-control-user"
-											id="name" placeholder="이름">
+
+								<div>
+
+
+
+									<h5 style="" id="statusMessage"></h5>
+
+									<div class="form-group row">
+										<div class="col-sm-6 mb-3 mb-sm-0">
+											<input type="text" class="form-control form-control-user"
+												id="name" placeholder="이름">
+										</div>
+
 									</div>
-
-								</div>
-								<input class="btn btn-primary btn-user btn-block" type="submit"
-									value="회원가입" name="reg" id="reg" />
-
+									<input class="btn btn-primary btn-user btn-block" type="submit"
+										value="회원가입" name="reg" id="reg" />
 							</form>
 							<hr>
 							<div class="text-center">
