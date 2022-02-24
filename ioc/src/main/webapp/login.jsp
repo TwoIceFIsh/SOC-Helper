@@ -13,7 +13,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>CVE 정보수집 솔루션</title>
+<title>보안관제 업무도우미</title>
 
 <!-- Custom fonts for this template-->
 <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet"
@@ -27,48 +27,56 @@
 
 </head>
 
-<%
-String value = (String) session.getAttribute("ok");
-if (value == null) {
-	response.sendRedirect("http://222.110.22.168:8080/ioc/login.jsp");
 
-}
-%>
-
-<body class="bg-gradient-success">
+<body class="bg-gradient-primary">
 
 	<div class="container">
 
 		<!-- Outer Row -->
 		<div class="row justify-content-center">
 
-			<div class="col-xl-12 col-lg-14 col-md-10">
+			<div class="col-xl-10 col-lg-12 col-md-9">
 
 				<div class="card o-hidden border-0 shadow-lg my-5">
 					<div class="card-body p-0">
-						<div class="card shadow mb-4">
-							<div class="card-header py-3">
-								<h6 class="text-center m-0 font-weight-bold text-primary">보안관제팀
-									업무지원 통합 플랫폼💕 by 병호</h6>
-							</div>
-
-						</div>
 						<!-- Nested Row within Card Body -->
 						<div class="row">
-							<div class="bg-password-imagea col-lg-6 d-none d-lg-block ">
-								<div class="p-2"><jsp:include page="status.jsp" /></div>
-							</div>
+							<div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
 							<div class="col-lg-6">
-								<div class="p-3">
+								<div class="p-5">
 									<div class="text-center">
-										<h1 class="h4 text-gray-900 mb-2">요청 완료!</h1>
-										<p class="mb-5">질하셨어요!</p>
+										<h1 class="h4 text-gray-900 mb-4">보안관제 포털에 오신것을 환영합니다</h1>
 									</div>
-									<div id="nokori2"></div>
-									</br>메일 수신 추가가 필요하면 병호에게 문의주세요!</br>.</br> <a href="javascript:history.back()"
-										class="btn btn-primary btn-user btn-block">돌아가기</a>
+									<form class="user" action="loginServlet" method="post">
+										<div class="form-group">
+											<input type="email" class="form-control form-control-user"
+												id="id" name="id" aria-describedby="emailHelp"
+												placeholder="이메일을 입력해주세요">
+										</div>
+										<div class="form-group">
+											<input type="password" class="form-control form-control-user"
+												id="pw" name="pw" placeholder="비밀번호를 입력해주세요">
+										</div>
+										<div class="form-group">
+											<div class="custom-control custom-checkbox small">
+												<input type="checkbox" class="custom-control-input"
+													id="customCheck"> <label
+													class="custom-control-label" for="customCheck">Remember
+													Me</label>
+											</div>
+										</div>
 
-
+										<input class="btn btn-primary btn-user btn-block"
+											type="submit" value="login"  name="login" id="login" />
+										<hr>
+									</form>
+									<hr>
+									<div class="text-center">
+										<a class="small" href="find.jsp">비밀번호 찾기</a>
+									</div>
+									<div class="text-center">
+										<a class="small" href="reg.jsp">계정생성</a>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -84,10 +92,13 @@ if (value == null) {
 	<!-- Bootstrap core JavaScript-->
 	<script src="vendor/jquery/jquery.min.js"></script>
 	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-	<script src="js/common2.js" charset="UTF-8"></script>
+
 	<!-- Core plugin JavaScript-->
 	<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
 	<!-- Custom scripts for all pages-->
 	<script src="js/sb-admin-2.min.js"></script>
+
 </body>
+
+</html>

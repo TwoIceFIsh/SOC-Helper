@@ -7,47 +7,18 @@ Date nowTime = new Date();
 SimpleDateFormat sf = new SimpleDateFormat("yy.MM.dd");
 %>
 <!DOCTYPE html PUBLIC"-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%
+String value = (String) session.getAttribute("ok");
+if (value == null) {
+	response.sendRedirect("http://222.110.22.168:8080/ioc/login.jsp");
 
+}
+%>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <div class="row ">
 
-	<%-- 	<!-- Earnings (Monthly) Card Example -->
-	<div class=" col-md-5 mb-2">
-		<div class="card border-left-primary h-60 py-3">
-			<div class="card-body">
-				<div class="row no-gutters align-items-left">
-					<div class="col-auto">
-						<div
-							class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-							오늘은</div>
-						<div class="h6 mb-1 font-weight-bold text-gray-800"><%=sf.format(nowTime)%></div>
 
-						<div
-							class="text-xs font-weight-bold text-success text-uppercase mb-1">
-							누적 데이터 처리건수(실시간)</div>
-						<div class="row h6 mb-1 font-weight-bold text-gray-800">
-							<div id="statusMessage2"
-								class="h6 mb-1 font-weight-bold text-gray-800"></div>
-							건
-						</div>
-
-						<div
-							class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-							누적 메일발송건(실시간)</div>
-						<div class="row h6 mb-1 font-weight-bold text-gray-800">
-							<div id="statusMessage"
-								class="h6 mb-1 font-weight-bold text-gray-800"></div>
-							건
-						</div>
-					</div>
-
-
-
-				</div>
-			</div>
-		</div>
-	</div> --%>
 
 	<div class=" col-md-5 mb-2">
 		<div class="card border-left-primary h-60 py-3">

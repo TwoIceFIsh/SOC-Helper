@@ -27,7 +27,13 @@
 
 </head>
 
+<%
+String value = (String) session.getAttribute("ok");
+if (value == null) {
+	response.sendRedirect("http://222.110.22.168:8080/ioc/login.jsp");
 
+}
+%>
 
 <body class="bg-gradient-danger">
 

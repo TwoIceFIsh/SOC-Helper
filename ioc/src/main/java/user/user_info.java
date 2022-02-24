@@ -40,7 +40,8 @@ public class user_info extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
 		dbrw dbrw = new dbrw();
 
 		response.getWriter().println(dbrw.getStatus4() + "");

@@ -37,6 +37,8 @@ public class siteCheckServlet2 extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
 		request.getParameter("heart");
 		
 		dbrw dbrw = new dbrw();

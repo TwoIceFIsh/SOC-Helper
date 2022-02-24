@@ -33,6 +33,11 @@
 
 	<div class="container">
 
+		<%
+		String value = (String) session.getAttribute("ok");
+		if (value != null) {
+		%>
+
 		<!-- Outer Row -->
 		<div class="row justify-content-center">
 
@@ -46,6 +51,9 @@
 								<h6 class="text-center m-0 font-weight-bold text-primary">보안관제팀
 									업무지원 통합 플랫폼 2.0v💕 by 병호</h6>
 							</div>
+
+
+							<%=value%>님 환영합니다.
 
 						</div>
 						<!-- Nested Row within Card Body -->
@@ -85,12 +93,9 @@
 
 									<h1 class="h6 text-gray-900 mb-2">3. IOC 지표생성 솔루션 2.0v</h1>
 									<p class="mb-4">
-										정보를 올려 HX 파일(MD5/SHA256/SHA1/IP/URL)을 생성해요!</br>문자열 자동처리됨 hxxp -&gt; http  /  [.] -&gt; .</br></br> (sample.txt)</br> hxxps://www.sdifjsod.com</br>111.222[.]111.222</br>md5</br>sha1</br>sha256
-
-
-
-
-									
+										정보를 올려 HX 파일(MD5/SHA256/SHA1/IP/URL)을 생성해요!</br>문자열 자동처리됨 hxxp
+										-&gt; http / [.] -&gt; .</br> </br> (sample.txt)</br>
+										hxxps://www.sdifjsod.com</br>111.222[.]111.222</br>md5</br>sha1</br>sha256
 									<form class=" form-control-user" method="POST"
 										action="FileHandleServlet2" enctype="multipart/form-data">
 										<input type="file" class="form-control form-control-user"
@@ -122,6 +127,13 @@
 				</div>
 			</div>
 		</div>
+
+		<%
+		} else {
+			response.sendRedirect("http://222.110.22.168:8080/ioc/login.jsp");
+			
+		}
+		%>
 	</div>
 
 	</div>
