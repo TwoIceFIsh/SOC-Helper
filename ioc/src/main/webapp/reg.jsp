@@ -29,78 +29,93 @@
 
 <body class="bg-gradient-primary">
 
-    <div class="container">
+	<div class="container">
 
-        <div class="card o-hidden border-0 shadow-lg my-5">
-            <div class="card-body p-0">
-                <!-- Nested Row within Card Body -->
-                <div class="row">
-                    <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
-                    <div class="col-lg-7">
-                        <div class="p-5">
-                            <div class="text-center">
-                                <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
-                            </div>
-                            <form class="user">
-                                <div class="form-group row">
-                                    <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="text" class="form-control form-control-user" id="exampleFirstName"
-                                            placeholder="First Name">
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <input type="text" class="form-control form-control-user" id="exampleLastName"
-                                            placeholder="Last Name">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <input type="email" class="form-control form-control-user" id="exampleInputEmail"
-                                        placeholder="Email Address">
-                                </div>
-                                <div class="form-group row">
-                                    <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="password" class="form-control form-control-user"
-                                            id="exampleInputPassword" placeholder="Password">
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <input type="password" class="form-control form-control-user"
-                                            id="exampleRepeatPassword" placeholder="Repeat Password">
-                                    </div>
-                                </div>
-                                <a href="login.html" class="btn btn-primary btn-user btn-block">
-                                    Register Account
-                                </a>
-                                <hr>
-                                <a href="index.html" class="btn btn-google btn-user btn-block">
-                                    <i class="fab fa-google fa-fw"></i> Register with Google
-                                </a>
-                                <a href="index.html" class="btn btn-facebook btn-user btn-block">
-                                    <i class="fab fa-facebook-f fa-fw"></i> Register with Facebook
-                                </a>
-                            </form>
-                            <hr>
-                            <div class="text-center">
-                                <a class="small" href="forgot-password.html">Forgot Password?</a>
-                            </div>
-                            <div class="text-center">
-                                <a class="small" href="login.html">Already have an account? Login!</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+		<div class="card o-hidden border-0 shadow-lg my-5">
+			<div class="card-body p-0">
+				<!-- Nested Row within Card Body -->
+				<div class="row">
+					<div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
+					<div class="col-lg-7">
+						<div class="p-5">
+							<div class="text-center">
+								<h1 class="h4 text-gray-900 mb-4">계정생성</h1>
+							</div>
+							<form class="user" action="regServlet" method="post">
 
-    </div>
 
-    <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+								<div class="form-group row">
+									<div class="col-sm-6 mb-3 mb-sm-0">
+										<input type="email" class="form-control form-control-user"
+											id="mail" placeholder="계정입력(회사이메일)">
 
-    <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+									</div>
 
-    <!-- Custom scripts for all pages-->
-    <script src="js/sb-admin-2.min.js"></script>
+									<div class="col-sm-3 mb-3 mb-sm-0">
+										<input class="btn btn-primary btn-user btn-block"
+											type="submit" value="인증코드발송" name="reg" id="reg" />
+									</div>
+								</div>
+
+								<div class="form-group row">
+									<div class="col-sm-6 mb-3 mb-sm-0">
+										<input type="email" class="form-control form-control-user"
+											id="mail" placeholder="인증코드 입력">
+
+									</div>
+
+									<div class="col-sm-3 mb-3 mb-sm-0">
+										<input class="btn btn-primary btn-user btn-block"
+											type="submit" value="인증코드확인" name="reg" id="reg" />
+									</div>
+								</div>
+
+								<div class="form-group row">
+									<div class="col-sm-6 mb-3 mb-sm-0">
+										<input type="password" class="form-control form-control-user"
+											id="pw1" placeholder="Password">
+									</div>
+									<div class="col-sm-6">
+										<input type="password" class="form-control form-control-user"
+											id="pw2" placeholder="Repeat Password">
+									</div>
+								</div>
+
+								<div class="form-group row">
+									<div class="col-sm-6 mb-3 mb-sm-0">
+										<input type="text" class="form-control form-control-user"
+											id="name" placeholder="이름">
+									</div>
+
+								</div>
+								<input class="btn btn-primary btn-user btn-block" type="submit"
+									value="회원가입" name="reg" id="reg" />
+
+							</form>
+							<hr>
+							<div class="text-center">
+								<a class="small" href="find.jsp">비밀번호를 잊으셨습니까?</a>
+							</div>
+							<div class="text-center">
+								<a class="small" href="login.jsp">로그인 페이지로 이동</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<!-- Bootstrap core JavaScript-->
+	<script src="vendor/jquery/jquery.min.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+	<!-- Core plugin JavaScript-->
+	<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+	<!-- Custom scripts for all pages-->
+	<script src="js/sb-admin-2.min.js"></script>
 
 </body>
 
