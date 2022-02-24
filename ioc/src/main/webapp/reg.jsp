@@ -84,21 +84,19 @@
 								</div>
 
 
-								<div>
 
 
+								<div class="form-group row" id="statusMessagepw"></div>
 
-									<h5 style="" id="statusMessage"></h5>
-
-									<div class="form-group row">
-										<div class="col-sm-6 mb-3 mb-sm-0">
-											<input type="text" class="form-control form-control-user"
-												id="name" placeholder="이름">
-										</div>
-
+								<div class="form-group row">
+									<div class="col-sm-6 mb-3 mb-sm-0">
+										<input type="text" class="form-control form-control-user"
+											id="name" placeholder="이름">
 									</div>
-									<input class="btn btn-primary btn-user btn-block" type="submit"
-										value="회원가입" name="reg" id="reg" />
+
+								</div>
+								<input class="btn btn-primary btn-user btn-block" type="submit"
+									value="회원가입" name="reg" id="reg" />
 							</form>
 							<hr>
 							<div class="text-center">

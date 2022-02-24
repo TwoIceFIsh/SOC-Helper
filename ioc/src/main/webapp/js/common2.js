@@ -342,14 +342,13 @@ function mailCheck() {
 }
 
 function passwordCheckFunction() {
-
-	alert('');
+ 
 	var MEMBER_PW_1 = $('#pw1').val();
 	var MEMBER_PW_2 = $('#pw2').val();
 
 	if (MEMBER_PW_1 != MEMBER_PW_2 && MEMBER_PW_2 != "") {
 		$('#statusMessagepw').html('비밀번호가 달라요');
-		$('#statusMessagepw').css("color", "red");
+		$('#statusMessagepw').css('color', 'red');
 	} else {
 		$('#statusMessagepw').html('');
 	}
