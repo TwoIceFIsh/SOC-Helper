@@ -14,7 +14,6 @@
 <meta name="author" content="">
 
 <title>보안관제 업무도우미</title>
-
 <!-- Custom fonts for this template-->
 <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet"
 	type="text/css">
@@ -24,14 +23,22 @@
 
 <!-- Custom styles for this template-->
 <link href="css/sb-admin-2.css?after" rel="stylesheet">
+<link href="css/my.css" rel="stylesheet">
 
 </head>
 
-
 <body>
 
-<% String value = (String)session.getAttribute("ok"); %>
-<%=value %>
+	<h1>Pulse Animation</h1>
+
+	<svg class="pulse" viewBox="0 0 1024 1024" version="1.1"
+		xmlns="http://www.w3.org/2000/svg"
+		xmlns:xlink="http://www.w3.org/1999/xlink"> <circle id="Oval"
+		cx="512" cy="512" r="512"></circle> <circle id="Oval" cx="512"
+		cy="512" r="512"></circle> <circle id="Oval" cx="512" cy="512" r="512"></circle>
+	</svg>
+
+
 </body>
 
 </html>

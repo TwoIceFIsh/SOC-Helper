@@ -27,19 +27,19 @@
 
 </head>
 
-<body class="bg-gradient-primary">
+<body class="login-bg">
 	<script src="js/common2.js" charset="UTF-8"></script>
 	<div class="container">
 
-		<div class="card o-hidden border-0 shadow-lg my-5">
+		<div class="card o-hidden border-0 shadow-lg my-5 badge-black1">
 			<div class="card-body p-0">
 				<!-- Nested Row within Card Body -->
 				<div class="row">
-					<div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
+					<div class="col-lg-5 d-none d-lg-block login-box"></div>
 					<div class="col-lg-7">
 						<div class="p-5">
 							<div class="text-center">
-								<h1 class="h4 text-gray-900 mb-4">계정생성</h1>
+								<h1 class="h4 mb-4">계정생성</h1>
 							</div>
 							<form class="user" action="regServlet" method="post">
 
@@ -81,12 +81,14 @@
 											id="pw2" name="pw2" placeholder="비밀번호 재입력"
 											onkeyup="passwordCheckFunction();">
 									</div>
+									
 								</div>
+								<div class="form-group" id="statusMessagepw"></div>
 
 
 
 
-								<div class="form-group row" id="statusMessagepw"></div>
+								
 
 								<div class="form-group row">
 									<div class="col-sm-6 mb-3 mb-sm-0">
