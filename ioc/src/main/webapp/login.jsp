@@ -45,7 +45,8 @@
 							<div class="col-lg-6">
 								<div class="p-5">
 									<div class="text-center">
-										<h1 class="h4 text-gray-900 mb-4">보안관제 포털에 오신것을 환영합니다</h1>
+										<h3 class="h4 text-gray-900 mb-4">보안관제 포털에 오신것을 환영합니다</h2>
+										<h3 class="h4 text-gray-900 mb-4">현재 테스트 계정만 접근 가능합니다(문의: 병호)</h3>
 									</div>
 									<form class="user" action="loginServlet" method="post">
 										<div class="form-group">
