@@ -67,6 +67,80 @@ public class userDAO {
 		return no;
 	}
 
+	public static boolean find(String id) {
+
+		ResultSet rs = null;
+ 
+		Connection conn = null;
+		PreparedStatement pstm = null;
+		int no = 0;
+		try {
+			String jdbcUrl = "jdbc:mysql://localhost:3306/ioc?useUnicode=true&characterEncoding=utf8";
+			String dbId = "root";
+			String dbPass = "!Hg1373002934";
+
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			conn = DriverManager.getConnection(jdbcUrl, dbId, dbPass);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		int n = 0;
+		boolean no1 = false;
+		try {
+
+			// 계정이존재하는지
+			String sql = "SELECT exists (select * FROM user WHERE a= '" + id + "') As Q";
+			pstm = conn.prepareStatement(sql);
+			rs = pstm.executeQuery();
+
+			rs.next();
+			System.out.println("OK");
+			no1 = rs.getBoolean(1);
+			
+			if(no1 == false) {
+				return no1;
+			}
+
+			// 대기열 번호 획득
+			String sql2 = "SELECT no FROM find ORDER BY no DESC LIMIT 1";
+			pstm = conn.prepareStatement(sql2);
+			rs = pstm.executeQuery();
+
+			while (rs.next()) {
+				n = rs.getInt(1);
+			}
+
+			// 대기열 삽입
+			String sqls = "INSERT INTO find VALUES(?,?,?)";
+			pstm = conn.prepareStatement(sqls);
+			pstm.setInt(1, n + 1);
+			pstm.setString(2, id);
+			pstm.setString(3, "0");
+			pstm.executeUpdate();
+
+			return no1;
+		} catch (
+
+		Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+
+				if (pstm != null)
+					pstm.close();
+
+				if (conn != null)
+					conn.close();
+
+			} catch (Exception e) {
+			}
+		}
+		return no1;
+	}
+
 	public static boolean getEmail(String email) {
 
 		ResultSet rs = null;
@@ -311,8 +385,7 @@ public class userDAO {
 			int no = 0;
 			boolean s = false;
 			boolean ss = false;
-	 
-			
+
 			// 계정에 따른 CODE 존재여부 확인
 			String test = "SELECT exists (SELECT no FROM code WHERE a = ? AND b = ? AND c = ?) As Q";
 			pstm = conn.prepareStatement(test);
@@ -324,9 +397,8 @@ public class userDAO {
 			while (rs.next()) {
 				s = rs.getBoolean(1);
 			}
-			
-			
-			//계정이 있으면 TRUE
+
+			// 계정이 있으면 TRUE
 			String tests = "SELECT exists (SELECT a FROM user WHERE a = ?) As Q";
 			pstm = conn.prepareStatement(tests);
 			pstm.setString(1, user.getId());
@@ -335,12 +407,11 @@ public class userDAO {
 			while (rs.next()) {
 				ss = rs.getBoolean(1);
 			}
-			
-			
-			if(!s) {
+
+			if (!s) {
 				return 222;
 			}
-			if(ss) {
+			if (ss) {
 				return 333;
 			}
 
@@ -365,7 +436,6 @@ public class userDAO {
 			pstm.setString(6, "");
 			pstm.setString(7, "");
 			pstm.setString(8, "");
-			
 
 			pstm.executeUpdate();
 

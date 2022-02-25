@@ -456,14 +456,14 @@ function reg() {
 
 function enterkey() {
 	if (window.event.keyCode == 13) {
-    	login();
-    }
+		login();
+	}
 }
 
 function login() {
 	var id = $('#id').val();
 	var pw = $('#pw').val();
-	 
+
 	$.ajax({
 		type: 'POST',
 		url: './loginServlet',
@@ -478,6 +478,30 @@ function login() {
 			}
 			if (result == 333) {
 				$('#statusMessagepw').html('계정 또는 비밀번호가 틀립니다.');
+			}
+
+		}
+	});
+}
+
+
+function find() {
+	var id = $('#id').val();
+
+	$.ajax({
+		type: 'POST',
+		url: './findServlet',
+		data: {
+			id: id
+		},
+		success: function(result) {
+
+			if (result == 11) {
+				alert('비밀번호 발송 완료(3분소요)');
+				window.location.href = 'http://222.110.22.168:8080/ioc/main.jsp';
+			}
+			if (result == 333) {
+				$('#statusMessagepw').html('계정이 존재하지 않습니다.');
 			}
 
 		}

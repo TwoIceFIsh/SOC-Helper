@@ -122,7 +122,7 @@
 							</form>
 							<hr>
 							<div class="text-center">
-								<a class="small" href="#">비밀번호를 잊으셨습니까?</a>
+								<a class="small" href="find.jsp">비밀번호를 잊으셨습니까?</a>
 							</div>
 							<div class="text-center">
 								<a class="small" href="login.jsp">로그인 페이지로 이동</a>

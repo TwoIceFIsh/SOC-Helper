@@ -34,9 +34,24 @@ public class findServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
 		response.setCharacterEncoding("UTF-8");
-		response.setContentType("text/html; charset=UTF-8");// TODO Auto-generated method stub
-		
+		response.setContentType("text/html; charset=UTF-8");
+
+		String id = request.getParameter("id");
+ 
+		if (userDAO.find(id)) {
+			System.out.println("boolean");			
+			response.getWriter().println("11");
+			response.getWriter().close();
+			return;
+		} else {
+			response.getWriter().println("333");
+			response.getWriter().close();
+			return;
+
+		}
+
 	}
 
 }
