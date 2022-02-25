@@ -31,13 +31,7 @@
 
 	<h1>Pulse Animation</h1>
 
-	<svg class="pulse" viewBox="0 0 1024 1024" version="1.1"
-		xmlns="http://www.w3.org/2000/svg"
-		xmlns:xlink="http://www.w3.org/1999/xlink"> <circle id="Oval"
-		cx="512" cy="512" r="512"></circle> <circle id="Oval" cx="512"
-		cy="512" r="512"></circle> <circle id="Oval" cx="512" cy="512" r="512"></circle>
-	</svg>
-
+ <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
 
 </body>
 

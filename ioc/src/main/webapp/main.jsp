@@ -6,6 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <link href="css/my.css" rel="stylesheet">
+<link href="scss/my.scss" rel="stylesheet">
 
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport"
@@ -13,7 +14,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>보안관제 업무도우미</title>
+<title>SOC Helper</title>
 
 <!-- Custom fonts for this template-->
 <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet"
@@ -29,7 +30,7 @@
 
 
 
-<body class="bg-gradient-primary">
+<body class="bg-main-image">
 
 	<div class="container">
 
@@ -47,23 +48,25 @@
 
 					<div class="card-body p-0">
 						<div class="card shadow mb-4">
-							<div class="card-header py-3">
-								<h6 class="text-center m-0 font-weight-bold text-primary">보안관제팀
-									업무지원 통합 플랫폼 2.0v💕 by 병호</h6>
+							<div class=" card-header py-3   text-center m-0 font-weight-bold">
+								SOC Helper</div>
+
+ 
+
+
+							<div class="text-right">
+								<%=value%>님 환영합니다. <a class=" " href="logout.jsp">(로그아웃)</a>
 							</div>
-
-
-							<%=value%>님 환영합니다.
 
 						</div>
 						<!-- Nested Row within Card Body -->
 						<div class="row">
 
-							<div class="col-lg-6 d-none d-lg-block   bg-password-image">
+							<div class="col-lg-6 d-none d-lg-block   badge-black1">
 								<div class="p-2"><jsp:include page="status.jsp" /></div>
 							</div>
 
-							<div class="col-lg-6">
+							<div class="col-lg-6 ">
 								<div class="p-3 text-left">
 									<h1 class="h6 text-gray-900 mb-2">1. 보안정보 자동수집(보안뉴스, KISA
 										등)</h1>
@@ -84,14 +87,14 @@
 										action="FileHandleServlet" enctype="multipart/form-data">
 										<input type="file" class="form-control form-control-user"
 											name="file" id="file" /> <br /> <input
-											class="btn btn-success btn-user btn-block" type="submit"
-											value="txt 파일 업로드" name="upload" id="upload" />
+											class="btn btn-success btn-user btn-block color-change-2x"
+											type="submit" value="txt 파일 업로드" name="upload" id="upload" />
 									</form>
 
 
 									<hr>
 
-									<h1 class="h6 text-gray-900 mb-2">3. IOC 지표생성 솔루션 2.0v</h1>
+									<h1 class="h6   mb-2">3. IOC 지표생성 솔루션 2.0v</h1>
 									<p class="mb-4">
 										정보를 올려 HX 파일(MD5/SHA256/SHA1/IP/URL)을 생성해요!</br>문자열 자동처리됨 hxxp
 										-&gt; http / [.] -&gt; .</br> </br> (sample.txt)</br>
@@ -100,11 +103,11 @@
 										action="FileHandleServlet2" enctype="multipart/form-data">
 										<input type="file" class="form-control form-control-user"
 											name="file" id="file" /> </br> <input
-											class="btn btn-success btn-user btn-block" type="submit"
-											value="txt 파일 업로드" name="upload" id="upload" />
+											class="btn btn-success btn-user btn-block color-change-2x"
+											type="submit" value="txt 파일 업로드" name="upload" id="upload" />
 									</form>
 									<hr>
-									<h1 class="h6 text-gray-900 mb-2">4. 사이트캡쳐 솔루션</h1>
+									<h1 class="h6   mb-2">4. 사이트캡쳐 솔루션</h1>
 									<p class="mb-4">
 										외부망 IP를 통하여 접속된 웹사이트 캡처본을 받아보세요! </br> URL을 입력하여 해당 사이트를 사진으로 확인해 볼
 										수 있습니다!</br>
@@ -130,8 +133,8 @@
 
 		<%
 		} else {
-			response.sendRedirect("http://222.110.22.168:8080/ioc/login.jsp");
-			
+		response.sendRedirect("http://222.110.22.168:8080/ioc/login.jsp");
+
 		}
 		%>
 	</div>

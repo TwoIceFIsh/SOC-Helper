@@ -13,7 +13,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>보안관제 업무도우미</title>
+<title>SOC Helper</title>
 
 <!-- Custom fonts for this template-->
 <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet"
@@ -45,8 +45,8 @@
 							<div class="col-lg-6 tracking-in-expand">
 
 								<div class="p-4 ">
-									<div class="h5 title2 badge-black1 text-center"
-										data-content="Welcome to MSSP">Welcome to MSSP</div>
+									<div class="title2 badge-black1 text-center"
+										data-content="SOC Helper">SOC Helper</div>
 									<div class="text-center h6 mb-4">ID: 개인메일 / PW: P! (문의:
 										병호)</div>
 									<form class="user " action="loginServlet" method="post">
