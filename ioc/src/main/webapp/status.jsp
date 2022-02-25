@@ -13,7 +13,7 @@ if (value == null) {
 	response.sendRedirect("http://222.110.22.168:8080/ioc/login.jsp");
 
 }
-%>
+%><link rel="favicon" href="/images/favicon.ico">
 <head><link href="css/my.css" rel="stylesheet">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <div class="row ">

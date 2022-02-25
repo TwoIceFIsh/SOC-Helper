@@ -14,7 +14,7 @@
 <meta name="author" content="">
 
 <title>SOC Helper</title>
-
+<link rel="favicon" href="/images/favicon.ico">
 <!-- Custom fonts for this template-->
 <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet"
 	type="text/css">

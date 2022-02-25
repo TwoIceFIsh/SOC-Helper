@@ -21,7 +21,7 @@
 <link
 	href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
 	rel="stylesheet">
-
+<link rel="favicon" href="/images/favicon.ico">
 <!-- Custom styles for this template-->
 <link href="css/sb-admin-2.css?after" rel="stylesheet">
 <link href="css/my.css" rel="stylesheet">
@@ -43,10 +43,12 @@
 						<div class="row ">
 							<div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
 							<div class="col-lg-6 tracking-in-expand">
-
-								<div class="p-4 ">
+								<img class="text-center" src="images/ms-icon-144x144.png"
+									alt="My Image">
+								<div class="p-4">
 									<div class="title2 badge-black1 text-center"
 										data-content="SOC Helper">SOC Helper</div>
+
 									<div class="text-center h6 mb-4">ID: 개인메일 / PW: P! (문의:
 										병호)</div>
 									<form class="user " action="loginServlet" method="post">

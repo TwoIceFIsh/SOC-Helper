@@ -24,7 +24,7 @@
 <!-- Custom styles for this template-->
 <link href="css/sb-admin-2.css?after" rel="stylesheet">
 <link href="css/my.css" rel="stylesheet">
-
+<link rel="favicon" href="/images/favicon.ico">
 </head>
 
 <body>
