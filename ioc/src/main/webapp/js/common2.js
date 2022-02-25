@@ -374,6 +374,9 @@ function getCode() {
 			if (result == 2) {
 				$('#statusMessagepw').html('메일주소가 회사도메인이 아닙니다.');
 			}
+			if (result == 4) {
+				$('#statusMessagepw').html('인증코드가 이미 발송되었습니다.');
+			}
 			if (result == 9) {
 				$('#statusMessagepw').html('DB Error.');
 			}

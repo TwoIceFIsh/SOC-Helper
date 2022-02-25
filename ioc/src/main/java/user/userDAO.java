@@ -129,7 +129,7 @@ public class userDAO {
 		int n = 0;
 
 		Random random = null;
-		int code = random.nextInt(10000);
+		int code = (int)((Math.random()*10000));
 
 		ResultSet rs = null;
 		 
@@ -149,15 +149,33 @@ public class userDAO {
 
 		try {
 			int no = 0;
-			String query = "select no from code ORDER BY no limit 1";
+			int s = 0;
+			
+			
+			String querya = "select no, a,b,c from code WHERE a = ? AND c = '0' limit 1";
+			pstm = conn.prepareStatement(querya);   
+			pstm.setString(1, email);
+            rs = pstm.executeQuery();
+            
+            
+            rs.next();
+           	no = rs.getInt(4);
+           	if(s == 0) {
+           		System.out.println("인증코드가 이미 발송되었습니다.");
+           		return 4; 
+           		
+           	}
+						
+			
+			String query = "select no from code ORDER BY no desc limit 1";
 			pstm = conn.prepareStatement(query);        
-			//pstm.setInt(1, 30);
             rs = pstm.executeQuery();
             
             rs.next();
            	no = rs.getInt(1);
+           	System.out.println(no);
            
-           		// no , email, code, satus
+           	// no , email, code, satus
            	String sql = "INSERT INTO code VALUES(?,?,?,?)";
 			pstm = conn.prepareStatement(sql);
 			pstm.setInt(1, no+1);
@@ -165,7 +183,7 @@ public class userDAO {
 			pstm.setString(3, Integer.toString(code));
 			pstm.setString(4, "0");
  			pstm.executeUpdate();
-			conn.commit();
+		 
 			return 1;
 		} catch (
 

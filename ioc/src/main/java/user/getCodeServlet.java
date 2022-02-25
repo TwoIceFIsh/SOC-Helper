@@ -45,19 +45,22 @@ public class getCodeServlet extends HttpServlet {
 		String email = request.getParameter("mail");
 		email = email.toLowerCase();
 		userDAO user = new userDAO();
-		
+
 		System.out.println(email);
 
 		// 1 가능 0 가입되어있다 2 회사도메인아니다
 		if (email.contains("s-oil.com")) {
 
 			if (!user.getEmail(email)) {
-
-				if (user.setCode(email) == 1) {
+				int out = user.setCode(email);
+				if (out == 1) {
 					response.getWriter().println("1");
 					response.getWriter().close();
-				} else {
+				} else if (out == 9) {
 					response.getWriter().println("9");
+					response.getWriter().close();
+				} else if (out == 4) {
+					response.getWriter().println("4");
 					response.getWriter().close();
 				}
 
