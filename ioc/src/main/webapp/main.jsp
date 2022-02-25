@@ -78,7 +78,7 @@
 									</div>
 									<hr>
 
-									<h1 class="h6 text-gray-900 mb-2">2. CVE 정보수집 솔루션 2.0v</h1>
+									<h1 class="h6 text-gray-900 mb-2">2. CVE 정보수집</h1>
 									<p class="mb-4 h6">
 										CVE 코드와 관련된 정보를 수집하여 보고서로 받아보세요!</br> </br> CVE로 시작하는 코드를 다음과 같은 텍스트 파일
 										업로드!</br> </br> (sample.txt) </br> CVE-2020-1123 </br> CVE-2020-1231 </br>
@@ -94,7 +94,7 @@
 
 									<hr>
 
-									<h1 class="h6   mb-2">3. IOC 지표생성 솔루션 2.0v</h1>
+									<h1 class="h6   mb-2">3. HX 파일생성</h1>
 									<p class="mb-4">
 										정보를 올려 HX 파일(MD5/SHA256/SHA1/IP/URL)을 생성해요!</br>문자열 자동처리됨 hxxp
 										-&gt; http / [.] -&gt; .</br> </br> (sample.txt)</br>
@@ -107,7 +107,7 @@
 											type="submit" value="txt 파일 업로드" name="upload" id="upload" />
 									</form>
 									<hr>
-									<h1 class="h6   mb-2">4. 사이트캡쳐 솔루션</h1>
+									<h1 class="h6   mb-2">4. 사이트캡쳐</h1>
 									<p class="mb-4">
 										외부망 IP를 통하여 접속된 웹사이트 캡처본을 받아보세요! </br> URL을 입력하여 해당 사이트를 사진으로 확인해 볼
 										수 있습니다!</br>
