@@ -54,7 +54,7 @@
 									<div class="col-sm-3 mb-3 mb-sm-0">
 
 										<input class="btn btn-primary btn-user btn-block"
-											type="button" name="email" id="email" onclick="getCode();"
+											type="button" name="x" id="x" onclick="getCode();"
 											value="인증코드발송" />
 
 									</div>
@@ -63,17 +63,22 @@
 
 								</div>
 
+
 								<div class="form-group row">
 									<div class="col-sm-6 mb-3 mb-sm-0">
-										<input type="email" class="form-control form-control-user"
-											id="mail" placeholder="인증코드 입력">
+										<input type="text" class="form-control form-control-user"
+											id="code" name="code" placeholder="인증코드" />
 
 									</div>
 
 									<div class="col-sm-3 mb-3 mb-sm-0">
+
 										<input class="btn btn-primary btn-user btn-block"
-											type="submit" value="인증코드확인" name="reg" id="reg" />
+											type="button" name="z" id="z" onclick="checkCode();"
+											value="인증코드확인" />
+
 									</div>
+
 								</div>
 
 								<div class="form-group row">

@@ -386,3 +386,30 @@ function getCode() {
 }
 
 
+function checkCode() {
+	var mail = $('#mail').val();
+	var code = $('#code').val();
+
+	$.ajax({
+		type: 'POST',
+		url: './checkCodeServlet',
+		data: {
+			mail: mail,
+			code: code
+		},
+		success: function(result) {
+
+			if (result == 1) {
+				$('#statusMessagepw').html('인증완료');
+			}
+			if (result == 0) {
+				$('#statusMessagepw').html('인증실패');
+			} 
+			if (result == 9) {
+				$('#statusMessagepw').html('DB Error.');
+			}
+
+		}
+	});
+}
+

@@ -8,16 +8,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class getCodeServlet
+ * Servlet implementation class checkCodeServlet
  */
-@WebServlet("/getCodeServlet")
-public class getCodeServlet extends HttpServlet {
+@WebServlet("/checkCodeServlet")
+public class checkCodeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public getCodeServlet() {
+	public checkCodeServlet() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -38,43 +38,17 @@ public class getCodeServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 
 		String email = request.getParameter("mail");
+		String code = request.getParameter("code");
 		email = email.toLowerCase();
-		userDAO user = new userDAO();
+		
+		System.out.println(email + code);
 
-		System.out.println(email);
-
-		// 1 가능 0 가입되어있다 2 회사도메인아니다
-		if (email.contains("@s-oil.com")) {
-
-			if (!user.getEmail(email)) {
-				int out = user.setCode(email);
-				if (out == 1) {
-					response.getWriter().println("1");
-					response.getWriter().close();
-				} else if (out == 9) {
-					response.getWriter().println("9");
-					response.getWriter().close();
-				} else if (out == 4) {
-					response.getWriter().println("4");
-					response.getWriter().close();
-				}
-
-			} else {
-				response.getWriter().println("0");
-				response.getWriter().close();
-				return;
-			}
-
-		} else {
-			response.getWriter().println("2");
-			response.getWriter().close();
-		}
-
+		response.getWriter().println("2");
+		response.getWriter().close();
 	}
 
 }

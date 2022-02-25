@@ -128,11 +128,10 @@ public class userDAO {
 	public static int setCode(String email) {
 		int n = 0;
 
-		Random random = null;
-		int code = (int)((Math.random()*10000));
+		int code = (int) ((Math.random() * 10000));
 
 		ResultSet rs = null;
-		 
+
 		Connection conn = null;
 		PreparedStatement pstm = null;
 
@@ -150,40 +149,38 @@ public class userDAO {
 		try {
 			int no = 0;
 			int s = 0;
-			
-			
+
 			String querya = "select no, a,b,c from code WHERE a = ? AND c = '0' limit 1";
-			pstm = conn.prepareStatement(querya);   
+			pstm = conn.prepareStatement(querya);
 			pstm.setString(1, email);
-            rs = pstm.executeQuery();
-            
-            
-            rs.next();
-           	no = rs.getInt(4);
-           	if(s == 0) {
-           		System.out.println("인증코드가 이미 발송되었습니다.");
-           		return 4; 
-           		
-           	}
-						
-			
+			rs = pstm.executeQuery();
+
+			while (rs.next()) {
+				s = rs.getInt(4);
+			}
+			if (s == 1) {
+				System.out.println("인증코드가 이미 발송되었습니다.");
+				return 4;
+
+			}
+
 			String query = "select no from code ORDER BY no desc limit 1";
-			pstm = conn.prepareStatement(query);        
-            rs = pstm.executeQuery();
-            
-            rs.next();
-           	no = rs.getInt(1);
-           	System.out.println(no);
-           
-           	// no , email, code, satus
-           	String sql = "INSERT INTO code VALUES(?,?,?,?)";
+			pstm = conn.prepareStatement(query);
+			rs = pstm.executeQuery();
+
+			rs.next();
+			no = rs.getInt(1);
+			System.out.println(no);
+
+			// no , email, code, satus
+			String sql = "INSERT INTO code VALUES(?,?,?,?)";
 			pstm = conn.prepareStatement(sql);
-			pstm.setInt(1, no+1);
+			pstm.setInt(1, no + 1);
 			pstm.setString(2, email);
 			pstm.setString(3, Integer.toString(code));
-			pstm.setString(4, "0");
- 			pstm.executeUpdate();
-		 
+			pstm.setString(4, "1");
+			pstm.executeUpdate();
+
 			return 1;
 		} catch (
 
