@@ -14,7 +14,7 @@
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
   limitations under the License.
---><web-app version="4.0" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee                       http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd">
+--><web-app version="4.0" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee;http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd">
 
   <!-- ======================== Introduction ============================== -->
   <!-- This document defines default values for *all* web applications      -->
@@ -4724,9 +4724,19 @@
   <!-- to use within your application.                                       -->
 
     <welcome-file-list>
-        <welcome-file>index.html</welcome-file>
+        <welcome-file></welcome-file>
         <welcome-file>index.htm</welcome-file>
         <welcome-file>main.jsp</welcome-file>
     </welcome-file-list>
+    
+    <error-page>
+    <error-code>404</error-code>
+    <location>/main.jsp</location>
+    </error-page>
+    
+    <error-page>
+    <error-code>500</error-code>
+    <location>/main.jsp</location>
+    </error-page>
 
 </web-app>

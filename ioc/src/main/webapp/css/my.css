@@ -136,7 +136,8 @@ body {
 .title2 {
   position: relative;
   margin: 50px;
-  font-family: "Special Elite", cursive;
+  font-family: 'Staatliches', cursive;
+  
   font-size: 3em;
   color: #fff;
   text-transform: uppercase;

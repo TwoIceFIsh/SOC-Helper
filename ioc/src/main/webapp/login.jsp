@@ -42,22 +42,22 @@
 						<!-- Nested Row within Card Body -->
 						<div class="row ">
 							<div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
-							<div class="col-lg-6">
-								<div class="p-5 tracking-in-expand">
-									<div class="text-center ">
-										<div class="h5    title2 badge-black1"
-											data-content="Welcome to MSSP">Welcome to MSSP</div>
-										<div class="h6   mb-4">ID: 개인메일 / PW: P!  (문의: 병호)</div>
-									</div>
+							<div class="col-lg-6 tracking-in-expand">
+
+								<div class="p-4 ">
+									<div class="h5 title2 badge-black1 text-center"
+										data-content="Welcome to MSSP">Welcome to MSSP</div>
+									<div class="text-center h6 mb-4">ID: 개인메일 / PW: P! (문의:
+										병호)</div>
 									<form class="user " action="loginServlet" method="post">
 										<div class="form-group">
 											<input type="email" class="form-control form-control-user"
 												id="id" name="id" aria-describedby="emailHelp"
-												placeholder="이메일을 입력해주세요">
+												placeholder="XXXX@s-oil.com">
 										</div>
 										<div class="form-group  ">
 											<input type="password" class="form-control form-control-user"
-												id="pw" name="pw" placeholder="비밀번호를 입력해주세요">
+												id="pw" name="pw" placeholder="********">
 										</div>
 										<div class="form-group">
 											<div class="custom-control custom-checkbox small">
@@ -71,37 +71,44 @@
 										<input
 											class="btn btn-primary btn-user btn-block   color-change-2x"
 											type="submit" value="login" name="login" id="login" />
-
 									</form>
 									<hr>
 									<div class="text-center">
-										<a class="small" href="find.jsp">비밀번호 찾기</a>
-									</div>
-									<div class="text-center">
 										<a class="small" href="reg.jsp">계정생성</a>
 									</div>
+
+									<div class="text-center">
+										<a class="small" href="find.jsp">비밀번호 찾기</a>
+									</div>
+									<hr>
+									<div class="text-center">
+										<a class="small" href="https://twoicefish-secu.tistory.com/">개발자
+											블로그 방문</a>
+									</div>
+									<hr>
+									<div class="text-center small">Copyright 2022. 이병호 all
+										rights reserved.</div>
 								</div>
+
 							</div>
 						</div>
 					</div>
+
 				</div>
 
 			</div>
 
 		</div>
 
-	</div>
+		<!-- Bootstrap core JavaScript-->
+		<script src="vendor/jquery/jquery.min.js"></script>
+		<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-	<!-- Bootstrap core JavaScript-->
-	<script src="vendor/jquery/jquery.min.js"></script>
-	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+		<!-- Core plugin JavaScript-->
+		<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
-	<!-- Core plugin JavaScript-->
-	<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-	<!-- Custom scripts for all pages-->
-	<script src="js/sb-admin-2.min.js"></script>
-
+		<!-- Custom scripts for all pages-->
+		<script src="js/sb-admin-2.min.js"></script>
 </body>
 
 </html>

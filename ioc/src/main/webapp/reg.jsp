@@ -14,7 +14,7 @@
 <meta name="author" content="">
 
 <title>보안관제 업무도우미</title>
-
+<link href="css/my.css" rel="stylesheet">
 <!-- Custom fonts for this template-->
 <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet"
 	type="text/css">
@@ -81,14 +81,14 @@
 											id="pw2" name="pw2" placeholder="비밀번호 재입력"
 											onkeyup="passwordCheckFunction();">
 									</div>
-									
+
 								</div>
 								<div class="form-group" id="statusMessagepw"></div>
 
 
 
 
-								
+
 
 								<div class="form-group row">
 									<div class="col-sm-6 mb-3 mb-sm-0">
@@ -97,8 +97,11 @@
 									</div>
 
 								</div>
-								<input class="btn btn-primary btn-user btn-block" type="submit"
-									value="회원가입" name="reg" id="reg" />
+
+								<input
+									class="btn btn-primary btn-user btn-block   color-change-2x"
+									type="submit" value="회원가입" name="reg" id="reg" />
+
 							</form>
 							<hr>
 							<div class="text-center">
