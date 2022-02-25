@@ -1,3 +1,20 @@
+CREATE TABLE `address` (
+  `no` int NOT NULL,
+  `a` varchar(100) DEFAULT NULL,
+  `b` varchar(100) DEFAULT NULL,
+  `c` varchar(100) DEFAULT NULL,
+  `d` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`no`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+
+CREATE TABLE `code` (
+  `no` int NOT NULL,
+  `a` varchar(45) DEFAULT NULL,
+  `b` varchar(45) DEFAULT NULL,
+  `c` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`no`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+
 CREATE TABLE `cve` (
   `no` int NOT NULL,
   `cve` varchar(45) DEFAULT NULL,
@@ -37,6 +54,18 @@ CREATE TABLE `site_status` (
   `progress` int DEFAULT NULL,
   `address` varchar(200) DEFAULT NULL,
   `time` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`no`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+
+CREATE TABLE `user` (
+  `no` int NOT NULL,
+  `a` varchar(45) DEFAULT NULL,
+  `b` varchar(45) DEFAULT NULL,
+  `c` varchar(45) DEFAULT NULL,
+  `d` varchar(45) DEFAULT NULL,
+  `e` varchar(45) DEFAULT NULL,
+  `f` varchar(45) DEFAULT NULL,
+  `g` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
 

@@ -45,7 +45,7 @@
 								<div class="form-group row">
 									<div class="col-sm-6 mb-3 mb-sm-0">
 										<input type="email" class="form-control form-control-user"
-											id="mail" name="mail" placeholder="계정입력(회사이메일)" />
+											id="mail" name="mail" placeholder="XXXX@s-oil.com" />
 
 									</div>
 

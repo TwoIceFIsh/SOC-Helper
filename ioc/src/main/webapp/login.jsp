@@ -101,8 +101,7 @@
 									</div>
 									<hr>
 									<div class="text-center small">
-										Copyright 2022. 이병호 all rights reserved.<br>ID: 개인메일 /
-										PW: P! (문의: 병호)
+										Copyright 2022. 이병호 all rights reserved.
 									</div>
 								</div>
 
