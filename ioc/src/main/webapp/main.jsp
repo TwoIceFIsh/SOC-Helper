@@ -32,7 +32,7 @@
 
 <body class="bg-main-image">
 
-	<div class="container ">
+	<div class="container " >
 
 		<%
 		String value = (String) session.getAttribute("ok");
@@ -40,7 +40,7 @@
 		%>
 
 		<!-- Outer Row -->
-		<div class="row justify-content-center slide-in-blurred-top">
+		<div class="row justify-content-center slide-in-blurred-top"  id="big2" name="big2">
 
 			<div class="col-xl-12 col-lg-14 col-md-10">
 

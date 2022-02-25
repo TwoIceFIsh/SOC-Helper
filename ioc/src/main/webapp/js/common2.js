@@ -473,8 +473,17 @@ function login() {
 		},
 		success: function(result) {
 
-			if (result == 11) {
+			var timeOut = function() {
 				window.location.href = 'http://222.110.22.168:8080/ioc/main.jsp';
+			}
+
+
+			if (result == 11) {
+				$('#big2').addClass('scale-out-center');
+
+				setTimeout(timeOut, 1000);
+				//
+
 			}
 			if (result == 333) {
 				$('#statusMessagepw').html('계정 또는 비밀번호가 틀립니다.');
