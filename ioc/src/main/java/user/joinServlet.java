@@ -8,16 +8,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class checkCodeServlet
+ * Servlet implementation class joinServlet
  */
-@WebServlet("/checkCodeServlet")
-public class checkCodeServlet extends HttpServlet {
+@WebServlet("/joinServlet")
+public class joinServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public checkCodeServlet() {
+	public joinServlet() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -41,30 +41,48 @@ public class checkCodeServlet extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 
-		String email = request.getParameter("mail");
+		String mail = request.getParameter("mail");
+		String pw1 = request.getParameter("pw1");
+		String name = request.getParameter("name");
 		String code = request.getParameter("code");
-		email = email.toLowerCase();
+		
+		
+		
+		int no = 0;
+		mail = mail.toLowerCase();
+		userDTO user = new userDTO();
+		
+		user.setId(mail);
+		user.setPw(pw1);
+		user.setCode(code);
+		user.setName(name);
+		
+		
+		userDAO userjoin = new userDAO();
+		no = userjoin.userjoin(user);
 
-		System.out.println(email + code);
-
-		userDAO user = new userDAO();
-		int no = user.checkCode(email, code);
-
-		if (no == 10) {
-			response.getWriter().println("10");
-			response.getWriter().close();
-			return;
-
-		}
+		System.out.println(mail+pw1+code+name);
 		if (no == 11) {
 			response.getWriter().println("11");
 			response.getWriter().close();
 			return;
+
 		}
 		
-		response.getWriter().println("33");
-		response.getWriter().close();
-		return;
+		if (no == 222) {
+			response.getWriter().println("222");
+			response.getWriter().close();
+			return;
+
+		}
+		
+		if (no == 333) {
+			response.getWriter().println("333");
+			response.getWriter().close();
+			return;
+
+		}
+		
 
 	}
 

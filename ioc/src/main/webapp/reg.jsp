@@ -41,9 +41,7 @@
 							<div class="text-center">
 								<h1 class="h4 mb-4">계정생성</h1>
 							</div>
-							<form class="user" action="regServlet" method="post">
-
-
+							<form class="user">
 								<div class="form-group row">
 									<div class="col-sm-6 mb-3 mb-sm-0">
 										<input type="email" class="form-control form-control-user"
@@ -99,7 +97,7 @@
 								<div class="form-group row">
 									<div class="col-sm-6 mb-3 mb-sm-0">
 										<input type="text" class="form-control form-control-user"
-											id="name" placeholder="이름">
+											id="name" name="name" placeholder="이름">
 									</div>
 									<div class="col-sm-6  mb-3 mb-sm-0  form-control-user"
 										id="statusMessagepw">---</div>
@@ -107,29 +105,33 @@
 
 								<div class="form-group row">
 									<div class="col-sm-12 mb-3 mb-sm-0">
+
 										<input
-											class=" btn btn-primary btn-user btn-block color-change-2x"
-											type="submit" value="회원가입" name="reg" id="reg" />
+											class="btn btn-primary btn-user btn-block color-change-2x"
+											type="button" name="z" id="z" onclick="reg();" value="회원가입" />
 									</div>
+
+
+
+
 								</div>
-						</div>
 
 
 
 
-						</form>
-						<hr>
-						<div class="text-center">
-							<a class="small" href="#">비밀번호를 잊으셨습니까?</a>
-						</div>
-						<div class="text-center">
-							<a class="small" href="login.jsp">로그인 페이지로 이동</a>
+							</form>
+							<hr>
+							<div class="text-center">
+								<a class="small" href="#">비밀번호를 잊으셨습니까?</a>
+							</div>
+							<div class="text-center">
+								<a class="small" href="login.jsp">로그인 페이지로 이동</a>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 
 	</div>
 

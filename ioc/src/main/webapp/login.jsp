@@ -29,7 +29,7 @@
 
 
 <body class="login-bg">
-
+	<script src="js/common2.js" charset="UTF-8"></script>
 	<div class="container fade-in">
 
 		<!-- Outer Row -->
@@ -48,22 +48,18 @@
 
 
 									<img class="text-center" src="images/ms-icon-144x144.png"
-										alt="My Image"> 
-										<img class="text-center"
-										src="images/download.png" alt="My Image" width="150"
-										height="150">
-										
-										<img class="text-center"
+										alt="My Image"> <img class="text-center"
+										src="images/download.png" alt="My Image" width="120"
+										height="50"> <img class="text-center"
 										src="images/20210618182605!Google__G__Logo.svg" width="60"
-										height="60" alt="My Image">
-										
-										<img class="text-center"
+										height="60" alt="My Image"> &nbsp;&nbsp; <img
+										class="text-center"
 										src="images/768px-Python-logo-notext.svg.png" width="60"
 										height="60" alt="My Image">
-										
-										
-										
-										
+
+
+
+
 									<div class="title2 badge-black1 text-center"
 										data-content="SOC Helper">SOC Helper</div>
 									<div class="text-center">SOCH(Security Operation Center
@@ -71,7 +67,7 @@
 									<hr>
 
 
-									<form class="user " action="loginServlet" method="post">
+									<form class="user ">
 										<div class="form-group">
 											<input type="email" class="form-control form-control-user"
 												id="id" name="id" aria-describedby="emailHelp"
@@ -81,18 +77,14 @@
 											<input type="password" class="form-control form-control-user"
 												id="pw" name="pw" placeholder="▪️▪️▪️▪️▪️▪️▪️▪️▪️▪️▪️">
 										</div>
-										<div class="form-group">
-											<div class="custom-control custom-checkbox small">
-												<input type="checkbox" class="custom-control-input"
-													id="customCheck"> <label
-													class="custom-control-label" for="customCheck">Remember
-													Me</label>
-											</div>
-										</div>
-
+										 
+										<div class="col-sm-12  mb-3 mb-sm-0  form-control-user"
+											id="statusMessagepw">---</div>
 										<input
-											class="btn btn-primary btn-user btn-block   color-change-2x"
-											type="submit" value="login" name="login" id="login" />
+											class="btn btn-primary btn-user btn-block color-change-2x"
+											type="button" name="s" id="s" onclick="login();"
+											value="login" />
+
 									</form>
 									<hr>
 									<div class="text-center">

@@ -43,12 +43,12 @@ public class loginServlet extends HttpServlet {
 			System.out.println("boolean");
 			//HttpSession session = request.getSession();
 			request.getSession().setAttribute("ok", user.getId()+""); 
-			
-//			response.sendRedirect("http://222.110.22.168:8080/ioc/test.jsp");
-		response.sendRedirect("http://222.110.22.168:8080/ioc/main.jsp");
+			response.getWriter().println("11");
+			response.getWriter().close();
 			return;
 		} else {
-			response.sendRedirect("http://222.110.22.168:8080/ioc/login.jsp");
+			response.getWriter().println("333");
+			response.getWriter().close();
 			return;
 
 		}

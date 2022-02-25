@@ -247,7 +247,7 @@ function nokori() {
 			if (result == 0)
 				$('#nokori').html('(작업 없음)');
 			if (result > 0)
-				$('#nokori').html('(처리 ' + result + '건 남음)' + '</br>' + ((result * 1) / 60)+'~' + ((result * 15) / 60) + '분 소요');
+				$('#nokori').html('(처리 ' + result + '건 남음)' + '</br>' + ((result * 1) / 60) + '~' + ((result * 15) / 60) + '분 소요');
 
 
 		}
@@ -399,14 +399,81 @@ function checkCode() {
 		},
 		success: function(result) {
 
-			if (result == 1) {
-				$('#statusMessagepw').html('인증완료');
+			if (result == 10) {
+				$('#statusMessagepw').html('인증코드 불일치');
 			}
-			if (result == 0) {
-				$('#statusMessagepw').html('인증실패');
-			} 
+			if (result == 11) {
+				$('#statusMessagepw').html('인증코드 일치');
+			}
 			if (result == 9) {
 				$('#statusMessagepw').html('DB Error.');
+			}
+
+		}
+	});
+}
+
+
+
+
+function reg() {
+	var mail = $('#mail').val();
+	var pw1 = $('#pw1').val();
+	var name = $('#name').val();
+	var code = $('#code').val();
+
+	$.ajax({
+		type: 'POST',
+		url: './joinServlet',
+		data: {
+			mail: mail,
+			pw1: pw1,
+			name: name,
+			code: code
+		},
+		success: function(result) {
+
+			if (result == 10) {
+				$('#statusMessagepw').html('인증코드 불일치');
+			}
+			if (result == 11) {
+				alert('계정생성 완료');
+				window.location.href = 'http://222.110.22.168:8080/ioc/login.jsp';
+			}
+			if (result == 9) {
+				$('#statusMessagepw').html('DB Error.');
+			}
+			if (result == 222) {
+				$('#statusMessagepw').html('인증코드를 재발송 해주세요.');
+			}
+			if (result == 333) {
+				$('#statusMessagepw').html('이미 계정이 생성되었습니다.');
+			}
+
+		}
+	});
+}
+
+
+
+function login() {
+	var id = $('#id').val();
+	var pw = $('#pw').val();
+	 
+	$.ajax({
+		type: 'POST',
+		url: './loginServlet',
+		data: {
+			id: id,
+			pw: pw
+		},
+		success: function(result) {
+
+			if (result == 11) {
+				window.location.href = 'http://222.110.22.168:8080/ioc/main.jsp';
+			}
+			if (result == 333) {
+				$('#statusMessagepw').html('계정 또는 비밀번호가 틀립니다.');
 			}
 
 		}

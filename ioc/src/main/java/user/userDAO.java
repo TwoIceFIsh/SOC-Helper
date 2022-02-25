@@ -215,4 +215,184 @@ public class userDAO {
 
 		return 0;
 	}
+
+	public static int checkCode(String email, String code) {
+		int n = 0;
+
+		ResultSet rs = null;
+
+		Connection conn = null;
+		PreparedStatement pstm = null;
+
+		try {
+			String jdbcUrl = "jdbc:mysql://localhost:3306/ioc?useUnicode=true&characterEncoding=utf8";
+			String dbId = "root";
+			String dbPass = "!Hg1373002934";
+
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			conn = DriverManager.getConnection(jdbcUrl, dbId, dbPass);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		try {
+			int no = 0;
+			boolean s = false;
+
+			String sql = "SELECT exists (select no, a,b,c from code WHERE a = ? AND b = ? AND c = 2) As Q";
+
+			pstm = conn.prepareStatement(sql);
+			pstm.setString(1, email);
+			pstm.setString(2, code);
+			rs = pstm.executeQuery();
+
+			while (rs.next()) {
+				s = rs.getBoolean(1);
+			}
+			if (!s) {
+
+				return 10;
+
+			}
+
+			// no , email, code, satus
+			String sqlqq = "UPDATE code SET c = 3 WHERE a = ? AND b = ? AND c = 2";
+			pstm = conn.prepareStatement(sqlqq);
+
+			pstm.setString(1, email);
+			pstm.setString(2, code);
+
+			pstm.executeUpdate();
+
+			return 11;
+
+		} catch (
+
+		Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+
+				if (pstm != null)
+					pstm.close();
+
+				if (conn != null)
+					conn.close();
+
+			} catch (Exception e) {
+			}
+		}
+		return 0;
+	}
+
+	public int userjoin(userDTO user) {
+
+		int n = 0;
+
+		ResultSet rs = null;
+
+		Connection conn = null;
+		PreparedStatement pstm = null;
+
+		try {
+			String jdbcUrl = "jdbc:mysql://localhost:3306/ioc?useUnicode=true&characterEncoding=utf8";
+			String dbId = "root";
+			String dbPass = "!Hg1373002934";
+
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			conn = DriverManager.getConnection(jdbcUrl, dbId, dbPass);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		try {
+			int no = 0;
+			boolean s = false;
+			boolean ss = false;
+	 
+			
+			// 계정에 따른 CODE 존재여부 확인
+			String test = "SELECT exists (SELECT no FROM code WHERE a = ? AND b = ? AND c = ?) As Q";
+			pstm = conn.prepareStatement(test);
+			pstm.setString(1, user.getId());
+			pstm.setString(2, user.getCode());
+			pstm.setString(3, "3");
+			rs = pstm.executeQuery();
+
+			while (rs.next()) {
+				s = rs.getBoolean(1);
+			}
+			
+			
+			//계정이 있으면 TRUE
+			String tests = "SELECT exists (SELECT a FROM user WHERE a = ?) As Q";
+			pstm = conn.prepareStatement(tests);
+			pstm.setString(1, user.getId());
+			rs = pstm.executeQuery();
+
+			while (rs.next()) {
+				ss = rs.getBoolean(1);
+			}
+			
+			
+			if(!s) {
+				return 222;
+			}
+			if(ss) {
+				return 333;
+			}
+
+			String sql = "SELECT no FROM user ORDER BY no DESC LIMIT 1";
+
+			pstm = conn.prepareStatement(sql);
+			rs = pstm.executeQuery();
+
+			while (rs.next()) {
+				no = rs.getInt(1);
+			}
+
+			// no , email, code, satus
+			String sqlqq = "INSERT INTO user VALUES(?,?,?,?,?,?,?,?)";
+			pstm = conn.prepareStatement(sqlqq);
+
+			pstm.setInt(1, no + 1);
+			pstm.setString(2, user.getId());
+			pstm.setString(3, user.getPw());
+			pstm.setString(4, user.getName());
+			pstm.setString(5, user.getCode());
+			pstm.setString(6, "");
+			pstm.setString(7, "");
+			pstm.setString(8, "");
+			
+
+			pstm.executeUpdate();
+
+			return 11;
+
+		} catch (
+
+		Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+
+				if (pstm != null)
+					pstm.close();
+
+				if (conn != null)
+					conn.close();
+
+			} catch (Exception e) {
+			}
+		}
+		return 0;
+
+	}
+
+////////////////////////////////////////////////////////////
+
 }
