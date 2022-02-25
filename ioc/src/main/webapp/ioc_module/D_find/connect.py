@@ -13,7 +13,7 @@ def sendMail(jobmail, jobpw):
     mm = datetime.today().strftime('%m')
     dd = datetime.today().strftime('%d')
 
-    from_addr = formataddr(('MSSH', 'bh.lee@s-oil.com'))
+    from_addr = formataddr(('SOCH', 'bh.lee@s-oil.com'))
 
     # 받는사람
     to_addr = formataddr(('', jobmail))
@@ -37,10 +37,10 @@ def sendMail(jobmail, jobpw):
         message.set_charset('utf-8')
         message['From'] = from_addr
         message['To'] = to_addr
-        message['Subject'] = "[보안관제] MSSH 계정 비밀번호"
+        message['Subject'] = "[보안관제] SOC Helper 계정 비밀번호 전달"
 
         # 메일 콘텐츠 - 내용
-        body = " <h4>안녕하세요 MSSH 비밀번호 전달드립니다.. </h4>  </br><h4><h4>솔루션 주소 : http://222.110.22.168:8080/ioc/main.jsp </h4> <h4> 비밀번호 : "+str(jobpw)+"</h4>"
+        body = " <h4>안녕하세요 SOC Helper 비밀번호 전달드립니다.. </h4>  </br><h4><h4>솔루션 주소 : http://222.110.22.168:8080/ioc/main.jsp </h4> <h4> 비밀번호 : "+str(jobpw)+"</h4>"
 
         bodyPart = MIMEText(body, 'html', 'utf-8')
         message.attach(bodyPart)

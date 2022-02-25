@@ -13,7 +13,7 @@ def sendMail(jobmail, jobcode):
     mm = datetime.today().strftime('%m')
     dd = datetime.today().strftime('%d')
 
-    from_addr = formataddr(('MSSH', 'bh.lee@s-oil.com'))
+    from_addr = formataddr(('SOCH', 'bh.lee@s-oil.com'))
 
     # 받는사람
     to_addr = formataddr(('', jobmail))
@@ -40,7 +40,7 @@ def sendMail(jobmail, jobcode):
         message['Subject'] = "[보안관제] MSSH 가입 인증코드"
 
         # 메일 콘텐츠 - 내용
-        body = " <h4>안녕하세요 MSSH 가입 인증코드 전달드립니다.. </h4>  </br><h4><h4>솔루션 주소 : http://222.110.22.168:8080/ioc/main.jsp </h4> <h4> 인증코드 : "+str(jobcode)+"</h4>"
+        body = " <h4>안녕하세요 SOC Helper 가입 인증코드 전달드립니다.. </h4>  </br><h4><h4>솔루션 주소 : http://222.110.22.168:8080/ioc/main.jsp </h4> <h4> 인증코드 : "+str(jobcode)+"</h4>"
 
         bodyPart = MIMEText(body, 'html', 'utf-8')
         message.attach(bodyPart)

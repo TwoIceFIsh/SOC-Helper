@@ -387,7 +387,7 @@ def sendMail(filename, filename2,jobno, jobip, jobdate, num1, num3):
     conn.commit()
     conn.close()
     ###############################################################
-    from_addr = formataddr(('MSSH', 'bh.lee@s-oil.com'))
+    from_addr = formataddr(('SOCH', 'bh.lee@s-oil.com'))
 
     # 받는사람
     to_addr = formataddr((name, address))
@@ -415,7 +415,7 @@ def sendMail(filename, filename2,jobno, jobip, jobdate, num1, num3):
         message['Subject'] = "[보안관제] HX 정보등록 데이터_작업[" + str(jobno)+"] "+str(num3) + "건"
 
         # 메일 콘텐츠 - 내용
-        body = " <h4>안녕하세요 MSS Helper입니다. </h4>  </br><h4><h4>솔루션 주소 : http://222.110.22.168:8080/ioc/main.jsp </h4> <h4> 수행작업 : HX 파일 및 결과보고서 생성</h4> </br></br> 요청 건수(" + str(
+        body = " <h4>안녕하세요 SOC Helper입니다. </h4>  </br><h4><h4>솔루션 주소 : http://222.110.22.168:8080/ioc/main.jsp </h4> <h4> 수행작업 : HX 파일 및 결과보고서 생성</h4> </br></br> 요청 건수(" + str(
             num3) + ")</br> 변환 건수[" + str(total) + "] 제외 건수[" + str(ex) + "]</br> </br> 자세한 사항은 첨부파일을 참조해주세요</br> <h4>HX TOOL에 접속하여 업로드 해주세요(URL : \"https://192.168.36.182:8080/login\"</h4>"
 
         bodyPart = MIMEText(body, 'html', 'utf-8')
