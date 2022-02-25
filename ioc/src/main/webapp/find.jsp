@@ -31,7 +31,7 @@
 	<script src="js/common2.js" charset="UTF-8"></script>
 	<div class="container">
 
-		<div class="card o-hidden border-0 shadow-lg my-5 badge-black1">
+		<div class="card o-hidden border-0 shadow-lg my-5 badge-black1 slide-in-blurred-top">
 			<div class="card-body p-0">
 				<!-- Nested Row within Card Body -->
 				<div class="row">
