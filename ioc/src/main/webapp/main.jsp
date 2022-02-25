@@ -32,7 +32,7 @@
 
 <body class="bg-main-image">
 
-	<div class="container">
+	<div class="container ">
 
 		<%
 		String value = (String) session.getAttribute("ok");
@@ -40,8 +40,8 @@
 		%>
 
 		<!-- Outer Row -->
-		<div class="row justify-content-center">
-			
+		<div class="row justify-content-center slide-in-blurred-top">
+
 			<div class="col-xl-12 col-lg-14 col-md-10">
 
 				<div class="card o-hidden border-0 shadow-lg my-5">
@@ -64,11 +64,11 @@
 						<!-- Nested Row within Card Body -->
 						<div class="row">
 
-							<div class="col-lg-6 d-none d-lg-block   badge-black1">
+							<div class="slit-in-vertical col-lg-6 d-none d-lg-block   badge-black1">
 								<div class="p-2"><jsp:include page="status.jsp" /></div>
 							</div>
 
-							<div class="col-lg-6 ">
+							<div class=" tilt-in-fwd-tr col-lg-6 ">
 								<div class="p-3 text-left">
 									<h1 class="h6 text-gray-900 mb-2">1. 보안정보 자동수집(보안뉴스, KISA
 										등)</h1>
