@@ -41,7 +41,7 @@
 
 		<!-- Outer Row -->
 		<div class="row justify-content-center">
-
+			
 			<div class="col-xl-12 col-lg-14 col-md-10">
 
 				<div class="card o-hidden border-0 shadow-lg my-5">
@@ -51,7 +51,9 @@
 							<div class=" card-header py-3   text-center m-0 font-weight-bold">
 								SOC Helper</div>
 
- 
+
+
+
 
 
 							<div class="text-right">
