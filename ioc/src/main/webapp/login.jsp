@@ -60,7 +60,7 @@
 										</div>
 										<div class="form-group  ">
 											<input type="password" class="form-control form-control-user"
-												id="pw" name="pw" placeholder="********">
+												id="pw" name="pw" placeholder="🔸🔸🔸🔸🔸🔸🔸🔸🔸">
 										</div>
 										<div class="form-group">
 											<div class="custom-control custom-checkbox small">
