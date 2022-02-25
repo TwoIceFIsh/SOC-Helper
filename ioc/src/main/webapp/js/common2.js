@@ -454,7 +454,11 @@ function reg() {
 	});
 }
 
-
+function enterkey() {
+	if (window.event.keyCode == 13) {
+    	login();
+    }
+}
 
 function login() {
 	var id = $('#id').val();

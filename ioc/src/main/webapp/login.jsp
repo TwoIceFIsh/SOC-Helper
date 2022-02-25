@@ -75,7 +75,7 @@
 										</div>
 										<div class="form-group  ">
 											<input type="password" class="form-control form-control-user"
-												id="pw" name="pw" placeholder="▪️▪️▪️▪️▪️▪️▪️▪️▪️▪️▪️">
+												id="pw" name="pw" placeholder="▪️▪️▪️▪️▪️▪️▪️▪️▪️▪️▪️"  onkeyup="enterkey();">
 										</div>
 										 
 										<div class="col-sm-12  mb-3 mb-sm-0  form-control-user"
