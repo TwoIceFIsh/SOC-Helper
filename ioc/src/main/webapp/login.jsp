@@ -43,10 +43,14 @@
 						<div class="row ">
 							<div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
 							<div class="col-lg-6 tracking-in-expand">
-								
+
 								<div class="p-4">
-								<img class="text-center" src="images/ms-icon-144x144.png"
-									alt="My Image">
+									<img class="text-center" src="images/ms-icon-144x144.png"
+										alt="My Image" > <img
+										class="text-center" src="images/download.png" alt="My Image"
+										width="180" height="150"><img class="text-center"
+										src="images/20210618182605!Google__G__Logo.svg" width="60"
+										height="60" alt="My Image">
 									<div class="title2 badge-black1 text-center"
 										data-content="SOC Helper">SOC Helper</div>
 
