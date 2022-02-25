@@ -45,17 +45,32 @@
 							<div class="col-lg-6 tracking-in-expand">
 
 								<div class="p-4">
+
+
 									<img class="text-center" src="images/ms-icon-144x144.png"
-										alt="My Image" > <img
-										class="text-center" src="images/download.png" alt="My Image"
-										width="180" height="150"><img class="text-center"
+										alt="My Image"> 
+										<img class="text-center"
+										src="images/download.png" alt="My Image" width="150"
+										height="150">
+										
+										<img class="text-center"
 										src="images/20210618182605!Google__G__Logo.svg" width="60"
 										height="60" alt="My Image">
+										
+										<img class="text-center"
+										src="images/768px-Python-logo-notext.svg.png" width="60"
+										height="60" alt="My Image">
+										
+										
+										
+										
 									<div class="title2 badge-black1 text-center"
 										data-content="SOC Helper">SOC Helper</div>
+									<div class="text-center">SOCH(Security Operation Center
+										Helper)</div>
+									<hr>
 
-									<div class="text-center h6 mb-4">ID: 개인메일 / PW: P! (문의:
-										병호)</div>
+
 									<form class="user " action="loginServlet" method="post">
 										<div class="form-group">
 											<input type="email" class="form-control form-control-user"
@@ -93,8 +108,10 @@
 											블로그 방문</a>
 									</div>
 									<hr>
-									<div class="text-center small">Copyright 2022. 이병호 all
-										rights reserved.</div>
+									<div class="text-center small">
+										Copyright 2022. 이병호 all rights reserved.<br>ID: 개인메일 /
+										PW: P! (문의: 병호)
+									</div>
 								</div>
 
 							</div>
