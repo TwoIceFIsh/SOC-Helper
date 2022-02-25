@@ -349,6 +349,7 @@ function passwordCheckFunction() {
 	if (MEMBER_PW_1 != MEMBER_PW_2 && MEMBER_PW_2 != "") {
 		$('#statusMessagepw').html('비밀번호가 달라요');
 		$('#statusMessagepw').css('color', 'red');
+		$('#statusMessagepw').addClass('vibrate-1');
 	} else {
 		$('#statusMessagepw').html('');
 	}
@@ -432,7 +433,7 @@ function reg() {
 			code: code
 		},
 		success: function(result) {
-
+			$('#z').addClass('vibrate-1');
 			if (result == 10) {
 				$('#statusMessagepw').html('인증코드 불일치');
 			}
@@ -486,6 +487,7 @@ function login() {
 
 			}
 			if (result == 333) {
+				$('#s').addClass('vibrate-1');
 				$('#statusMessagepw').html('계정 또는 비밀번호가 틀립니다.');
 			}
 
