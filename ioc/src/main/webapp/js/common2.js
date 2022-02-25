@@ -247,7 +247,7 @@ function nokori() {
 			if (result == 0)
 				$('#nokori').html('(작업 없음)');
 			if (result > 0)
-				$('#nokori').html('(처리 ' + result + '건 남음)' + '</br>' + ((result * 15) / 60) + '분 소요');
+				$('#nokori').html('(처리 ' + result + '건 남음)' + '</br>' + ((result * 1) / 60)+'~' + ((result * 15) / 60) + '분 소요');
 
 
 		}
@@ -342,7 +342,7 @@ function mailCheck() {
 }
 
 function passwordCheckFunction() {
- 
+
 	var MEMBER_PW_1 = $('#pw1').val();
 	var MEMBER_PW_2 = $('#pw2').val();
 
@@ -354,6 +354,32 @@ function passwordCheckFunction() {
 	}
 }
 
+function getCode() {
+	var mail = $('#mail').val();
 
+	$.ajax({
+		type: 'POST',
+		url: './getCodeServlet',
+		data: {
+			mail: mail
+		},
+		success: function(result) {
+
+			if (result == 1) {
+				$('#statusMessagepw').html('인증코드 발송 완료(3분소요)');
+			}
+			if (result == 0) {
+				$('#statusMessagepw').html('이미 가입되어있습니다.');
+			}
+			if (result == 2) {
+				$('#statusMessagepw').html('메일주소가 회사도메인이 아닙니다.');
+			}
+			if (result == 9) {
+				$('#statusMessagepw').html('DB Error.');
+			}
+
+		}
+	});
+}
 
 

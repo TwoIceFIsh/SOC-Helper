@@ -486,7 +486,6 @@ def mailCheck(address):
 
 def findHX(value):
 
-    print("value: " + str(value))
     # eoperator = ""
     # etoken =""
     # etype = ""
@@ -502,6 +501,7 @@ def findHX(value):
 
     findHXout = []
 
+    # IP 로직
     if "." in i and tmp2.isdigit():
         eoperator = "equal"
         etoken = "ipv4NetworkEvent/remoteIP"
@@ -510,9 +510,10 @@ def findHX(value):
         ptoken = "ipv4NetworkEvent/remoteIP"
         ptype = "text"
         findHXout = [eoperator , etoken, etype , poperator,ptoken,ptype]
-        print("findHXout IP" + str(findHXout))
+
         return findHXout
 
+    # URL 로직
     elif "." in i:
         T = "URL"
         eoperator = "equal"
@@ -528,10 +529,10 @@ def findHX(value):
         findHXout.append(ptoken)
         findHXout.append(ptype)
         findHXout = [eoperator , etoken, etype , poperator,ptoken,ptype]
-        print("findHXout URL " + str(findHXout))
+
         return findHXout
 
-
+    # MD5 로직
     if "." not in i and ":" not in i and "/" not in i and len(i) == 32:
         T = "MD5"
         eoperator = "equal"
@@ -545,9 +546,7 @@ def findHX(value):
         return findHXout
 
 
-
-
-def isIP(value):
+def isIPURL(value):
     if value is None:
         return "NO"
     i = value
@@ -555,15 +554,19 @@ def isIP(value):
     tmp2 = tmp.replace(".", "")
 
     if "." in i and tmp2.isdigit():
-        print("isIP value : "+value)
-        return True
+        print('ip')
+        return 'IP'
+
+    elif "." in i:
+        print('url')
+        return 'URL'
 
 
 ############################## HX 데이터 파일 만들기 #################################################################
 def writeHX(output, jobno, jobfilename):
     filename = jobfilename[14:len(jobfilename) - 4]
     output2 = []
-    print(output)
+
     print(
         "###########################################[생성] HX 텍스트 작성 ######################################################")
     tmp = ""
@@ -591,7 +594,7 @@ def writeHX(output, jobno, jobfilename):
         ioc5 = "],\"name\":\"" + str(filename) + "\",\"category\":\"Custom\",\"platforms\":[\"win\",\"osx\"]}}"
 
 
-        if "NO" != isIP(value):
+        if "NO" != isIPURL(value):
             ioc = ioc11 + ioc4 + ioc5
 
         else:
@@ -619,10 +622,8 @@ def writeHX(output, jobno, jobfilename):
 
 
         for value in output:
-
-
             ############ 변환 안되는 건은 N 증가 ###################
-            if value is None or value == '변환실패' or isIP(value):
+            if value is None or value == '변환실패':
                 N2 += 1
 
             ############# 변환된 친구들 P 증가 ####################
@@ -634,19 +635,31 @@ def writeHX(output, jobno, jobfilename):
             eoperator = outhx[0]
             etoken = outhx[1]
             etype = outhx[2]
+            poperator = outhx[3]
+            ptoken = outhx[4]
+            ptype = outhx[5]
+
 
             ioc2 = "[{\"operator\":\""+str(eoperator)+"\",\"token\":\""+str(etoken)+"\",\"type\":\""+str(etype)+"\",\"value\":\"" + str(value) + "\"}]"
+            ioc22 = "[{\"operator\":\""+str(poperator)+"\",\"token\":\""+str(ptoken)+"\",\"type\":\""+str(ptype)+"\",\"value\":\"" + str(value) + "\"}]"
 
             #######################################################
             P += 1
-            if P == O :
-                print("마지막")
-                tmp = tmp + ioc2+"\n"
+            if P == O:
+                if 'URL' == isIPURL(value):
+                    tmp = tmp + ioc2 + ",\n" + ioc22 + "\n"
+                    continue
+                tmp = tmp + ioc2 + "\n"
+
+                #
+
+
             else:
+                if 'URL' == isIPURL(value):
+                    tmp = tmp + ioc2 + ",\n" + ioc22 + ",\n"
+                    continue
                 tmp = tmp + ioc2 + ",\n"
 
-
-            print("P : " + str(P) + "/ N : " + str(N2) + "/ O : " + str(O))
 
         ioc2 = tmp
 
@@ -656,7 +669,7 @@ def writeHX(output, jobno, jobfilename):
         N = 0
         O = len(output)
         for value in output:
-            if value is None or value == '변환실패':
+            if value is None or value == '변환실패' or isIPURL(value):
                 N+=1
             else:
 
@@ -666,7 +679,7 @@ def writeHX(output, jobno, jobfilename):
                 ptype = findHXout[5]
                 ioc4 = "[{\"operator\":\""+str(poperator)+"\",\"token\":\""+str(ptoken)+"\",\"type\":\""+str(ptype)+"\",\"value\":\"" + str(value) + "\"}]"
 
-                print("None : "+str(value))
+
                 P += 1
                 if O == N+P :
                     tmp2 = tmp2 + ioc4+"\n"
@@ -683,7 +696,7 @@ def writeHX(output, jobno, jobfilename):
         else:
             ioc = ioc1 + ioc2 + ioc3 + ioc4 + ioc5
 
-        print(ioc)
+        print(tmp)
         filename2 = jobfilename[14:len(jobfilename) - 4] + ".hx"
         f = open(filename2, 'w')
         f.write(str(ioc))

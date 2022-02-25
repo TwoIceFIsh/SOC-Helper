@@ -47,14 +47,20 @@
 								<div class="form-group row">
 									<div class="col-sm-6 mb-3 mb-sm-0">
 										<input type="email" class="form-control form-control-user"
-											id="mail" placeholder="계정입력(회사이메일)">
+											id="mail" name="mail" placeholder="계정입력(회사이메일)" />
 
 									</div>
 
 									<div class="col-sm-3 mb-3 mb-sm-0">
+
 										<input class="btn btn-primary btn-user btn-block"
-											type="submit" value="인증코드발송" name="reg" id="reg" />
+											type="button" name="email" id="email" onclick="getCode();"
+											value="인증코드발송" />
+
 									</div>
+
+
+
 								</div>
 
 								<div class="form-group row">
@@ -81,40 +87,44 @@
 											id="pw2" name="pw2" placeholder="비밀번호 재입력"
 											onkeyup="passwordCheckFunction();">
 									</div>
-									
+
 								</div>
-								<div class="form-group" id="statusMessagepw"></div>
 
-
-
-
-								
 
 								<div class="form-group row">
 									<div class="col-sm-6 mb-3 mb-sm-0">
 										<input type="text" class="form-control form-control-user"
 											id="name" placeholder="이름">
 									</div>
-
+									<div class="col-sm-6  mb-3 mb-sm-0  form-control-user"
+										id="statusMessagepw">---</div>
 								</div>
-								
-								<input
-											class="btn btn-primary btn-user btn-block   color-change-2x"
+
+								<div class="form-group row">
+									<div class="col-sm-12 mb-3 mb-sm-0">
+										<input
+											class=" btn btn-primary btn-user btn-block color-change-2x"
 											type="submit" value="회원가입" name="reg" id="reg" />
-								 
-							</form>
-							<hr>
-							<div class="text-center">
-								<a class="small" href="#">비밀번호를 잊으셨습니까?</a>
-							</div>
-							<div class="text-center">
-								<a class="small" href="login.jsp">로그인 페이지로 이동</a>
-							</div>
+									</div>
+								</div>
+						</div>
+
+
+
+
+						</form>
+						<hr>
+						<div class="text-center">
+							<a class="small" href="#">비밀번호를 잊으셨습니까?</a>
+						</div>
+						<div class="text-center">
+							<a class="small" href="login.jsp">로그인 페이지로 이동</a>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+	</div>
 
 	</div>
 
