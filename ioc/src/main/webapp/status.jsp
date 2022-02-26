@@ -73,13 +73,13 @@ if (value == null) {
 							class="h6 mb-1 font-weight-bold text-gray-800"></div>
 
 						<div id="aas" class="text-xs mb-1 font-weight-bold text-gray-800">업로드
-							버튼 클릭 전 메일 수신자를 선택해주세요!</div>
+							버튼 클릭 전 메일 수신자를 선택해주세요!(추가별도문의)</div>
 
 						<div class="dropdown mb-1 ">
 
 							<button class="h6 btn btn-primary dropdown-toggle" type="button"
 								id="dropdownMenuButton" data-toggle="dropdown"
-								aria-haspopup="true" aria-expanded="false">메일수신변경</button>
+								aria-haspopup="true" aria-expanded="false">메일수신선택</button>
 
 							<div class="dropdown-menu animated--fade-in"
 								aria-labelledby="dropdownMenuButton">
