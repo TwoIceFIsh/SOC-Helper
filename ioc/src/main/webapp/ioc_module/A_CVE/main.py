@@ -4,7 +4,7 @@ import connect
 
 line = 2
 
-
+print('module cve activated')
 
 while 1:
     ######################################     PROGRAM HEART BEAT        ######################################

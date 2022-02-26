@@ -5,16 +5,14 @@ import subprocess
 import os
 
 line = 2
-
+print('module manager activated')
 yy = datetime.today().strftime('%y')
 mm = datetime.today().strftime('%m')
 dd = datetime.today().strftime('%d')
 count = 1
- 
-
 
 while 1:
-
+    print('Process Heart Beat')
     ######################################     INI        ######################################
     connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
     curq = connq.cursor()
@@ -90,6 +88,22 @@ while 1:
                     curq.execute(sql4)
                     connq.commit()
                     connq.close()
+
+                    if pno[a] == 1:
+                        subprocess.call([str(os.getcwd()) + "\\..\\A_CVE\\recover_A.bat"])
+                        print('module restart : \\A_CVE\\main.py ')
+                    if pno[a] == 2:
+                        subprocess.call([str(os.getcwd()) + "\\..\\B_IOC\\recover_B.bat"])
+                        print('module restart : \\B_IOC\\main.py ')
+                    if pno[a] == 3:
+                        subprocess.call([str(os.getcwd()) + "\\..\\C_join\\recover_C.bat"])
+                        print('module restart : \\C_join\\main.py ')
+                    if pno[a] == 4:
+                        subprocess.call([str(os.getcwd()) + "\\..\\D_find\\recover_D.bat"])
+                        print('module restart : \\D_find\\main.py ')
+                        continue
+
+
 
 
 

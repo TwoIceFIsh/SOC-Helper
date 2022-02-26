@@ -6,7 +6,7 @@ import connect
 
 
 line = 2
-
+print('module join activated')
 yy=datetime.today().strftime('%y')
 mm=datetime.today().strftime('%m')
 dd=datetime.today().strftime('%d')
@@ -36,7 +36,7 @@ while 1:
     ############################################################################################################
     #print("START")
     time.sleep(5)
-    print('#################################### 작업큐에 대기중인 장업이 있는지 확인 ################################')
+    #print('#################################### 작업큐에 대기중인 장업이 있는지 확인 ################################')
     connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
     curq = connq.cursor()
     sql4 = "SELECT count(*) FROM code WHERE c = '1' order by no desc limit 1"

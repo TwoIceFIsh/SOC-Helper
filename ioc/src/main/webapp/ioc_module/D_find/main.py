@@ -6,7 +6,7 @@ import connect
 
 
 line = 2
-
+print('module find activated')
 yy=datetime.today().strftime('%y')
 mm=datetime.today().strftime('%m')
 dd=datetime.today().strftime('%d')
