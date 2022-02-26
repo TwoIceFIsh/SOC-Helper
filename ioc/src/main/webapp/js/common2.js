@@ -480,9 +480,8 @@ function login() {
 
 
 			if (result == 11) {
-				$('#big2').addClass('scale-out-center');
-				$('#bgbg').addClass('text-blur-out');
-				setTimeout(timeOut, 2000);
+				$('#big2').addClass('scale-out-center'); 
+				setTimeout(timeOut, 1000);
 				
 				//
 
