@@ -57,7 +57,7 @@ while 1:
 
             connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
             curq = connq.cursor()
-            sql4 = "SELECT * FROM programs"
+            sql4 = "SELECT * FROM programs WHERE c = 0"
             curq.execute(sql4)
             pno = []
             pcount = []
@@ -65,11 +65,11 @@ while 1:
                 pno.append(rs[0])
                 pcount.append(rs[2])
 
-            time.sleep(10)
+            time.sleep(6)
 
             connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
             curq = connq.cursor()
-            sql4 = "SELECT * FROM programs"
+            sql4 = "SELECT * FROM programs WHERE c = 0"
             curq.execute(sql4)
             mno = []
             mcount = []
@@ -84,7 +84,7 @@ while 1:
                     connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc',
                                             charset='utf8')
                     curq = connq.cursor()
-                    sql4 = "UPDATE programs SET c = 3 WHERE no = '" + str(pno[a]) + "'"
+                    sql4 = "UPDATE programs SET c = 3 WHERE no = '" + str(pno[a]) + "' AND c = 0"
                     curq.execute(sql4)
                     connq.commit()
                     connq.close()

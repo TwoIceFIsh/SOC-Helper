@@ -70,7 +70,7 @@ while 1:
                     jobip) + "' AND time = '" + str(jobdate) +"'"
             curq.execute(sql4)
             connq.close()
-
+            print(sql4)
             for j in curq:
                 num = j[0]
 
@@ -92,7 +92,7 @@ while 1:
                     realname) + ")"
                 print(logText)
                 connect.loglog(logText)
-                time.sleep(60)
+                time.sleep(30)
 
                 v = connect.getList(jobno, jobip, jobdate)
 
