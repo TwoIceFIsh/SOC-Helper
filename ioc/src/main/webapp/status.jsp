@@ -14,7 +14,8 @@ if (value == null) {
 
 }
 %><link rel="favicon" href="/images/favicon.ico">
-<head><link href="css/my.css" rel="stylesheet">
+<head>
+<link href="css/my.css" rel="stylesheet">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <div class="row ">
 
@@ -141,32 +142,46 @@ if (value == null) {
 					<div class="col-auto">
 						<div
 							class="text-xs font-weight-bold text-info text-uppercase mb-1">
-							작업 진행률 - (개발중🛠️)</div>
-						<div class=" no-gutters align-items-left col-md-12">
+							모듈 상태(실시간) (🟢동작 🟡작업 🔴종료)</div>
+						<div
+							class=" col-md-12  align-items-center font-weight-bold text-gray-800">
 
-							CVE 작업[1] 진척율
-							<div class="progress mb-1">
-								<div class="progress-bar" role="progressbar" style="width: 75%"
-									aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+							<div class="row">
+
+								<div id="moduleE" class="mb-0"></div>
+								__Manager(+Recover)
 							</div>
 
+							<div class="row">
 
-							IOC 작업[2] 진척율
-							<div class="progress mb-1">
-								<div class="progress-bar bg-gradient-danger" role="progressbar"
-									style="width: 100%" aria-valuenow="100" aria-valuemin="0"
-									aria-valuemax="100"></div>
-
-
+								<div id="moduleA" class="mb-0"></div>
+								__CVE Module
 							</div>
+							<div class="row">
+
+								<div id="moduleB" class="mb-0"></div>
+								__IOC Module
+							</div>
+							<div class="row">
+
+								<div id="moduleC" class="mb-0"></div>
+								__JOIN Module
+							</div>
+							<div class="row">
+								<div id="moduleD" class="mb-0"></div>
+								__FIND Module
+							</div>
+
 
 						</div>
-					</div>
 
+					</div>
 				</div>
+
 			</div>
 		</div>
 	</div>
+
 
 	<!-- Pending Requests Card Example -->
 
@@ -203,9 +218,10 @@ if (value == null) {
 							공지사항</div>
 						<div class=" h8 mb-0 font-weight-bold text-gray-800">
 							<div id="statusMessage11" class=" mb-1 font-weight-bold "></div>
-							2022.02.11(금) : 메일 발송 대상 지정 기능 추가</br> 2022.02.12(토) : 남은 작업 시간 및 건 수
-							추가</br> 2022.02.13(일) : 데이터 변환 알고리즘 개선</br> 2022.02.13(일) : 작업 콘솔 로그 기능 추가</br>
-							2022.02.14(월) : 작업대기열 기능 추가</br> 2022.02.17(목) : 1차 개발 완료(CVE/IOC)</br> 2022.02.25(금) : 접근제어 기능 구현 완료(로그인/회원가입) </br>2022.02.26(토) : 모듈 복구시스템 구현 </br> </br> 기능개선 및 문의사항 : 병호🤑
+							2022.02.07(월) : 솔루션 개발 시작</br> 2022.02.11(금) : 1차 개발 완료(CVE/IOC)</br>
+							2022.02.14(월) : 컨트롤 패널 구현 완료</br> 2022.02.25(금) : 접근제어 시스템 구현
+							완료(로그인/회원가입) </br> 2022.02.26(토) : 디자인 리뉴얼 및 모듈 복구시스템 구현 완료 </br> </br> 기능개선 및
+							문의사항 : 병호🤑
 						</div>
 					</div>
 
@@ -215,5 +231,5 @@ if (value == null) {
 	</div>
 
 </div>
-
+<script src="js/my.js" charset="UTF-8"></script>
 <!-- Content Row -->

@@ -150,6 +150,7 @@
 	<!-- Bootstrap core JavaScript-->
 	<script src="vendor/jquery/jquery.min.js"></script>
 	<script src="js/common2.js" charset="UTF-8"></script>
+	<script src="js/my.js" charset="UTF-8"></script>
 	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 	<!-- Core plugin JavaScript-->

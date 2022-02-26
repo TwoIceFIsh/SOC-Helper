@@ -79,7 +79,7 @@ public class dbrw {
 
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection(jdbcUrl, dbId, dbPass);
-			System.out.println("제대로 연결되었습니다.");
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -197,7 +197,7 @@ public class dbrw {
 
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn2 = DriverManager.getConnection(jdbcUrl, dbId, dbPass);
-			// System.out.println("제대로 연결되었습니다.");
+			// 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -328,7 +328,7 @@ public class dbrw {
 
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection(jdbcUrl, dbId, dbPass);
-			System.out.println("제대로 연결되었습니다.");
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -378,7 +378,7 @@ public class dbrw {
 
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection(jdbcUrl, dbId, dbPass);
-			System.out.println("제대로 연결되었습니다.");
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -427,7 +427,7 @@ public class dbrw {
 
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection(jdbcUrl, dbId, dbPass);
-			System.out.println("제대로 연결되었습니다.");
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -476,7 +476,7 @@ public class dbrw {
 
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection(jdbcUrl, dbId, dbPass);
-			System.out.println("제대로 연결되었습니다.");
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -550,7 +550,7 @@ public class dbrw {
 
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection(jdbcUrl, dbId, dbPass);
-			System.out.println("제대로 연결되었습니다.");
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -601,7 +601,7 @@ public class dbrw {
 
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection(jdbcUrl, dbId, dbPass);
-			System.out.println("제대로 연결되었습니다.");
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -652,7 +652,7 @@ public class dbrw {
 
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection(jdbcUrl, dbId, dbPass);
-			System.out.println("제대로 연결되었습니다.");
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -678,8 +678,7 @@ public class dbrw {
 
 			}
 
-			System.out.println("nokori" + result);
-			return result + result2;
+			 return result + result2;
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -710,7 +709,7 @@ public class dbrw {
 
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection(jdbcUrl, dbId, dbPass);
-			System.out.println("제대로 연결되었습니다.");
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -765,7 +764,7 @@ public class dbrw {
 
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection(jdbcUrl, dbId, dbPass);
-			System.out.println("제대로 연결되었습니다.");
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -817,7 +816,7 @@ public class dbrw {
 
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection(jdbcUrl, dbId, dbPass);
-			System.out.println("제대로 연결되었습니다.");
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
