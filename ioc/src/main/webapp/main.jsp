@@ -32,7 +32,7 @@
 
 <body class="bg-main-image text-blur-out">
 
-	<div class="container " >
+	<div class="container ">
 
 		<%
 		String value = (String) session.getAttribute("ok");
@@ -40,7 +40,8 @@
 		%>
 
 		<!-- Outer Row -->
-		<div class="row justify-content-center slide-in-blurred-top"  id="big2" name="big2">
+		<div class="row justify-content-center slide-in-blurred-top" id="big2"
+			name="big2">
 
 			<div class="col-xl-12 col-lg-14 col-md-10">
 
@@ -64,23 +65,16 @@
 						<!-- Nested Row within Card Body -->
 						<div class="row">
 
-							<div class="slit-in-vertical col-lg-6 d-none d-lg-block   badge-black1">
+							<div
+								class="slit-in-vertical col-lg-6 d-none d-lg-block   badge-black1">
 								<div class="p-2"><jsp:include page="status.jsp" /></div>
 							</div>
 
 							<div class=" tilt-in-fwd-tr col-lg-6 ">
 								<div class="p-3 text-left">
-									<h1 class="h6 text-gray-900 mb-2">1. 보안정보 자동수집(보안뉴스, KISA
-										등)</h1>
-									<p class="mb-4 h6">
-										정보보안 관련 새로운 개시글을 메일로 받아보세요!</br>
-									<div>
-										<input class="btn btn-warning btn-user btn-block"
-											type="submit" value="개발중🛠️" name="#" id="#" />
-									</div>
-									<hr>
 
-									<h1 class="h6 text-gray-900 mb-2">2. CVE 정보수집</h1>
+
+									<h1 class="h6 text-gray-900 mb-2">1. CVE 정보수집</h1>
 									<p class="mb-4 h6">
 										CVE 코드와 관련된 정보를 수집하여 보고서로 받아보세요!</br> </br> CVE로 시작하는 코드를 다음과 같은 텍스트 파일
 										업로드!</br> </br> (sample.txt) </br> CVE-2020-1123 </br> CVE-2020-1231 </br>
@@ -96,7 +90,7 @@
 
 									<hr>
 
-									<h1 class="h6   mb-2">3. HX 파일생성</h1>
+									<h1 class="h6   mb-2">2. HX 파일생성</h1>
 									<p class="mb-4">
 										정보를 올려 HX 파일(MD5/SHA256/SHA1/IP/URL)을 생성해요!</br>문자열 자동처리됨 hxxp
 										-&gt; http / [.] -&gt; .</br> </br> (sample.txt)</br>
@@ -109,10 +103,20 @@
 											type="submit" value="txt 파일 업로드" name="upload" id="upload" />
 									</form>
 									<hr>
-									<h1 class="h6   mb-2">4. 사이트캡쳐</h1>
+									<h1 class="h6   mb-2">3. 사이트캡쳐</h1>
 									<p class="mb-4">
 										외부망 IP를 통하여 접속된 웹사이트 캡처본을 받아보세요! </br> URL을 입력하여 해당 사이트를 사진으로 확인해 볼
 										수 있습니다!</br>
+									<div>
+										<input class="btn btn-warning btn-user btn-block"
+											type="submit" value="개발중🛠️" name="#" id="#" />
+									</div>
+									<hr>
+
+									<h1 class="h6 text-gray-900 mb-2">4. 보안정보 자동수집(보안뉴스, KISA
+										등)</h1>
+									<p class="mb-4 h6">
+										정보보안 관련 새로운 개시글을 메일로 받아보세요!</br>
 									<div>
 										<input class="btn btn-warning btn-user btn-block"
 											type="submit" value="개발중🛠️" name="#" id="#" />
