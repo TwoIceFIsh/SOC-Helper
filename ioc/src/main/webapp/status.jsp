@@ -13,7 +13,7 @@ if (value == null) {
 	response.sendRedirect("http://222.110.22.168:8080/ioc/login.jsp");
 
 }
-%><link rel="favicon" href="/images/favicon.ico">
+%><link rel="favicon" href="images/favicon.ico">
 <head>
 <link href="css/my.css" rel="stylesheet">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -74,6 +74,10 @@ if (value == null) {
 								aria-haspopup="true" aria-expanded="false">메일수신변경</button>
 							<div class="dropdown-menu animated--fade-in"
 								aria-labelledby="dropdownMenuButton">
+								
+								<% %>
+								
+								<% %>
 								<a id="a" class="dropdown-item" href="#">보안관제팀👍</a> <a id="b"
 									class="dropdown-item" href="#">부장님😁</a> <a id="c"
 									class="dropdown-item" href="#">승환😎</a> <a id="d"
@@ -95,7 +99,7 @@ if (value == null) {
 
 
 
-	<!-- Earnings (Monthly) Card Example -->
+	<!-- 구 표시
 	<div class=" col-md-5 mb-2">
 		<div class="card border-left-info   h-100 py-2">
 			<div class="card-body">
@@ -121,8 +125,7 @@ if (value == null) {
 								<div id="statusMessage5"
 									class="h6 mb-0 mr-3 font-weight-bold text-gray-800">캡쳐 :
 									🛠️</div>
-								<div id="nokori"
-									class="h6 mb-0 mr-3 font-weight-bold text-gray-800"></div>
+								
 
 							</div>
 
@@ -132,10 +135,10 @@ if (value == null) {
 				</div>
 			</div>
 		</div>
-	</div>
+	</div>-->
 
 
-	<div class=" col-md-7 mb-2">
+	<div class=" col-md-12 mb-2">
 		<div class="card border-left-info  h-100 py-2">
 			<div class="card-body">
 				<div class="row no-gutters align-items-left">
@@ -146,30 +149,34 @@ if (value == null) {
 						<div
 							class=" col-md-12  align-items-center font-weight-bold text-gray-800">
 
-							<div class="row">
+							<div class="col-md-12">
+								<div class="row">
 
-								<div id="moduleE" class="mb-0"></div>
-								__Manager(+Recover)
-							</div>
+									<div id="moduleE" class="mb-0"></div>
+									__Manager(+Recover)
 
-							<div class="row">
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;처리현황 : <div id="nokori" class="mb-0"></div>
+								</div>
 
-								<div id="moduleA" class="mb-0"></div>
-								__CVE Module
-							</div>
-							<div class="row">
+								<div class="row">
 
-								<div id="moduleB" class="mb-0"></div>
-								__IOC Module
-							</div>
-							<div class="row">
+									<div id="moduleA" class="mb-0"></div>
+									__CVE Module
+								</div>
+								<div class="row">
 
-								<div id="moduleC" class="mb-0"></div>
-								__JOIN Module
-							</div>
-							<div class="row">
-								<div id="moduleD" class="mb-0"></div>
-								__FIND Module
+									<div id="moduleB" class="mb-0"></div>
+									__IOC Module
+								</div>
+								<div class="row">
+
+									<div id="moduleC" class="mb-0"></div>
+									__JOIN Module
+								</div>
+								<div class="row">
+									<div id="moduleD" class="mb-0"></div>
+									__FIND Module
+								</div>
 							</div>
 
 
