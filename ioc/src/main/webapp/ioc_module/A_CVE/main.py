@@ -1,12 +1,16 @@
 import time
 import pymysql
 import connect
-
+import subprocess
+import os
 line = 2
 
 print('module cve activated')
 
 while 1:
+
+
+
     ######################################     PROGRAM HEART BEAT        ######################################
     connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
     curq = connq.cursor()
@@ -27,7 +31,7 @@ while 1:
     connq.close()
 
     ############################################################################################################
-    time.sleep(5)
+
     connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
     curq = connq.cursor()
     sql4 = "SELECT count(*) FROM jobq WHERE status = 0 AND type ='cve'  limit 1"

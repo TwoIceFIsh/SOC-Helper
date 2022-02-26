@@ -2,7 +2,8 @@ import time
 from datetime import datetime
 import pymysql
 import connect
-
+import subprocess
+import os
 
 
 line = 2

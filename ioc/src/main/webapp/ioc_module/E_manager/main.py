@@ -101,26 +101,15 @@ while 1:
                     if pno[a] == 4:
                         subprocess.call([str(os.getcwd()) + "\\..\\D_find\\recover_D.bat"])
                         print('module restart : \\D_find\\main.py ')
-                        continue
 
-
-
-
-
-
-
-
-
-
-    #
-    # ############################### MODULE STATUS CHANGE #####################################
-    # connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc',
-    #                         charset='utf8')
-    # curq = connq.cursor()
-    # sql4 = "UPDATE programs SET c = '1' WHERE a = 'module_manager'"
-    # curq.execute(sql4)
-    # connq.commit()
-    # connq.close()
+    ############################### MODULE STATUS CHANGE #####################################
+    connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc',
+                            charset='utf8')
+    curq = connq.cursor()
+    sql4 = "UPDATE programs SET c = '0' WHERE a = 'module_manager'"
+    curq.execute(sql4)
+    connq.commit()
+    connq.close()
 
 
 

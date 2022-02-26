@@ -1,3 +1,4 @@
+
 moduleCheck();
 setInterval(moduleCheck, 4000);
 function moduleCheck() {
@@ -34,6 +35,7 @@ function moduleCheck() {
 				$('#moduleE').html('🟢');
 			}
 
+
 			if (A == '1') {
 				$('#moduleA').html('🟡');
 			}
@@ -45,10 +47,10 @@ function moduleCheck() {
 			}
 			if (D == '1') {
 				$('#moduleD').html('🟡');
-			}
-			if (E == '1') {
+			} if (E == '1') {
 				$('#moduleE').html('🟡');
 			}
+
 
 			if (A == '3') {
 				$('#moduleA').html('🔴');
@@ -61,8 +63,7 @@ function moduleCheck() {
 			}
 			if (D == '3') {
 				$('#moduleD').html('🔴');
-			}
-			if (E == '3') {
+			} if (E == '3') {
 				$('#moduleE').html('🔴');
 			}
 

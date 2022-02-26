@@ -2,7 +2,8 @@ import time
 from datetime import datetime
 import pymysql
 import connect
-
+import subprocess
+import os
 
 
 line = 2
@@ -34,6 +35,7 @@ while 1:
     connq.close()
 
     ############################################################################################################
+
 
     #print("START")
     time.sleep(5)
