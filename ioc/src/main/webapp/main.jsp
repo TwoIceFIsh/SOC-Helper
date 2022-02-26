@@ -30,7 +30,7 @@
 
 
 
-<body class="bg-main-image">
+<body class="bg-main-image text-blur-out">
 
 	<div class="container " >
 

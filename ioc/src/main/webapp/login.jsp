@@ -28,7 +28,7 @@
 </head>
 
 
-<body class="login-bg">
+<body class="login-bg text-blur-out" id="bgbg" name="bgbg">
 	<script src="js/common2.js" charset="UTF-8"></script>
 	<div class="container fade-in">
 
