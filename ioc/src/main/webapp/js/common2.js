@@ -247,7 +247,7 @@ function nokori() {
 			if (result == 0)
 				$('#nokori').html('(작업 없음)');
 			if (result > 0)
-				$('#nokori').html('(처리 ' + result + '건 남음)' + '</br>' + ((result * 1) / 60) + '~' + ((result * 15) / 60) + '분 소요');
+				$('#nokori').html('(처리 ' + result + '건 남음)' + '</br>' + Math.ceil((result * 1) / 60) + '~' + ((result * 15) / 60) + '분 소요');
 
 
 		}
