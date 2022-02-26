@@ -95,11 +95,11 @@ if (value == null) {
 									class="dropdown-item" href="#">테스트🥰</a>
 							</div>
 
-							<div class="dropdown mb-1 ">
+							<%-- <div class="dropdown mb-1 ">
 
 								<button class="h6 btn btn-primary dropdown-toggle" type="button"
 									id="dropdownMenuButtonQ" data-toggle="dropdown"
-									aria-haspopup="true" aria-expanded="false">DB메일(TEST)</button>
+									aria-haspopup="true" aria-expanded="false">ta</button>
 
 								<div class="dropdown-menu animated--fade-in"
 									aria-labelledby="dropdownMenuButtonQ">
@@ -114,7 +114,7 @@ if (value == null) {
 
 								</div>
 							</div>
-
+ --%>
 						</div>
 					</div>
 
