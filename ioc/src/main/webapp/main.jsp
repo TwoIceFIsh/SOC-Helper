@@ -1,3 +1,5 @@
+<%@page import="user.userDTO"%>
+<%@page import="user.userDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC"-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -36,6 +38,11 @@
 
 		<%
 		String value = (String) session.getAttribute("ok");
+
+		userDTO user = new userDTO();
+		userDAO userF = new userDAO();
+		user = userF.getUser(value);
+		
 		if (value != null) {
 		%>
 
@@ -58,7 +65,7 @@
 
 
 							<div class="text-right">
-								<%=value%>님 환영합니다. <a class=" " href="logout.jsp">(로그아웃)</a>
+								<%=user.getName()%>님 환영합니다. <a class=" " href="logout.jsp">(로그아웃)</a>
 							</div>
 
 						</div>

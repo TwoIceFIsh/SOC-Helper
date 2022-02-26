@@ -1,7 +1,12 @@
+<%@page import="org.apache.poi.util.SystemOutLogger"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="java.util.Date"%>
 <%@ page import="java.text.SimpleDateFormat"%>
+<%@ page import="site.siteDAO"%>
+<%@ page import="site.siteDTO"%>
+<%@ page import="java.util.ArrayList"%>
+
 <%
 Date nowTime = new Date();
 SimpleDateFormat sf = new SimpleDateFormat("yy.MM.dd");
@@ -9,6 +14,11 @@ SimpleDateFormat sf = new SimpleDateFormat("yy.MM.dd");
 <!DOCTYPE html PUBLIC"-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%
 String value = (String) session.getAttribute("ok");
+
+ArrayList<siteDTO> site = new ArrayList<siteDTO>();
+siteDAO siteF = new siteDAO();
+site = siteF.getMail();
+
 if (value == null) {
 	response.sendRedirect("http://222.110.22.168:8080/ioc/login.jsp");
 
@@ -46,8 +56,6 @@ if (value == null) {
 
 					</div>
 
-
-
 				</div>
 			</div>
 		</div>
@@ -72,12 +80,10 @@ if (value == null) {
 							<button class="h6 btn btn-primary dropdown-toggle" type="button"
 								id="dropdownMenuButton" data-toggle="dropdown"
 								aria-haspopup="true" aria-expanded="false">메일수신변경</button>
+
 							<div class="dropdown-menu animated--fade-in"
 								aria-labelledby="dropdownMenuButton">
-								
-								<% %>
-								
-								<% %>
+
 								<a id="a" class="dropdown-item" href="#">보안관제팀👍</a> <a id="b"
 									class="dropdown-item" href="#">부장님😁</a> <a id="c"
 									class="dropdown-item" href="#">승환😎</a> <a id="d"
@@ -87,6 +93,26 @@ if (value == null) {
 									class="dropdown-item" href="#">예지😚</a> <a id="h"
 									class="dropdown-item" href="#">형욱😡</a> <a id="j"
 									class="dropdown-item" href="#">테스트🥰</a>
+							</div>
+
+							<div class="dropdown mb-1 ">
+
+								<button class="h6 btn btn-primary dropdown-toggle" type="button"
+									id="dropdownMenuButtonQ" data-toggle="dropdown"
+									aria-haspopup="true" aria-expanded="false">DB메일(TEST)</button>
+
+								<div class="dropdown-menu animated--fade-in"
+									aria-labelledby="dropdownMenuButtonQ">
+
+									<%
+									for (int i = 0; i < site.size(); i++) {
+									%>
+									<a id="A<%=i%>" class="dropdown-item" href="#"><%=site.get(i).getName()%></a>
+									<%
+									}
+									%>
+
+								</div>
 							</div>
 
 						</div>
@@ -145,7 +171,7 @@ if (value == null) {
 					<div class="col-auto">
 						<div
 							class="text-xs font-weight-bold text-info text-uppercase mb-1">
-							모듈 상태(실시간) (🟢동작 🟡작업 🔴종료)</div>
+							모듈 상태(실시간) (🟢정상 🟡작업 🔴다운)</div>
 						<div
 							class=" col-md-12  align-items-center font-weight-bold text-gray-800">
 
@@ -155,7 +181,8 @@ if (value == null) {
 									<div id="moduleE" class="mb-0"></div>
 									__Manager(+Recover)
 
-									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;처리현황 : <div id="nokori" class="mb-0"></div>
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;처리현황 :
+									<div id="nokori" class="mb-0"></div>
 								</div>
 
 								<div class="row">

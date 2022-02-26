@@ -70,7 +70,7 @@ public class userDAO {
 	public static boolean find(String id) {
 
 		ResultSet rs = null;
- 
+
 		Connection conn = null;
 		PreparedStatement pstm = null;
 		int no = 0;
@@ -97,8 +97,8 @@ public class userDAO {
 			rs.next();
 			System.out.println("OK");
 			no1 = rs.getBoolean(1);
-			
-			if(no1 == false) {
+
+			if (no1 == false) {
 				return no1;
 			}
 
@@ -463,6 +463,63 @@ public class userDAO {
 
 	}
 
+	public static userDTO getUser(String id) {
+
+		ResultSet rs = null;
+
+		userDTO user = new userDTO();
+
+		Connection conn = null;
+		PreparedStatement pstm = null;
+		int no = 0;
+		try {
+			String jdbcUrl = "jdbc:mysql://localhost:3306/ioc?useUnicode=true&characterEncoding=utf8";
+			String dbId = "root";
+			String dbPass = "!Hg1373002934";
+
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			conn = DriverManager.getConnection(jdbcUrl, dbId, dbPass);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		int n = 0;
+		boolean no1 = false;
+		try {
+
+			// ¹ÝÈ¯
+			String sql = "select no,a,b,c FROM user WHERE a= '" + id + "'";
+			System.out.println(sql);
+			pstm = conn.prepareStatement(sql);
+			rs = pstm.executeQuery();
+
+			while (rs.next()) {
+				user.setId(rs.getString(2));
+				user.setPw(rs.getString(3));
+				user.setName(rs.getString(4));
+			}
+
+				return user;
+		} catch (
+
+		Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+
+				if (pstm != null)
+					pstm.close();
+
+				if (conn != null)
+					conn.close();
+
+			} catch (Exception e) {
+			}
+		}
+		return user;
+	}
 ////////////////////////////////////////////////////////////
 
 }
