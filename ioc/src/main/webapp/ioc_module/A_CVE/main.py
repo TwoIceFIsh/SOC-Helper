@@ -7,8 +7,27 @@ line = 2
 
 
 while 1:
+    ######################################     PROGRAM HEART BEAT        ######################################
+    connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
+    curq = connq.cursor()
+    sql4 = "SELECT b FROM programs WHERE a = 'module_cve'"
+    curq.execute(sql4)
+    pno = 0;
+    for rs in curq:
+        pno = rs[0]
+    connq.close()
 
-    time.sleep(1)
+    pno += 1
+
+    connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
+    curq = connq.cursor()
+    sql4 = "UPDATE programs SET c = 0, b = '"+ str(pno) +"' WHERE a = 'module_cve'"
+    curq.execute(sql4)
+    connq.commit()
+    connq.close()
+
+    ############################################################################################################
+    time.sleep(5)
     connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
     curq = connq.cursor()
     sql4 = "SELECT count(*) FROM jobq WHERE status = 0 AND type ='cve'  limit 1"
@@ -52,6 +71,17 @@ while 1:
                 num = j[0]
 
             if num > 0:
+
+                ############################### MODULE STATUS CHANGE #####################################
+                connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc',
+                                        charset='utf8')
+                curq = connq.cursor()
+                sql4 = "UPDATE programs SET c = '1' WHERE a = 'module_cve'"
+                curq.execute(sql4)
+                connq.commit()
+                connq.close()
+
+
                 #####################################
                 realname = connect.mailCheck(jobmail)
                 logText = "작업[" + str(jobno) + "] " + str(jobip) + "님의 " + str(jobtype) + " 작업 진행 (To : " + str(
@@ -94,6 +124,15 @@ while 1:
                     print(logText)
                     connect.loglog(logText)
 
+                    ############################### MODULE STATUS CHANGE #####################################
+                    connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc',
+                                            charset='utf8')
+                    curq = connq.cursor()
+                    sql4 = "UPDATE programs SET c = '0' WHERE a = 'module_cve'"
+                    curq.execute(sql4)
+                    connq.commit()
+                    connq.close()
+
             else:
                 connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc',
                                         charset='utf8')
@@ -108,4 +147,6 @@ while 1:
                 logText = "작업[" + str(jobno) + "] " + str(jobip) + "님의 " + str(jobtype) + " 작업 실패(파일내용없음)"
                 connect.loglog(logText)
                 print(logText)
+
+
 
