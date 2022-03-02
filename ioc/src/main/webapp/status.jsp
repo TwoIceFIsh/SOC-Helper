@@ -16,8 +16,8 @@ SimpleDateFormat sf = new SimpleDateFormat("yy.MM.dd");
 String value = (String) session.getAttribute("ok");
 
 ArrayList<siteDTO> site = new ArrayList<siteDTO>();
-siteDAO siteF = new siteDAO();
-site = siteF.getMail();
+//siteDAO siteF = new siteDAO();
+//site = siteF.getMail();
 
 if (value == null) {
 	response.sendRedirect("http://222.110.22.168:8080/ioc/login.jsp");
