@@ -29,7 +29,7 @@ if (value == null) {
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <div class="row ">
 
-
+ 
 
 	<div class=" col-md-5 mb-2">
 		<div class="card border-left-primary h-60 py-3">
