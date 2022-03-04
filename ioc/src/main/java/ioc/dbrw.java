@@ -158,9 +158,10 @@ public class dbrw {
 				String filePath = location + "\\" + fileName;
 				while ((sLine = inFile.readLine()) != null) {
 					sLine = sLine.strip();
-					if (sLine.matches(".*[¤¡-¤¾¤¿-¤Ó°¡-ÆR]+.*")) {
-						sLine = "X";
-						return 3;
+					sLine = sLine.replace("\r", "");
+					sLine = sLine.replace("\n", "");
+					if (sLine.matches(".*[¤¡-¤¾¤¿-¤Ó°¡-ÆR]+.*") || sLine.equals("")) {
+						continue;
 					}
 
 					if (sLine.contains("[.]") || sLine.contains("hxxp") || sLine.contains("HASH:")) {
@@ -168,9 +169,7 @@ public class dbrw {
 						sLine = sLine.replace("hxxp", "http");
 						sLine = sLine.replace("HASH:", "");
 					}
-					
-					
-
+	 
 					no = writeLine2(sLine, filePath, returnType(sLine), ipAddress, dateToStr);
 					count2 += 1;
 				}

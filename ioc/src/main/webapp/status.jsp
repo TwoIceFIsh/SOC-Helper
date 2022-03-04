@@ -6,13 +6,12 @@
 <%@ page import="site.siteDAO"%>
 <%@ page import="site.siteDTO"%>
 <%@ page import="java.util.ArrayList"%>
+<!DOCTYPE html PUBLIC"-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 <%
 Date nowTime = new Date();
 SimpleDateFormat sf = new SimpleDateFormat("yy.MM.dd");
-%>
-<!DOCTYPE html PUBLIC"-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<%
+ 
 String value = (String) session.getAttribute("ok");
 
 ArrayList<siteDTO> site = new ArrayList<siteDTO>();
