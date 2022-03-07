@@ -70,12 +70,13 @@ while 1:
                 mcount.append(rs[2])
 
             a = 0
-            if 0 < len(mno):
 
+            print(pcount)
+            print(mcount)
+
+            for a in range(0,len(mcount)):
                 if pcount[a] == mcount[a]:
-
                     runDBupdate("UPDATE programs SET c = 3 WHERE no = '" + str(pno[a]) + "' AND c = 0 AND a != 'module_manager'")
-
                     if pno[a] == 1:
                         subprocess.call([str(os.getcwd()) + "\\..\\A_CVE\\recover_A.bat"])
                         print('module restart : \\A_CVE\\main.py ')

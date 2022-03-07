@@ -38,7 +38,7 @@ def loglog(logText):
 
 
 
-def sendMail(jobmail, jobpw):
+def sendMail(jobmail, jobpw, jobno):
     print(
         "############################################## 메일 보내기 ##########################################################")
     yy = datetime.today().strftime('%y')
@@ -82,7 +82,7 @@ def sendMail(jobmail, jobpw):
         # 메일 발송
         session.sendmail(from_addr, to_addr, message.as_string())
 
-        loglog("작업["+str(jobno)+"] IOC 결과 메일 발송 완료(수신:"+realname+")")
+        loglog("작업["+str(jobno)+"] IOC 결과 메일 발송 완료")
 
 
     except Exception as e:

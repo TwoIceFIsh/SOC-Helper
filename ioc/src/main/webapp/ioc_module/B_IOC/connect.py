@@ -421,25 +421,6 @@ def mailCheck(address):
 
     return realname
 
-
-import time
-import openpyxl as openpyxl
-import pymysql
-import os
-import smtplib
-from datetime import datetime
-from email import encoders
-from email.utils import formataddr
-from email.mime.base import MIMEBase
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
-import requests
-
-countzero = 0
-asdfasdf = []
-
-
-
 def findHX(value):
     if value is None:
         return
