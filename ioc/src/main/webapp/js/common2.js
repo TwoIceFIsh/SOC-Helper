@@ -22,13 +22,13 @@ function siteStatus() {
 			$('#statusMessage2').html("" + b);
 
 			if (c != 0) {
-				$('#nokori2').html('');
-				$('#nokori').html('CVE 처리 ' + c + '건 남음 -' + parseInt((c * 1) / 60) + '분 소요');
+ 
+				$('#nokori').html('CVE ' + c + '건 (' + parseInt((c * 1) / 60) + ')분 소요');
 				$('#nokori3').html('');
 			}
 			if (d != 0) {
-				$('#nokori').html('');
-				$('#nokori2').html('IOC 처리 ' + d + '건 남음 -' + ((c * 15) / 60) + '분 소요');
+ 
+				$('#nokori2').html('IOC ' + d + '건 (' + ((c * 15) / 60) + ')분 소요');
 				$('#nokori3').html('');
 			}
 			if (c == 0 && d == 0) {
