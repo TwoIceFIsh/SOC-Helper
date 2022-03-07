@@ -15,25 +15,33 @@ import requests
 from googletrans import Translator
 
 
+def runDBupdate(sql):
+    connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
+    curq = connq.cursor()
+    curq.execute(sql) 
+    connq.commit()
+    connq.close()
+    
+    
+def runDBselect(sql):
+    connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
+    curq = connq.cursor()
+    curq.execute(sql) 
+    connq.commit()
+    connq.close()
+
+    return curq
+
 def getList(jobno, jobip, jobdate):
     print("################ CVE 데이터 GET ###########################")
-    conn = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
-    cur = conn.cursor()
-    sql = "SELECT no, cve, status FROM cve WHERE status = 0 AND ipip = '"+ str(jobip)+"' AND time = '" + str(jobdate)+ "'"
-    cur.execute(sql)
-    conn.close()
-
+    cur = runDBselect("SELECT no, cve, status FROM cve WHERE status = 0 AND ipip = '"+ str(jobip)+"' AND time = '" + str(jobdate)+ "'")
     result = []
     for row in cur:
         if row[0] == "X" and row[1] == "X" and row[2] == "X" and row[3] == "X" and row[4] == "X":
-            connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
-            curq = connq.cursor()
-            sql4 = "UPDATE cve SET status = '3' WHERE ipip = '" + str(
-                jobip) + "' AND time = '" + str(jobdate) + "' AND status = '2'"
-            print(sql4)
-            curq.execute(sql4)
-            connq.commit()
-            connq.close()
+
+            runDBupdate("UPDATE cve SET status = '3' WHERE ipip = '" + str(
+                jobip) + "' AND time = '" + str(jobdate) + "' AND status = '2'")
+
             return 9
 
         if(row[0] is None or row[0] == ""):
@@ -42,14 +50,11 @@ def getList(jobno, jobip, jobdate):
             result.append(row[1])
 
 
-
-    logText = "작업[" + str(jobno) + "] 총 [" + str(len(result)) + "]개 데이터 등록 "
-    loglog(logText)
+    loglog("작업[" + str(jobno) + "] 총 [" + str(len(result)) + "]개 데이터 등록 ")
 
     filename = excel(result,jobip, jobdate)
-
-    logText = "작업[" + str(jobno) + "] 총 [" + str(len(result)) + "]개 데이터 변환완료 "
-    loglog(logText)
+ 
+    loglog( "작업[" + str(jobno) + "] 총 [" + str(len(result)) + "]개 데이터 변환완료 ")
 
     sendMail(filename, jobno, jobip, jobdate, len(result))
         ######################################################################
@@ -60,12 +65,7 @@ def sendMail(filename, jobno, jobip, jobdate, num1):
 
     name = '보안관제'
 
-    conn = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
-    cur = conn.cursor()
-    sql = "SELECT no, email FROM jobq WHERE ipip = '" + str(jobip) + "' AND time = '" + str(jobdate) + "'"
-    cur.execute(sql)
-    conn.commit()
-    conn.close()
+    cur = runDBselect("SELECT no, email FROM jobq WHERE ipip = '" + str(jobip) + "' AND time = '" + str(jobdate) + "'")
 
     for a in cur:
         address = a[1]
@@ -73,20 +73,16 @@ def sendMail(filename, jobno, jobip, jobdate, num1):
     realname = mailCheck(address)
 
     list = []
-    conn = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
-    cur = conn.cursor()
-    sql = "SELECT mailcount FROM site_status"
-    cur.execute(sql)
+
+    cur = runDBselect("SELECT mailcount FROM site_status")
+
     # 여러 줄 출력
     i = 0
     value = 0
     for row in cur:
         value = row[0]
 
-    sql2 = "UPDATE site_status SET mailcount = " + str(value + 1)
-    cur.execute(sql2)
-    conn.commit()
-    conn.close()
+    runDBupdate("UPDATE site_status SET mailcount = " + str(value + 1))
 
     from_addr = formataddr(('SOCH', 'bh.lee@s-oil.com'))
 
@@ -149,11 +145,7 @@ def sendMail(filename, jobno, jobip, jobdate, num1):
         # 메일 발송
         session.sendmail(from_addr, to_addr, message.as_string())
 
-        print('Successfully sent the mail!!!')
-
-        logText = "작업[" + str(jobno) + "] CVE 결과 메일 발송 완료(수신:" + realname + ")"
-        print(logText)
-        loglog(logText)
+        loglog("작업[" + str(jobno) + "] CVE 결과 메일 발송 완료(수신:" + realname + ")")
 
     except Exception as e:
         print(e)
@@ -164,11 +156,8 @@ def sendMail(filename, jobno, jobip, jobdate, num1):
     #################################################################################################################
 
 def loglog(logText):
-    connA = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
-    curA = connA.cursor()
-    sqlA = "select MAX(no) from log"
-    curA.execute(sqlA)
-    connA.close()
+    print(logText)
+    curA = runDBselect("select MAX(no) from log")
 
     no = 1
     for rs in curA:
@@ -178,12 +167,9 @@ def loglog(logText):
             no = 1
 
     nowTime = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
-    connA = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
-    curA = connA.cursor()
-    sqlA = "INSERT INTO LOG (no, text) values ('" + str(no + 1) + "','" + nowTime+" : " + logText + "')"
-    curA.execute(sqlA)
-    connA.commit()
-    connA.close()
+    
+    runDBupdate("INSERT INTO LOG (no, text) values ('" + str(no + 1) + "','" + nowTime+" : " + logText + "')")
+ 
 
 def excel(list, jobip, jobdate):
     filename = ""
@@ -293,14 +279,9 @@ def setup1(result, type, jobip, jobdate):
     #setup1(md5, "md5", jobip, jobdate)
 
     # md5 변환 완료 (status 0 > 1)
-    connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
-    curq = connq.cursor()
-
-    sql4 = "UPDATE cve SET status = '1' WHERE "+type+" = '" + result + "' AND ipip = '" + str(jobip) + "' AND time = '" + str(jobdate) + "'"
-    print(sql4)
-    curq.execute(sql4)
-    connq.commit()
-    connq.close()
+    runDBupdate("UPDATE cve SET status = '1' WHERE "+type+" = '" + result + "' AND ipip = '" + str(jobip) + "' AND time = '" + str(jobdate) + "'")
+    
+    
 
 def trans(TEXT):
     trans= Translator()
@@ -309,11 +290,8 @@ def trans(TEXT):
 
 def sitecountUp(num):
 
-    conn7 = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
-    cur7 = conn7.cursor()
-
-    sql7 = "SELECT count FROM site_status where no = 1"
-    cur7.execute(sql7)
+    cur7 = runDBselect("SELECT count FROM site_status where no = 1")
+ 
 
     for a in cur7:
         count = a[0]
@@ -322,10 +300,8 @@ def sitecountUp(num):
 
     out = count + num
 
-    sql4 = "UPDATE site_status SET count =" + str(out) + " where no = 1"
-    cur7.execute(sql4)
-    conn7.commit()
-    conn7.close()
+    runDBupdate("UPDATE site_status SET count =" + str(out) + " where no = 1")
+
 
 def mailCheck(address):
     realname = ""

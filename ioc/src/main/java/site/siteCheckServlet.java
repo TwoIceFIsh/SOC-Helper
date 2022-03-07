@@ -42,8 +42,14 @@ public class siteCheckServlet extends HttpServlet {
 		response.setContentType("text/html; charset=UTF-8");
 		dbrw dbrw = new dbrw();
 		
+		int a = dbrw.getStatus();
+		int b = dbrw.getStatus2();
+		int c = dbrw.getStatus3();
+		int d = dbrw.getStatus4();
 		
-		response.getWriter().println(dbrw.getStatus()+"");
+		
+		response.getWriter().println(a+"#"+b+"#"+c+"#"+d + "");
+				
 		response.getWriter().close(); 
 	}
 

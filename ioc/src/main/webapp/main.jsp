@@ -41,8 +41,8 @@
 
 		userDTO user = new userDTO();
 		userDAO userF = new userDAO();
-		user = userF.getUser(value);
-		
+		//user = userF.getUser(value);
+
 		if (value != null) {
 		%>
 
@@ -65,7 +65,7 @@
 
 
 							<div class="text-right">
-								<%=user.getName()%>님 환영합니다. <a class=" " href="logout.jsp">(로그아웃)</a>
+								<%=value%>님 환영합니다. <a class=" " href="logout.jsp">(로그아웃)</a>
 							</div>
 
 						</div>
@@ -152,12 +152,6 @@
 		%>
 	</div>
 
-	</div>
-
-	</div>
-
-	</div>
-
 	<!-- Bootstrap core JavaScript-->
 	<script src="vendor/jquery/jquery.min.js"></script>
 	<script src="js/common2.js" charset="UTF-8"></script>
@@ -169,5 +163,4 @@
 
 	<!-- Custom scripts for all pages-->
 	<script src="js/sb-admin-2.min.js"></script>
-
 </body>

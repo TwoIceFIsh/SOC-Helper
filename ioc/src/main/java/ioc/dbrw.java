@@ -48,7 +48,7 @@ public class dbrw {
 				while ((sLine = inFile.readLine()) != null) {
 					sLine = sLine.strip();
 					if (sLine.matches(".*[¤¡-¤¾¤¿-¤Ó°¡-ÆR]+.*") || !sLine.matches(".*[CVE]+.*")) {
-						sLine = "X"; 
+						sLine = "X";
 						return 3;
 					}
 
@@ -79,7 +79,7 @@ public class dbrw {
 
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection(jdbcUrl, dbId, dbPass);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -169,7 +169,7 @@ public class dbrw {
 						sLine = sLine.replace("hxxp", "http");
 						sLine = sLine.replace("HASH:", "");
 					}
-	 
+
 					no = writeLine2(sLine, filePath, returnType(sLine), ipAddress, dateToStr);
 					count2 += 1;
 				}
@@ -196,7 +196,7 @@ public class dbrw {
 
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn2 = DriverManager.getConnection(jdbcUrl, dbId, dbPass);
-			// 
+			//
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -327,7 +327,7 @@ public class dbrw {
 
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection(jdbcUrl, dbId, dbPass);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -377,7 +377,7 @@ public class dbrw {
 
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection(jdbcUrl, dbId, dbPass);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -426,7 +426,7 @@ public class dbrw {
 
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection(jdbcUrl, dbId, dbPass);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -475,7 +475,7 @@ public class dbrw {
 
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection(jdbcUrl, dbId, dbPass);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -549,7 +549,7 @@ public class dbrw {
 
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection(jdbcUrl, dbId, dbPass);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -557,6 +557,57 @@ public class dbrw {
 		address = address.trim();
 		int n = 0;
 		String query = "UPDATE site_status SET address = ?";
+
+		try {
+
+			pstm = conn.prepareStatement(query);
+			pstm.setString(1, address);
+			// pstm.setString(4, "");
+
+			n = pstm.executeUpdate();
+
+			if (n == 1) {
+				System.out.println("mailAddress Changed to " + address);
+				return address;
+			} else {
+				System.out.println("insert fail");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (resultSet != null)
+					resultSet.close();
+
+				if (pstm != null)
+					pstm.close();
+
+				if (conn != null)
+					conn.close();
+
+			} catch (Exception e) {
+			}
+		}
+		return "no";
+	}
+
+	public String mailAddress2(String address) {
+
+		try {
+			String jdbcUrl = "jdbc:mysql://localhost:3306/ioc?useUnicode=true&characterEncoding=utf8";
+			String dbId = "root";
+			String dbPass = "!Hg1373002934";
+
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			conn = DriverManager.getConnection(jdbcUrl, dbId, dbPass);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		address = address.trim();
+		int n = 0;
+		String query = "UPDATE site_status SET address = ?"; 
 
 		try {
 
@@ -600,7 +651,7 @@ public class dbrw {
 
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection(jdbcUrl, dbId, dbPass);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -651,7 +702,7 @@ public class dbrw {
 
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection(jdbcUrl, dbId, dbPass);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -677,7 +728,7 @@ public class dbrw {
 
 			}
 
-			 return result + result2;
+			return result + result2;
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -708,7 +759,7 @@ public class dbrw {
 
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection(jdbcUrl, dbId, dbPass);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -763,7 +814,7 @@ public class dbrw {
 
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection(jdbcUrl, dbId, dbPass);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -815,7 +866,7 @@ public class dbrw {
 
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection(jdbcUrl, dbId, dbPass);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -876,6 +927,56 @@ public class dbrw {
 		}
 		return 0;
 
+	}
+
+	public String nameTomail(String name) {
+
+		try {
+			String jdbcUrl = "jdbc:mysql://localhost:3306/ioc?useUnicode=true&characterEncoding=utf8";
+			String dbId = "root";
+			String dbPass = "!Hg1373002934";
+
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			conn = DriverManager.getConnection(jdbcUrl, dbId, dbPass);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		int n = 0;
+		String address = "";
+		String query2 = "SELECT * FROM USER WHERE c = ?";
+
+		try {
+
+			pstm = conn.prepareStatement(query2);
+			pstm.setString(1, name);
+			resultSet = pstm.executeQuery();
+
+			while (resultSet.next()) {
+				address = resultSet.getString(2);
+
+			}
+
+			return address;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (resultSet != null)
+					resultSet.close();
+
+				if (pstm != null)
+					pstm.close();
+
+				if (conn != null)
+					conn.close();
+
+			} catch (Exception e) {
+			}
+		}
+		return "";
 	}
 
 }

@@ -10,28 +10,18 @@ import javax.servlet.http.HttpServletResponse;
 import ioc.dbrw;
 
 /**
- * Servlet implementation class siteCheckServlet3
+ * Servlet implementation class mailCheckServlet2
  */
-@WebServlet("/siteCheckServlet3")
-public class siteCheckServlet3 extends HttpServlet {
+@WebServlet("/mailCheckServlet2")
+public class mailCheckServlet2 extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public siteCheckServlet3() {
+	public mailCheckServlet2() {
 		super();
 		// TODO Auto-generated constructor stub
-	}
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**
@@ -40,14 +30,17 @@ public class siteCheckServlet3 extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
-		request.getParameter("heart");
+		String name = request.getParameter("name");
+
+		int result = 0;
 
 		dbrw dbrw = new dbrw();
+		String address = dbrw.nameTomail(name);
+		address = dbrw.mailAddress2(address);
 
-		response.getWriter().println(dbrw.getStatus3() + "");
+		response.getWriter().println(address + "");
 		response.getWriter().close();
 	}
 

@@ -11,83 +11,70 @@ mm = datetime.today().strftime('%m')
 dd = datetime.today().strftime('%d')
 count = 1
 
-while 1:
-    print('Process Heart Beat')
-    ######################################     INI        ######################################
-    connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
-    curq = connq.cursor()
-    sql4 = "UPDATE programs SET b = 0 WHERE b > 1000"
-    curq.execute(sql4)
-    connq.commit()
-    connq.close()
-
-
-    ######################################     PROGRAM HEART BEAT        ######################################
-    connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
-    curq = connq.cursor()
-    sql4 = "SELECT b FROM programs WHERE a = 'module_manager'"
-    curq.execute(sql4)
+def heartBeat(mudule_name):
     pno = 0;
+    curq = runDBselect("SELECT b FROM programs WHERE a = '"+mudule_name+"'")
     for rs in curq:
         pno = rs[0]
-    connq.close()
-
     pno += 1
+    runDBupdate("UPDATE programs SET c = 0 , b = '" + str(pno) + "' WHERE a = '"+mudule_name+"'")
+    time.sleep(4)
 
+def runDBupdate(sql):
     connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
     curq = connq.cursor()
-    sql4 = "UPDATE programs SET c = 0, b = '" + str(pno) + "' WHERE a = 'module_manager'"
-    curq.execute(sql4)
+    curq.execute(sql)
+    connq.commit()
+
+def runDBselect(sql):
+    connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
+    curq = connq.cursor()
+    curq.execute(sql)
     connq.commit()
     connq.close()
 
-    ############################################################################################################
+    return curq
 
-    # print("START")
-    time.sleep(1)
+while 1:
+    print('Process Heart Beat')
+    runDBupdate("UPDATE programs SET b = 0 WHERE b > 1000")
+
+    heartBeat('module_manager')
 
     ################################## status 0 program heart beat check ################################
-    connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
-    curq = connq.cursor()
-    sql4 = "SELECT count(*) FROM programs WHERE c = 0 "
-    curq.execute(sql4)
+
+    curq = runDBselect("SELECT count(*) FROM programs WHERE c != 1 AND  a != 'module_manager'")
+
     yesyes = 0
     for rs in curq:
         if rs[0] > 0:
+            #print(str(sql4) + " :  " + str(rs[0]))
+            runDBupdate("UPDATE programs SET c = 1 WHERE a = 'module_manager'")
 
-            connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
-            curq = connq.cursor()
-            sql4 = "SELECT * FROM programs WHERE c = 0"
-            curq.execute(sql4)
+            curq = runDBselect("SELECT * FROM programs WHERE c != 1 and a != 'module_manager'")
+
             pno = []
             pcount = []
             for rs in curq:
                 pno.append(rs[0])
                 pcount.append(rs[2])
 
-            time.sleep(6)
+            time.sleep(10)
 
-            connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
-            curq = connq.cursor()
-            sql4 = "SELECT * FROM programs WHERE c = 0"
-            curq.execute(sql4)
+            curq = runDBselect("SELECT * FROM programs WHERE c != 1 and a != 'module_manager'")
+
             mno = []
             mcount = []
             for rs in curq:
                 mno.append(rs[0])
                 mcount.append(rs[2])
 
-            connq.close()
+            a = 0
+            if 0 < len(mno):
 
-            for a in range(0, len(mno)):
                 if pcount[a] == mcount[a]:
-                    connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc',
-                                            charset='utf8')
-                    curq = connq.cursor()
-                    sql4 = "UPDATE programs SET c = 3 WHERE no = '" + str(pno[a]) + "' AND c = 0"
-                    curq.execute(sql4)
-                    connq.commit()
-                    connq.close()
+
+                    runDBupdate("UPDATE programs SET c = 3 WHERE no = '" + str(pno[a]) + "' AND c = 0 AND a != 'module_manager'")
 
                     if pno[a] == 1:
                         subprocess.call([str(os.getcwd()) + "\\..\\A_CVE\\recover_A.bat"])
@@ -101,19 +88,10 @@ while 1:
                     if pno[a] == 4:
                         subprocess.call([str(os.getcwd()) + "\\..\\D_find\\recover_D.bat"])
                         print('module restart : \\D_find\\main.py ')
-
+                a += 1
+                
     ############################### MODULE STATUS CHANGE #####################################
-    connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc',
-                            charset='utf8')
-    curq = connq.cursor()
-    sql4 = "UPDATE programs SET c = '0' WHERE a = 'module_manager'"
-    curq.execute(sql4)
-    connq.commit()
-    connq.close()
-
-
-
-
+    runDBupdate("UPDATE programs SET c = '0' WHERE a = 'module_manager'")
 
 
 

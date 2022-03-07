@@ -1,4 +1,3 @@
-
 import time
 import openpyxl as openpyxl
 import pymysql
@@ -15,24 +14,34 @@ import requests
 countzero = 0
 asdfasdf = []
 
+def runDBupdate(sql):
+    connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
+    curq = connq.cursor()
+    curq.execute(sql) 
+    connq.commit()
+    connq.close()
+    
+def runDBselect(sql):
+    connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
+    curq = connq.cursor()
+    curq.execute(sql) 
+    connq.commit()
+    connq.close()
+
+    return curq
+        
+
 def virusTotal(i, types, jobip, jobdate):
-    # virusTotal(sha256, "sha256", jobip, jobdate)
-    # virusTotal(sha1, "sha1", jobip, jobdate)
 
-    conn = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
-    cur = conn.cursor()
-    sql2 = "SELECT no, md5, sha1, sha256 from work_place WHERE " + types + " = '" + str(i) + "' AND ipip ='" + str(
-        jobip) + "' AND time = '" + str(jobdate) + "'"
-    cur.execute(sql2)
-    conn.commit()
-    conn.close()
+    curq = runDBselect("SELECT no, md5, sha1, sha256 from work_place WHERE " + types + " = '" + str(i) + "' AND ipip ='" + str(
+        jobip) + "' AND time = '" + str(jobdate) + "'")
 
-    for a in cur:
-        a[1] != 'X'
-        print("기존데이터 md5 탐지 : "+a[1])
-        continue
+    for a in curq:
+        if a[1] != 'X':
+            continue
 
     time.sleep(15)
+
     try:
         url = 'https://www.virustotal.com/vtapi/v2/file/report'
         params = {'apikey': '645c62843256a387939a6ab31b55f4e9a409971cdfe488d78b97881443289e6a', 'resource': i}
@@ -46,58 +55,28 @@ def virusTotal(i, types, jobip, jobdate):
             return out['md5']
 
     except KeyError:
-        print(
-            "############################### 데이터 정상조회 실패 시에러처리 ######################################################")
-        print("sha1List KeyError :" + i)
         setup1Virustotal("변환실패", i, types, jobip, jobdate)
         sitecountUp(1)
 
 
 
 def setup1Virustotal(result, input, types, jobip, jobdate):
-    # virusTotal(sha256, "sha256", jobip, jobdate)
-    # virusTotal(sha1, "sha1", jobip, jobdate)
 
-    #  setup1Virustotal(out['md5'], i, types, jobip, jobdate)
-    #  setup1Virustotal("변환실패", i, types, jobip, jobdate)
+    runDBupdate("UPDATE work_place SET md5 = '" + str(result) +"' WHERE " + types + " = '" + str(input) + "' AND ipip ='" + str(
+        jobip) + "' AND time = '" + str(jobdate) + "'")
 
-    conn = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
-    cur = conn.cursor()
-    sql2 = "UPDATE work_place SET md5 = '" + str(result) +"' WHERE " + types + " = '" + str(input) + "' AND ipip ='" + str(
-        jobip) + "' AND time = '" + str(jobdate) + "'"
-    cur.execute(sql2)
-    conn.commit()
+    runDBupdate("UPDATE work_place SET status= 1 WHERE " + types + " = '" + str(input) + "' AND ipip ='" + str(
+        jobip) + "' AND time = '" + str(jobdate) + "'")
 
-    sql2 = "UPDATE work_place SET status= 1 WHERE " + types + " = '" + str(input) + "' AND ipip ='" + str(
-        jobip) + "' AND time = '" + str(jobdate) + "'"
-    cur.execute(sql2)
-    conn.commit()
-    conn.close()
+    loglog(str(input) +" : " +str(result))
 
 def setup1(list, type, jobip, jobdate):
-    # setup1(md5, "md5", jobip, jobdate)
-    #setup1(md5, "md5", jobip, jobdate)
-
-    # md5 변환 완료 (status 0 > 1)
-    connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
-    curq = connq.cursor()
     for i in list:
-        sql4 = "UPDATE work_place SET status = '1' WHERE "+type+" = '" + i + "' AND ipip = '" + str(jobip) + "' AND time = '" + str(jobdate) + "'"
-        print(sql4)
-        curq.execute(sql4)
-        connq.commit()
-    connq.close()
-
-
+        runDBupdate("UPDATE work_place SET status = '1' WHERE "+type+" = '" + i + "' AND ipip = '" + str(jobip) + "' AND time = '" + str(jobdate) + "'")
+ 
 
 def sitecountUp(num):
-
-    conn7 = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
-    cur7 = conn7.cursor()
-
-    sql7 = "SELECT count FROM site_status where no = 1"
-    cur7.execute(sql7)
-
+    cur7 = runDBselect( "SELECT count FROM site_status where no = 1")
     for a in cur7:
         count = a[0]
         if a[0] is None:
@@ -106,18 +85,14 @@ def sitecountUp(num):
     out = 0
     out = count + num
 
-    sql4 = "UPDATE site_status SET count =" + str(out) + " where no = 1"
-    cur7.execute(sql4)
-    conn7.commit()
-    conn7.close()
+    runDBupdate("UPDATE site_status SET count =" + str(out) + " where no = 1")
+ 
+
 
 def loglog(logText):
-    connA = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
-    curA = connA.cursor()
-    sqlA = "select MAX(no) from log"
-    curA.execute(sqlA)
-    connA.close()
+    print(logText)
 
+    curA = runDBselect("select MAX(no) from log")
     no = 1
     for rs in curA:
         if rs[0] != None and no > 0:
@@ -126,12 +101,8 @@ def loglog(logText):
             no = 1
 
     nowTime = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
-    connA = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
-    curA = connA.cursor()
-    sqlA = "INSERT INTO LOG (no, text) values ('" + str(no + 1) + "','" + nowTime+" : " + logText + "')"
-    curA.execute(sqlA)
-    connA.commit()
-    connA.close()
+
+    runDBupdate("INSERT INTO LOG (no, text) values ('" + str(no + 1) + "','" + nowTime+" : " + logText + "')")
 
 
 
@@ -147,24 +118,15 @@ def getList(jobno, jobip, jobdate, jobfilename):
     url1 = []
 
     print("######################## 입력된 데이터 md5, sha1, sha256, ip ,url 획득 ##########################################")
-    connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
-    curq = connq.cursor()
-    sqlq = "SELECT md5, sha1, sha256, ip, url ,  no FROM work_place WHERE status = '0' AND ipip = '" + str(jobip) + "' AND time = '" + str(jobdate) + "'"
-    curq.execute(sqlq)
-    curq.close()
+    curq = runDBselect( "SELECT md5, sha1, sha256, ip, url ,  no FROM work_place WHERE status = '0' AND ipip = '" + str(jobip) + "' AND time = '" + str(jobdate) + "'")
 
     for row in curq:
         print(row)
         if row[0] == "X" and row[1] == "X" and row[2] == "X" and row[3] == "X" and row[4] == "X":
-            connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
-            curq = connq.cursor()
-            sql4 = "UPDATE work_place SET status = '3' WHERE ipip = '" + str(
-                jobip) + "' AND time = '" + str(jobdate) + "' AND status = '0'"
-            print(sql4)
-            print(sql4)
-            curq.execute(sql4)
-            connq.commit()
-            connq.close()
+            
+            runDBupdate("UPDATE work_place SET status = '3' WHERE ipip = '" + str(
+                jobip) + "' AND time = '" + str(jobdate) + "' AND status = '0'")
+
             return 9
 
         if (row[0] is None or row[0] == ""):
@@ -216,9 +178,8 @@ def getList(jobno, jobip, jobdate, jobfilename):
 
 
     # 작업번호 [41] 총 [4]개 데이터 처리진행 [md5: 1] [sha1: 1] [sha256: 1] [ip: 1]
-    logText = "작업[" + str(jobno) + "] 총 [" + str(total2) + "]개 데이터 등록 " + md5Text +sha1Text + sha256Text + ipText + urlText
-    loglog(logText)
-    print(logText)
+    loglog("작업[" + str(jobno) + "] 총 [" + str(total2) + "]개 데이터 등록 " + md5Text +sha1Text + sha256Text + ipText + urlText)
+
     # 데이터 처리 수 추가
 
     sitecountUp(total2)
@@ -266,11 +227,7 @@ def getList(jobno, jobip, jobdate, jobfilename):
     setup1(url1, "url", jobip, jobdate)
 
     input = md5 + sha256 + sha1 + ip1 + url1
-
-
     output = md5List + sha256List + sha1List + ipList + urlList
-
-
     print("output" + str(output))
 
     md5Text2 = ""
@@ -321,9 +278,7 @@ def getList(jobno, jobip, jobdate, jobfilename):
            else:
                outout.append(i)
 
-        logText = "작업["+str(jobno)+ "] 총 [" + str(len(outout))+ "/" +  str(len(input))  + "]개 데이터 HX 파일 생성 완료 "+md5Text+sha1Text+sha256Text+ipText+urlText
-        print(logText)
-        loglog(logText)
+        loglog("작업["+str(jobno)+ "] 총 [" + str(len(outout))+ "/" +  str(len(input))  + "]개 데이터 HX 파일 생성 완료 "+md5Text+sha1Text+sha256Text+ipText+urlText)
     else:
         filename2 = 0
 
@@ -331,10 +286,8 @@ def getList(jobno, jobip, jobdate, jobfilename):
     if len(output) > 0 :
         filename = writeExcel(jobip, jobdate, jobno)
         # 작업번호 [41] 총 [6/4]개 데이터 EXCEL 데이터 작성 완료 [md5: 1/1] [sha1: 2/1] [sha256: 2/1] [ip: 1/1]
-        logText = "작업[" + str(
-            jobno) + "] 총 [" + suminput + "/" + suminput + "]개 데이터 엑셀 작성 " + md5Text + sha1Text + sha256Text + ipText + urlText
-        print(logText)
-        loglog(logText)
+        loglog("작업[" + str(
+            jobno) + "] 총 [" + suminput + "/" + suminput + "]개 데이터 엑셀 작성 " + md5Text + sha1Text + sha256Text + ipText + urlText)
 
     sendMail(filename, filename2, jobno, jobip, jobdate, len(output), total2)
 
@@ -349,14 +302,9 @@ def sendMail(filename, filename2,jobno, jobip, jobdate, num1, num3):
 
     name = '보안관제'
 
-    conn = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
-    cur = conn.cursor()
-    sql = "SELECT no, email FROM jobq WHERE ipip = '"+str(jobip)+"' AND time = '"+str(jobdate)+"'"
-    cur.execute(sql)
-    conn.commit()
-    conn.close()
-
     address = ""
+
+    cur = runDBselect("SELECT no, email FROM jobq WHERE ipip = '"+str(jobip)+"' AND time = '"+str(jobdate)+"'")
     for a in cur :
         address = a[1]
 
@@ -368,24 +316,18 @@ def sendMail(filename, filename2,jobno, jobip, jobdate, num1, num3):
     dd = datetime.today().strftime('%d')
 
     ################ 이메일 카운트 증가 ##################
-    conn = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
-    cur = conn.cursor()
-    sql = "SELECT mailcount FROM site_status"
-    cur.execute(sql)
     # 여러 줄 출력
     i = 0
-
+    cur = runDBselect("SELECT mailcount FROM site_status")
 
     for row in cur:
         value = row[0]
 
     if value is None:
         value = 0
-
-    sql2 = "UPDATE site_status SET mailcount = " + str(value + 1)
-    cur.execute(sql2)
-    conn.commit()
-    conn.close()
+ 
+    runDBupdate("UPDATE site_status SET mailcount = " + str(value + 1))
+  
     ###############################################################
     from_addr = formataddr(('SOCH', 'bh.lee@s-oil.com'))
 
@@ -446,11 +388,7 @@ def sendMail(filename, filename2,jobno, jobip, jobdate, num1, num3):
         # 메일 발송
         session.sendmail(from_addr, to_addr, message.as_string())
 
-        print('Successfully sent the mail!!!')
-
-        logText = "작업["+str(jobno)+"] IOC 결과 메일 발송 완료(수신:"+realname+")"
-        print(logText)
-        loglog(logText)
+        loglog("작업["+str(jobno)+"] IOC 결과 메일 발송 완료(수신:"+realname+")")
 
     except Exception as e:
         print(e)
@@ -484,20 +422,30 @@ def mailCheck(address):
     return realname
 
 
+import time
+import openpyxl as openpyxl
+import pymysql
+import os
+import smtplib
+from datetime import datetime
+from email import encoders
+from email.utils import formataddr
+from email.mime.base import MIMEBase
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+import requests
+
+countzero = 0
+asdfasdf = []
+
+
+
 def findHX(value):
-
-    # eoperator = ""
-    # etoken =""
-    # etype = ""
-    # poperator = ""
-    # ptoken =""
-    # ptype = ""
-
     if value is None:
         return
     i = value
     tmp = i
-    tmp2 = tmp.replace(".","")
+    tmp2 = tmp.replace(".", "")
 
     findHXout = []
 
@@ -509,7 +457,7 @@ def findHX(value):
         poperator = "equal"
         ptoken = "ipv4NetworkEvent/remoteIP"
         ptype = "text"
-        findHXout = [eoperator , etoken, etype , poperator,ptoken,ptype]
+        findHXout = [eoperator, etoken, etype, poperator, ptoken, ptype]
 
         return findHXout
 
@@ -528,7 +476,7 @@ def findHX(value):
         findHXout.append(poperator)
         findHXout.append(ptoken)
         findHXout.append(ptype)
-        findHXout = [eoperator , etoken, etype , poperator,ptoken,ptype]
+        findHXout = [eoperator, etoken, etype, poperator, ptoken, ptype]
 
         return findHXout
 
@@ -541,7 +489,7 @@ def findHX(value):
         poperator = "equal"
         ptoken = "fileWriteEvent/md5"
         ptype = "md5"
-        findHXout = [eoperator , etoken, etype , poperator,ptoken,ptype]
+        findHXout = [eoperator, etoken, etype, poperator, ptoken, ptype]
         print("findHXout MD5" + str(findHXout))
         return findHXout
 
@@ -554,13 +502,11 @@ def isIPURL(value):
     tmp2 = tmp.replace(".", "")
 
     if "." in i and tmp2.isdigit():
-        print('ip')
+        print('[ip] :' + str(value))
         return 'IP'
-
-    elif "." in i:
-        print('url')
+    elif "." in tmp:
+        print('[url] : '+ str(value))
         return 'URL'
-
 
 ############################## HX 데이터 파일 만들기 #################################################################
 def writeHX(output, jobno, jobfilename):
@@ -587,12 +533,13 @@ def writeHX(output, jobno, jobfilename):
         ptype = findHXout[5]
 
         ioc1 = "{\"igloo\":{\"execution\":["
-        ioc2 = "[{\"operator\":\""+str(eoperator)+"\",\"token\":\""+str(etoken)+"\",\"type\":\""+str(etype)+"\",\"value\":\"" + str(value) + "\"}]"
+        ioc2 = "[{\"operator\":\"" + str(eoperator) + "\",\"token\":\"" + str(etoken) + "\",\"type\":\"" + str(
+            etype) + "\",\"value\":\"" + str(value) + "\"}]"
         ioc11 = "{\"igloo\":{\"presence\":["
         ioc3 = "],\"presence\":["
-        ioc4 = "[{\"operator\":\""+str(poperator)+"\",\"token\":\""+str(ptoken)+"\",\"type\":\""+str(ptype)+"\",\"value\":\"" + str(value) + "\"}]"
+        ioc4 = "[{\"operator\":\"" + str(poperator) + "\",\"token\":\"" + str(ptoken) + "\",\"type\":\"" + str(
+            ptype) + "\",\"value\":\"" + str(value) + "\"}]"
         ioc5 = "],\"name\":\"" + str(filename) + "\",\"category\":\"Custom\",\"platforms\":[\"win\",\"osx\"]}}"
-
 
         if "NO" != isIPURL(value):
             ioc = ioc11 + ioc4 + ioc5
@@ -620,14 +567,13 @@ def writeHX(output, jobno, jobfilename):
         P = 0
         X = 0
 
-
         for value in output:
             ############ 변환 안되는 건은 N 증가 ###################
             if value is None or value == '변환실패':
                 N2 += 1
 
             ############# 변환된 친구들 P 증가 ####################
-            findHXout  = []
+            findHXout = []
             findHXout = findHX(value)
             outputoutput += 1
 
@@ -639,9 +585,10 @@ def writeHX(output, jobno, jobfilename):
             ptoken = outhx[4]
             ptype = outhx[5]
 
-
-            ioc2 = "[{\"operator\":\""+str(eoperator)+"\",\"token\":\""+str(etoken)+"\",\"type\":\""+str(etype)+"\",\"value\":\"" + str(value) + "\"}]"
-            ioc22 = "[{\"operator\":\""+str(poperator)+"\",\"token\":\""+str(ptoken)+"\",\"type\":\""+str(ptype)+"\",\"value\":\"" + str(value) + "\"}]"
+            ioc2 = "[{\"operator\":\"" + str(eoperator) + "\",\"token\":\"" + str(etoken) + "\",\"type\":\"" + str(
+                etype) + "\",\"value\":\"" + str(value) + "\"}]"
+            ioc22 = "[{\"operator\":\"" + str(poperator) + "\",\"token\":\"" + str(ptoken) + "\",\"type\":\"" + str(
+                ptype) + "\",\"value\":\"" + str(value) + "\"}]"
 
             #######################################################
             P += 1
@@ -660,7 +607,6 @@ def writeHX(output, jobno, jobfilename):
                     continue
                 tmp = tmp + ioc2 + ",\n"
 
-
         ioc2 = tmp
 
         ioc3 = "\n],\"presence\":[\n"
@@ -668,25 +614,36 @@ def writeHX(output, jobno, jobfilename):
         P = 0
         N = 0
         O = len(output)
-        for value in output:
-            if value is None or value == '변환실패' or isIPURL(value):
-                N+=1
-            else:
+        mc = 0
 
+        for value in output:
+
+            if len(value) == 32:
+                mc += 1
+
+        for value in output:
+            if len(value) == 32:
                 findHXout = findHX(value)
                 poperator = findHXout[3]
                 ptoken = findHXout[4]
                 ptype = findHXout[5]
-                ioc4 = "[{\"operator\":\""+str(poperator)+"\",\"token\":\""+str(ptoken)+"\",\"type\":\""+str(ptype)+"\",\"value\":\"" + str(value) + "\"}]"
-
+                ioc4 = "[{\"operator\":\"" + str(poperator) + "\",\"token\":\"" + str(ptoken) + "\",\"type\":\"" + str(
+                    ptype) + "\",\"value\":\"" + str(value) + "\"}]"
 
                 P += 1
-                if O == N+P :
-                    tmp2 = tmp2 + ioc4+"\n"
+
+                if P == mc:
+                    print(P)
+                    print(mc)
+
+                    tmp2 = tmp2 + ioc4 + "\n"
                 else:
+                    print(P)
+                    print(mc)
                     tmp2 = tmp2 + ioc4 + ",\n"
 
         ioc4 = tmp2
+
 
         ioc5 = "],\"name\":\"" + filename + "\",\"category\":\"Custom\",\"platforms\":[\"win\",\"osx\"]}}"
         ioc11 = "{\"igloo\":{\"presence\":["
@@ -696,27 +653,25 @@ def writeHX(output, jobno, jobfilename):
         else:
             ioc = ioc1 + ioc2 + ioc3 + ioc4 + ioc5
 
-        print(tmp)
+
         filename2 = jobfilename[14:len(jobfilename) - 4] + ".hx"
         f = open(filename2, 'w')
         f.write(str(ioc))
         f.close()
         return filename2
-        ##################################################################################################################
+        ########################################################################################################################################################################################################################
 
 def writeExcel(jobip,jobdate,jobno):
     print("######################################### 변환된 데이터를 excel 작성하기##############################################")
     excelfilename = "HX_DATA_결과파일_작업["+str(jobno)+"].xlsx"
     wb = openpyxl.Workbook()
     sheet = wb.active
-
-    connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
-    curq = connq.cursor()
+ 
     ########### 초기 엑셀 작성 세팅
-    sql4 = "SELECT no, md5, sha256, sha1, ip, url FROM work_place WHERE status = '1' AND ipip = '" + str(
-        jobip) + "' AND time = '" + str(jobdate) + "'"
-    curq.execute(sql4)
-    connq.close()
+    curq = runDBselect("SELECT no, md5, sha256, sha1, ip, url FROM work_place WHERE status = '1' AND ipip = '" + str(
+        jobip) + "' AND time = '" + str(jobdate) + "'")
+
+
 
     sheet['A1'] = "no"
     sheet['B1'] = "md5"

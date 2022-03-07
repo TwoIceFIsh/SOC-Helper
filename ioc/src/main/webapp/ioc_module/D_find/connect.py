@@ -1,9 +1,41 @@
-
+import pymysql
 import smtplib
 from datetime import datetime
 from email.utils import formataddr
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+
+def runDBupdate(sql):
+    connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
+    curq = connq.cursor()
+    curq.execute(sql) 
+    connq.commit()
+    connq.close()
+    
+def runDBselect(sql):
+    connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
+    curq = connq.cursor()
+    curq.execute(sql) 
+    connq.commit()
+    connq.close()
+
+    return curq
+
+def loglog(logText):
+    print(logText)
+
+    curA = runDBselect("select MAX(no) from log")
+    no = 1
+    for rs in curA:
+        if rs[0] != None and no > 0:
+            no = rs[0]
+        else:
+            no = 1
+
+    nowTime = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
+
+    runDBupdate("INSERT INTO LOG (no, text) values ('" + str(no + 1) + "','" + nowTime+" : " + logText + "')")
+
 
 
 def sendMail(jobmail, jobpw):
@@ -50,8 +82,7 @@ def sendMail(jobmail, jobpw):
         # 메일 발송
         session.sendmail(from_addr, to_addr, message.as_string())
 
-        print('Successfully sent the mail!!!')
-
+        loglog("작업["+str(jobno)+"] IOC 결과 메일 발송 완료(수신:"+realname+")")
 
 
     except Exception as e:

@@ -1,22 +1,6 @@
 siteStatus();
 setInterval(siteStatus, 4000);
 var heart = 0
-
-siteStatus2();
-setInterval(siteStatus2, 4000);
-var heart2 = 0
-
-siteStatus3();
-setInterval(siteStatus3, 4000);
-var heart2 = 0
-
-siteStatus4();
-setInterval(siteStatus4, 4000);
-var heart2 = 0
-
-
-
-
 function siteStatus() {
 
 	var heart = 1;
@@ -28,85 +12,35 @@ function siteStatus() {
 			heart: heart
 		},
 		success: function(result) {
+			splitResult = result.split('#');
+			a = splitResult[0];
+			b = splitResult[1];
+			c = splitResult[2];
+			d = splitResult[3];
 
-			$('#statusMessage').html("" + result);
+			$('#statusMessage').html("" + a);
+			$('#statusMessage2').html("" + b);
 
+			if (c != 0) {
+				$('#nokori2').html('');
+				$('#nokori').html('CVE 처리 ' + c + '건 남음 -' + parseInt((c * 1) / 60) + '분 소요');
+				$('#nokori3').html('');
+			}
+			if (d != 0) {
+				$('#nokori').html('');
+				$('#nokori2').html('IOC 처리 ' + d + '건 남음 -' + ((c * 15) / 60) + '분 소요');
+				$('#nokori3').html('');
+			}
+			if (c == 0 && d == 0) {
+				$('#nokori').html('');
+				$('#nokori2').html('');
+				$('#nokori3').html('작업 없음');
+			}
 
 		}
 	});
 
 }
-
-function siteStatus2() {
-
-	var heart = 1;
-
-	$.ajax({
-		type: 'POST',
-		url: './siteCheckServlet2',
-		data: {
-			heart: heart
-		},
-		success: function(result) {
-
-			$('#statusMessage2').html("" + result);
-
-
-		}
-	});
-
-}
-
-function siteStatus3() {
-
-	var heart = 1;
-
-	$.ajax({
-		type: 'POST',
-		url: './siteCheckServlet3',
-		data: {
-			heart: heart
-		},
-		success: function(result) {
-
-			if (result != 0) {
-				$('#statusMessage3').html('CVE : 🤔!!');
-			}
-			else {
-				$('#statusMessage3').html('CVE : 😴zZ');
-			}
-
-
-		}
-	});
-
-}
-
-function siteStatus4() {
-
-	var heart = 1;
-
-	$.ajax({
-		type: 'POST',
-		url: './siteCheckServlet4',
-		data: {
-			heart: heart
-		},
-		success: function(result) {
-
-			if (result != 0) {
-				$('#statusMessage4').html('IOC :  🤔!!');
-
-			}
-			else {
-				$('#statusMessage4').html('IOC :  😴zZ');
-
-			}
-		}
-	});
-
-}
-
 
 var address = "";
 document.getElementById("a").addEventListener('click', showMaila);
@@ -154,8 +88,6 @@ function showMailj() {
 	address = 'j'
 	setMail(address)
 }
-
-
 
 function setMail(address) {
 
@@ -231,52 +163,6 @@ function heartMail() {
 }
 
 
-nokori();
-setInterval(nokori, 4000);
-
-function nokori() {
-	heart = ""
-	$.ajax({
-		type: 'POST',
-		url: './nokori',
-		data: {
-			heart: heart
-		},
-		success: function(result) {
-
-			if (result == 0)
-				$('#nokori').html('(작업 없음)');
-			if (result > 0)
-				$('#nokori').html('(처리 ' + result + '건 남음)' + '</br>' + parseInt((result * 1) / 60) + '~' + ((result * 15) / 60) + '분 소요');
-
-
-		}
-	});
-
-}
-
-nokori2();
-setInterval(nokori2, 4000);
-function nokori2() {
-	heart = ""
-	$.ajax({
-		type: 'POST',
-		url: './nokori',
-		data: {
-			heart: heart
-		},
-		success: function(result) {
-
-			if (result == 0)
-				$('#nokori2').html('(메일이 발송완료되었어요 확인해주세요!)');
-			if (result > 0)
-				$('#nokori2').html((result * 15) / 60 + '분후 메일을 보내드릴게요!');
-
-
-		}
-	});
-
-}
 
 loglog();
 setInterval(loglog, 1000);
@@ -298,7 +184,7 @@ function loglog() {
 
 			tmp = '';
 			tmp2 = '';
-			for (i = 0; i < no; i++) {
+			for (i = 0; i < no - 1; i++) {
 
 				if ('null' != splitResult[i])
 					tmp = tmp + splitResult[i] + '</br>';
@@ -315,11 +201,11 @@ function loglog() {
 	});
 
 }
-
+/*
 function mailCheck() {
-
+	
 	var id = document.getElementById("id");
-
+	
 	$.ajax({
 		type: 'POST',
 		url: './siteCheckServlet3',
@@ -327,19 +213,19 @@ function mailCheck() {
 			heart: heart
 		},
 		success: function(result) {
-
+	
 			if (result != 0) {
 				$('#statusMessage3').html('CVE : 🤔!!');
 			}
 			else {
 				$('#statusMessage3').html('CVE : 😴zZ');
 			}
-
-
+	
+	
 		}
 	});
-
-}
+	
+}*/
 
 function passwordCheckFunction() {
 
@@ -480,9 +366,9 @@ function login() {
 
 
 			if (result == 11) {
-				$('#big2').addClass('scale-out-center'); 
+				$('#big2').addClass('scale-out-center');
 				setTimeout(timeOut, 1000);
-				
+
 				//
 
 			}

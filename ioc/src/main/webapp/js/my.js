@@ -63,7 +63,8 @@ function moduleCheck() {
 			}
 			if (D == '3') {
 				$('#moduleD').html('🔴');
-			} if (E == '3') {
+			} 
+			if (E == '3') {
 				$('#moduleE').html('🔵');
 			}
 

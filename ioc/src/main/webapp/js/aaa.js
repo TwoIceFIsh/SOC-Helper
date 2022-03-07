@@ -42,7 +42,6 @@ function siteStatus() {
 
 }
 
-
 var address = "";
 document.getElementById("a").addEventListener('click', showMaila);
 function showMaila() {
@@ -104,11 +103,8 @@ function setEmail() {
 	});
 }
 
-function setMail(address) {
-	alert(address);
-	
-	var name = $(#A1).val();
-	
+/*function setMail(address) {
+
 	alert(name);
 	$.ajax({
 		type: 'POST',
@@ -124,7 +120,7 @@ function setMail(address) {
 
 	});
 
-}
+}*/
 
 heartMail();
 function heartMail() {

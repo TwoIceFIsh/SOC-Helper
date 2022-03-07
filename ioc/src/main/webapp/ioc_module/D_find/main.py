@@ -12,34 +12,26 @@ mm=datetime.today().strftime('%m')
 dd=datetime.today().strftime('%d')
 count = 1
 
+
+def heartBeat(mudule_name):
+    pno = 0;
+    curq = runDBselect("SELECT b FROM programs WHERE a = '"+mudule_name+"'")
+    for rs in curq:
+        pno = rs[0]
+    pno += 1
+    runDBupdate("UPDATE programs SET c = 0 , b = '" + str(pno) + "' WHERE a = '"+mudule_name+"'")
+    time.sleep(4)
+
 while 1:
 
 
     ######################################     PROGRAM HEART BEAT        ######################################
-    connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
-    curq = connq.cursor()
-    sql4 = "SELECT b FROM programs WHERE a = 'module_find'"
-    curq.execute(sql4)
-    pno = 0;
-    for rs in curq:
-        pno = rs[0]
-    connq.close()
-
-    pno += 1
-
-    connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
-    curq = connq.cursor()
-    sql4 = "UPDATE programs SET c = 0, b = '" + str(pno) + "' WHERE a = 'module_find'"
-    curq.execute(sql4)
-    connq.commit()
-    connq.close()
+    heartBeat('module_find')
 
     ############################################################################################################
 
-    connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
-    curq = connq.cursor()
-    sql4 = "SELECT * FROM programs WHERE no = '5'"
-    curq.execute(sql4)
+    curq = connect.runDBselect("SELECT * FROM programs WHERE no = '5'")
+
     pno = []
     pcount = []
     for rs in curq:
@@ -48,43 +40,28 @@ while 1:
 
     time.sleep(5)
 
-    connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
-    curq = connq.cursor()
-    sql4 = "SELECT * FROM programs WHERE no = '5'"
-    curq.execute(sql4)
+    curq = connect.runDBselect("SELECT * FROM programs WHERE no = '5'"
+ 
     mno = []
     mcount = []
     for rs in curq:
         mno.append(rs[0])
         mcount.append(rs[2])
 
-    connq.close()
+ 
 
     for a in range(0, len(mno)):
         if pcount[a] == mcount[a]:
-            connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc',
-                                    charset='utf8')
-            curq = connq.cursor()
-            sql4 = "UPDATE programs SET c = 3 WHERE no = '5'"
-            curq.execute(sql4)
-            connq.commit()
-            connq.close()
+             connect.runDBupdate("UPDATE programs SET c = 3 WHERE no = '5'")
+ 
+    curq = connect.runDBselect("SELECT count(*) FROM find WHERE b = '0' order by no desc limit 1")
 
-
-
-    #print("START")
-    connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
-    curq = connq.cursor()
-    sql4 = "SELECT count(*) FROM find WHERE b = '0' order by no desc limit 1"
-    curq.execute(sql4)
     yesyes = 0
     for rs in curq:
         if rs[0] > 0:
             print("############################### 메일발송 작업 #############################")
-            connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
-            curq = connq.cursor()
-            sql4 = "SELECT * FROM find WHERE b = 0 limit 1"
-            curq.execute(sql4)
+
+            curq = connect.runDBselect("SELECT * FROM find WHERE b = 0 limit 1")
 
             jobno = 0
             jobip = ""
@@ -98,13 +75,8 @@ while 1:
                 jobmail = i[1]
                 jobstatus = i[2]
 
-            connq.close()
-
             # jobmail에 해당하는 정보획득
-            connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
-            curq = connq.cursor()
-            sql4 = "SELECT * FROM user WHERE a = '"+str(jobmail)+"'"
-            curq.execute(sql4)
+            curq = connect.runDBselect("SELECT * FROM user WHERE a = '"+str(jobmail)+"'")
 
             jobno = 0
             jobip = ""
@@ -117,29 +89,14 @@ while 1:
                 jobmail = i[1]
                 jobpw = i[2]
 
-            connq.close()
-
             ############################### MODULE STATUS CHANGE #####################################
-            connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc',
-                                    charset='utf8')
-            curq = connq.cursor()
-            sql4 = "UPDATE programs SET c = '1' WHERE a = 'module_find'"
-            curq.execute(sql4)
-            connq.commit()
-            connq.close()
+
+            connect.runDBupdate("UPDATE programs SET c = '1' WHERE a = 'module_find'")
+
 
             connect.sendMail(jobmail, jobpw)
 
-
-            connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc',
-                                    charset='utf8')
-            curq = connq.cursor()
-            sql4 = "UPDATE find SET b = 1 WHERE b = 0 and a = '" + str(jobmail)+"'"
-            print(sql4)
-            curq.execute(sql4)
-            connq.commit()
-            connq.close()
-
+            connect.runDBupdate("UPDATE find SET b = 1 WHERE b = 0 and a = '" + str(jobmail)+"'")
 
 
 

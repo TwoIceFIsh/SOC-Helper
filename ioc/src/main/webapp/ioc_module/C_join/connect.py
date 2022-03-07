@@ -1,10 +1,25 @@
-
+import pymysql
 import smtplib
 from datetime import datetime
 from email.utils import formataddr
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
+def runDBupdate(sql):
+    connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
+    curq = connq.cursor()
+    curq.execute(sql) 
+    connq.commit()
+    connq.close()
+    
+def runDBselect(sql):
+    connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
+    curq = connq.cursor()
+    curq.execute(sql) 
+    connq.commit()
+    connq.close()
+
+    return curq
 
 def sendMail(jobmail, jobcode):
     print(

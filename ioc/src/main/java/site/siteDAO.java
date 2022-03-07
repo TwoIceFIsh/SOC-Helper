@@ -69,59 +69,42 @@ public class siteDAO {
 
 	}
 
-	public int managerCheck() {
-		int no = 0;
-		ResultSet rs = null;
-
-		Connection conn = null;
-		PreparedStatement pstm = null;
-
-		try {
-			String jdbcUrl = "jdbc:mysql://localhost:3306/ioc?useUnicode=true&characterEncoding=utf8";
-			String dbId = "root";
-			String dbPass = "!Hg1373002934";
-
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			conn = DriverManager.getConnection(jdbcUrl, dbId, dbPass);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		try {
-
-			// 계정에 따른 CODE 존재여부 확인
-			String test = "SELECT no, b FROM programs WHERE no = '5' ";
-			pstm = conn.prepareStatement(test);
-			rs = pstm.executeQuery();
-
-			while (rs.next()) {
-				no = rs.getInt(2);
-			}
-
-			return no;
-
-		} catch (
-
-		Exception e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (rs != null)
-					rs.close();
-
-				if (pstm != null)
-					pstm.close();
-
-				if (conn != null)
-					conn.close();
-
-			} catch (Exception e) {
-			}
-		}
-
-		return no;
-	}
-
+	/*
+	 * public int managerCheck() { int no = 0; ResultSet rs = null;
+	 * 
+	 * Connection conn = null; PreparedStatement pstm = null;
+	 * 
+	 * try { String jdbcUrl =
+	 * "jdbc:mysql://localhost:3306/ioc?useUnicode=true&characterEncoding=utf8";
+	 * String dbId = "root"; String dbPass = "!Hg1373002934";
+	 * 
+	 * Class.forName("com.mysql.cj.jdbc.Driver"); conn =
+	 * DriverManager.getConnection(jdbcUrl, dbId, dbPass); } catch (Exception e) {
+	 * e.printStackTrace(); }
+	 * 
+	 * try {
+	 * 
+	 * // 계정에 따른 CODE 존재여부 확인 String test =
+	 * "SELECT no, b FROM programs WHERE no = '5' "; pstm =
+	 * conn.prepareStatement(test); rs = pstm.executeQuery();
+	 * 
+	 * while (rs.next()) { no = rs.getInt(2); }
+	 * 
+	 * return no;
+	 * 
+	 * } catch (
+	 * 
+	 * Exception e) { e.printStackTrace(); } finally { try { if (rs != null)
+	 * rs.close();
+	 * 
+	 * if (pstm != null) pstm.close();
+	 * 
+	 * if (conn != null) conn.close();
+	 * 
+	 * } catch (Exception e) { } }
+	 * 
+	 * return no; }
+	 */
 	public ArrayList<siteDTO> getMail() {
 		int no = 0;
 		ResultSet rs = null;
@@ -145,6 +128,7 @@ public class siteDAO {
 
 			// 계정에 따른 CODE 존재여부 확인
 			String test = "SELECT no, a,b,c FROM user ";
+			System.out.println("Email Data 조회");
 			pstm = conn.prepareStatement(test);
 			rs = pstm.executeQuery();
 
