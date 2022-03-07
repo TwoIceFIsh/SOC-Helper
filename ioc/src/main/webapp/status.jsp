@@ -145,7 +145,7 @@ if (value == null) {
 						</div>
 
 
-						<div class="dropdown mb-1 ">
+						<%-- <div class="dropdown mb-1 ">
 
 
 							<button class="h6 btn btn-primary dropdown-toggle" type="button"
@@ -166,9 +166,9 @@ if (value == null) {
 
 
 								<script type="text/javascript"> 
-								function sample(){<%-- 
+								function sample(){
 									var name = $('#A<%=i%>').val();
-									 --%>
+									
 									var xx = document.getElementById("A<%=i%>");
 									
 									alert(xx);
@@ -178,7 +178,7 @@ if (value == null) {
 										function(result) { $('#statusMessage6').html(result); }
 								});}
 								
-								<%-- $('#A<%=i%>').click(function() {
+								$('#A<%=i%>').click(function() {
 									var name = $('#A<%=i%>').val();
 									alert(name)
 
@@ -189,7 +189,7 @@ if (value == null) {
 											function(result) { $('#statusMessage6').html(result); }
 									});
 
-								}); --%>
+								});
 								</script>
 
 
@@ -200,7 +200,7 @@ if (value == null) {
 
 							</div>
 
-						</div>
+						</div> --%>
 
 					</div>
 
