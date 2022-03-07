@@ -34,8 +34,7 @@ if (value == null) {
 	response.sendRedirect("http://222.110.22.168:8080/ioc/login.jsp");
 
 }
-%><link rel="favicon" href="images/favicon.ico">
-
+%><link rel="favicon" href="http://222.110.22.168:8080/ioc/images/favicon.ico">
 <head>
 
 <link href="css/my.css" rel="stylesheet">
@@ -170,9 +169,9 @@ if (value == null) {
 								function sample(){<%-- 
 									var name = $('#A<%=i%>').val();
 									 --%>
-									var name = document.getElementById("A<%=i%>");
+									var xx = document.getElementById("A<%=i%>");
 									
-									alert(name);
+									alert(xx);
 								$.ajax({
 									type: 'POST', url:
 										'./mailCheckServlet2', data: { name: name }, success:
