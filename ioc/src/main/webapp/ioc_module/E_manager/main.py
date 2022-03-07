@@ -89,7 +89,6 @@ while 1:
                         subprocess.call([str(os.getcwd()) + "\\..\\D_find\\recover_D.bat"])
                         print('module restart : \\D_find\\main.py ')
                 a += 1
-                
     ############################### MODULE STATUS CHANGE #####################################
     runDBupdate("UPDATE programs SET c = '0' WHERE a = 'module_manager'")
 

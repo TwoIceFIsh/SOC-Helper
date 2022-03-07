@@ -11,7 +11,7 @@ print('module cve activated')
 def heartBeat(mudule_name):
     pno = 0;
 
-    connect.curq = runDBselect("SELECT b FROM programs WHERE a = '"+mudule_name+"'")
+    curq = connect.runDBselect("SELECT b FROM programs WHERE a = '"+mudule_name+"'")
     for rs in curq:
         pno = rs[0]
 
