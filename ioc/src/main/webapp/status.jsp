@@ -162,15 +162,25 @@ if (value == null) {
 								for (int i = 0; i < site.size(); i++) {
 								%>
 
-								<a id="A<%=i%>" name="A<%=i%>" class="dropdown-item" href="#"
-									onclick="setMailA<%=i%>();"><%=site.get(i).getName()%></a>
+								<a id="A<%=i%>" name="A<%=i%>" class="dropdown-item" href="#" onclick="sample();"><%=site.get(i).getName()%></a>
 
 
 
 								<script type="text/javascript"> 
+								function sample(){<%-- 
+									var name = $('#A<%=i%>').val();
+									 --%>
+									var name = document.getElementById("A<%=i%>");
+									
+									alert(name);
+								$.ajax({
+									type: 'POST', url:
+										'./mailCheckServlet2', data: { name: name }, success:
+										function(result) { $('#statusMessage6').html(result); }
+								});}
 								
-								$('A<%=i%>').click(function() {
-									var name = $(this).attr("A<%=i%>");
+								<%-- $('#A<%=i%>').click(function() {
+									var name = $('#A<%=i%>').val();
 									alert(name)
 
 
@@ -180,7 +190,7 @@ if (value == null) {
 											function(result) { $('#statusMessage6').html(result); }
 									});
 
-								});
+								}); --%>
 								</script>
 
 
