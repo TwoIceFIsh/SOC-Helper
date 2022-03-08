@@ -33,30 +33,49 @@ def runDBselect(sql):
 
 def virusTotal(i, types, jobip, jobdate):
 
-    curq = runDBselect("SELECT no, md5, sha1, sha256 from work_place WHERE " + types + " = '" + str(i) + "' AND ipip ='" + str(
-        jobip) + "' AND time = '" + str(jobdate) + "'")
 
-    for a in curq:
-        if a[1] != 'X':
-            continue
+    ############################################################################### 중복데이터 선처리 ###############################################
+    # 1. 기존 MD5 값 확인
+    curq2 = runDBselect("SELECT exists (SELECT no from work_place WHERE " + types + " = '" + str(i) + "' AND MD5 != 'X' LIMIT 1) AS Q ")
 
-    time.sleep(15)
+    for a in curq2:
+        ###########
+        # if : 기존 MD5 값 검색하여 Return
+        # else : 신규 데이터 등록 진행
+        if a[0] == True:
+            curq3 = runDBselect("SELECT no, md5, sha1, sha256 from work_place WHERE " + types + " = '" + str(i) + "' AND MD5 != 'X' LIMIT 1")
+            for a in curq3:
+                print("기존데이터 탐지")
+                return a[1]
 
-    try:
-        url = 'https://www.virustotal.com/vtapi/v2/file/report'
-        params = {'apikey': '645c62843256a387939a6ab31b55f4e9a409971cdfe488d78b97881443289e6a', 'resource': i}
-        response = requests.get(url, params=params)
+        else:
+            curq = runDBselect("SELECT no, md5, sha1, sha256 from work_place WHERE " + types + " = '" + str(i) + "' AND ipip ='" + str(
+                jobip) + "' AND time = '" + str(jobdate) + "'")
 
-        out = response.json()
+            print("기존데이터 미탐지")
 
-        if out['md5'] != None or out['md5'] != "None":
-            setup1Virustotal(out['md5'], i, types, jobip, jobdate)
-            sitecountUp(1)
-            return out['md5']
+            for a in curq:
+                if a[1] != 'X':
+                    print("기존처리데이터 탐지")
+                    continue
 
-    except KeyError:
-        setup1Virustotal("변환실패", i, types, jobip, jobdate)
-        sitecountUp(1)
+            time.sleep(15)
+
+            try:
+                url = 'https://www.virustotal.com/vtapi/v2/file/report'
+                params = {'apikey': '645c62843256a387939a6ab31b55f4e9a409971cdfe488d78b97881443289e6a', 'resource': i}
+                response = requests.get(url, params=params)
+
+                out = response.json()
+
+                if out['md5'] != None or out['md5'] != "None":
+                    setup1Virustotal(out['md5'], i, types, jobip, jobdate)
+                    sitecountUp(1)
+                    return out['md5']
+
+            except KeyError:
+                setup1Virustotal("변환실패", i, types, jobip, jobdate)
+                sitecountUp(1)
 
 
 
@@ -255,9 +274,7 @@ def getList(jobno, jobip, jobdate, jobfilename):
     print("sumoutput " + str(sumoutput))
     print("suminput " + str( suminput))
 
-    logText = "작업["+str(jobno)+ "] 총 [" + sumoutput +"/" + suminput + "]개 데이터 변환완료 "+md5Text2+sha1Text2+sha256Text2+ipText2+urlText2
-    print(logText)
-    loglog(logText)
+    loglog( "작업["+str(jobno)+ "] 총 [" + sumoutput +"/" + suminput + "]개 데이터 변환완료 "+md5Text2+sha1Text2+sha256Text2+ipText2+urlText2)
 
     filename =""
     filename2 = ""
@@ -266,11 +283,6 @@ def getList(jobno, jobip, jobdate, jobfilename):
 
     print("output ######"+str(output))
     if len(output) > 0:
-        sumr = []
-        sumr = output
-        filename2 = writeHX(sumr, jobno, jobfilename)
-
-
         outout = []
         for i in output:
            if i == "변환실패" or i is None:
@@ -278,18 +290,15 @@ def getList(jobno, jobip, jobdate, jobfilename):
            else:
                outout.append(i)
 
-        loglog("작업["+str(jobno)+ "] 총 [" + str(len(outout))+ "/" +  str(len(input))  + "]개 데이터 HX 파일 생성 완료 "+md5Text+sha1Text+sha256Text+ipText+urlText)
-    else:
-        filename2 = 0
+        filename2 = writeHX(outout, jobno, jobfilename)
 
-        ################################################################################################################
-    if len(output) > 0 :
+        loglog("작업["+str(jobno)+ "] 총 [" + str(len(outout))+ "/" +  str(len(input))  + "]개 데이터 HX 파일 생성 완료 "+md5Text+sha1Text+sha256Text+ipText+urlText)
         filename = writeExcel(jobip, jobdate, jobno)
         # 작업번호 [41] 총 [6/4]개 데이터 EXCEL 데이터 작성 완료 [md5: 1/1] [sha1: 2/1] [sha256: 2/1] [ip: 1/1]
         loglog("작업[" + str(
             jobno) + "] 총 [" + suminput + "/" + suminput + "]개 데이터 엑셀 작성 " + md5Text + sha1Text + sha256Text + ipText + urlText)
 
-    sendMail(filename, filename2, jobno, jobip, jobdate, len(output), total2)
+        sendMail(filename, filename2, jobno, jobip, jobdate, len(output), total2)
 
     return 1
 
@@ -365,7 +374,7 @@ def sendMail(filename, filename2,jobno, jobip, jobdate, num1, num3):
 
         # 메일 콘텐츠 - 첨부파일
 
-        if filename2 == 0 :
+        if filename2 == 'hxno' :
             attachments = [os.path.join(os.getcwd(), filename)]
         else:
             attachments = [os.path.join(os.getcwd(), filename), os.path.join(os.getcwd(), filename2)]
@@ -640,6 +649,7 @@ def writeHX(output, jobno, jobfilename):
         f.write(str(ioc))
         f.close()
         return filename2
+    return 'hxno'
         ########################################################################################################################################################################################################################
 
 def writeExcel(jobip,jobdate,jobno):

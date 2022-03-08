@@ -59,6 +59,7 @@ while 1:
 				jobfilename = i[6]
 
 			print("############################### 작업큐의 작업 갯수 확인 #############################")
+			connect.runDBupdate("UPDATE programs SET c = '1' WHERE a = 'module_ioc'")
 			time.sleep(30)
 			curq = connect.runDBselect("SELECT count(no) FROM work_place WHERE status = '0' AND ipip = '" + str(
 				jobip) + "' AND time = '" + str(jobdate) + "'")
@@ -68,16 +69,13 @@ while 1:
 
 			if num > 0:
 
-				connect.runDBupdate("UPDATE programs SET c = '1' WHERE a = 'module_ioc'")
 				connect.loglog(
-					"작업[" + str(jobno) + "] " + str(jobip) + "님의 " + str(jobtype) + " 작업 진행 (To : " + str(
-						realname) + ")")
-
+					"작업[" + str(jobno) + "] " + str(jobip) + "님의 " + str(jobtype))
 				####추출된 데이터 총 길이, HX 파일 내용, 엑셀파일 이름
 				v = connect.getList(jobno, jobip, jobdate, jobfilename)
 
 				if v == 1:
-					onnect.runDBupdate(
+					connect.runDBupdate(
 						"UPDATE jobq SET status ='1' WHERE status = '0' AND ipip = '" + str(
 							jobip) + "' AND time = '" + str(
 							jobdate) + "'")

@@ -34,7 +34,8 @@ if (value == null) {
 	response.sendRedirect("http://222.110.22.168:8080/ioc/login.jsp");
 
 }
-%><link rel="favicon" href="http://222.110.22.168:8080/ioc/images/favicon.ico">
+%><link rel="favicon"
+	href="http://222.110.22.168:8080/ioc/images/favicon.ico">
 <head>
 
 <link href="css/my.css" rel="stylesheet">
@@ -115,42 +116,14 @@ if (value == null) {
 
 						<div id="aas" class="text-xs mb-1 font-weight-bold text-gray-800">업로드
 
-							버튼 클릭 전 메일 수신자를 선택해주세요!(추가별도문의)</div>
-
+							버튼 클릭 전 메일 수신자를 선택해주세요!(SOCH 회원 선택)</div>
 
 						<div class="dropdown mb-1 ">
 
 
 							<button class="h6 btn btn-primary dropdown-toggle" type="button"
-								id="dropdownMenuButton" data-toggle="dropdown"
-								aria-haspopup="true" aria-expanded="false">메일수신선택</button>
-
-
-							<div class="dropdown-menu animated--fade-in"
-								aria-labelledby="dropdownMenuButton">
-
-
-								<a id="a" class="dropdown-item" href="#">보안관제팀👍</a> <a id="b"
-									class="dropdown-item" href="#">부장님😁</a> <a id="c"
-									class="dropdown-item" href="#">승환😎</a> <a id="d"
-									class="dropdown-item" href="#">명훈😊</a> <a id="e"
-									class="dropdown-item" href="#">병호🤑</a> <a id="f"
-									class="dropdown-item" href="#">성민😴</a> <a id="g"
-									class="dropdown-item" href="#">예지😚</a> <a id="h"
-									class="dropdown-item" href="#">형욱😡</a> <a id="j"
-									class="dropdown-item" href="#">테스트🥰</a>
-
-							</div>
-
-						</div>
-
-
-						<%-- <div class="dropdown mb-1 ">
-
-
-							<button class="h6 btn btn-primary dropdown-toggle" type="button"
 								id="dropdownMenuButtonQ" data-toggle="dropdown"
-								aria-haspopup="true" aria-expanded="false">TEST BUTTONS</button>
+								aria-haspopup="true" aria-expanded="false">수신자 선택</button>
 
 
 							<div class="dropdown-menu animated--fade-in"
@@ -161,37 +134,8 @@ if (value == null) {
 								for (int i = 0; i < site.size(); i++) {
 								%>
 
-								<a id="A<%=i%>" name="A<%=i%>" class="dropdown-item" href="#" onclick="sample();"><%=site.get(i).getName()%></a>
-
-
-
-								<script type="text/javascript"> 
-								function sample(){
-									var name = $('#A<%=i%>').val();
-									
-									var xx = document.getElementById("A<%=i%>");
-									
-									alert(xx);
-								$.ajax({
-									type: 'POST', url:
-										'./mailCheckServlet2', data: { name: name }, success:
-										function(result) { $('#statusMessage6').html(result); }
-								});}
-								
-								$('#A<%=i%>').click(function() {
-									var name = $('#A<%=i%>').val();
-									alert(name)
-
-
-									$.ajax({
-										type: 'POST', url:
-											'./mailCheckServlet2', data: { name: name }, success:
-											function(result) { $('#statusMessage6').html(result); }
-									});
-
-								});
-								</script>
-
+								<a id="A<%=i%>" name="A<%=i%>" class="dropdown-item" href="#"
+									onclick="showMail('<%=site.get(i).getName()%>');"><%=site.get(i).getName()%></a>
 
 								<%
 								}
@@ -200,7 +144,7 @@ if (value == null) {
 
 							</div>
 
-						</div> --%>
+						</div>
 
 					</div>
 
@@ -326,7 +270,7 @@ if (value == null) {
 
 					<div class="col-auto">
 
-						<div class="text-xs font-weight-bold  text-uppercase mb-1">
+						<div class="text-xs font-weight-bold text-info text-uppercase mb-1">
 
 							로그(실시간)</div>
 

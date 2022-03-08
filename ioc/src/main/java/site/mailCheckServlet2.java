@@ -34,13 +34,12 @@ public class mailCheckServlet2 extends HttpServlet {
 		response.setContentType("text/html; charset=UTF-8");
 		String name = request.getParameter("name");
 
-		int result = 0;
-
+	 
 		dbrw dbrw = new dbrw();
 		String address = dbrw.nameTomail(name);
-		address = dbrw.mailAddress2(address);
+		dbrw.mailAddress2(address);
 
-		response.getWriter().println(address + "");
+		response.getWriter().println(name + "");
 		response.getWriter().close();
 	}
 

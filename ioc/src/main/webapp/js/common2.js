@@ -22,12 +22,12 @@ function siteStatus() {
 			$('#statusMessage2').html("" + b);
 
 			if (c != 0) {
- 
+
 				$('#nokori').html('CVE ' + c + '건 (' + parseInt((c * 1) / 60) + ')분 남음');
 				$('#nokori3').html('');
 			}
 			if (d != 0) {
- 
+
 				$('#nokori2').html('IOC ' + d + '건 (' + ((c * 15) / 60) + ')분 남음');
 				$('#nokori3').html('');
 			}
@@ -42,126 +42,22 @@ function siteStatus() {
 
 }
 
-var address = "";
-document.getElementById("a").addEventListener('click', showMaila);
-function showMaila() {
-	address = 'a'
-	setMail(address)
-}
-document.getElementById("b").addEventListener('click', showMailb);
-function showMailb() {
-	address = 'b'
-	setMail(address)
-}
-document.getElementById("c").addEventListener('click', showMailc);
-function showMailc() {
-	address = 'c'
-	setMail(address)
-}
-document.getElementById("d").addEventListener('click', showMaild);
-function showMaild() {
-	address = 'd'
-	setMail(address)
-}
-document.getElementById("e").addEventListener('click', showMaile);
-function showMaile() {
-	address = 'e'
-	setMail(address)
-}
-document.getElementById("f").addEventListener('click', showMailf);
-function showMailf() {
-	address = 'f'
-	setMail(address)
-}
-document.getElementById("g").addEventListener('click', showMailg);
-function showMailg() {
-	address = 'g'
-	setMail(address)
-}
-document.getElementById("h").addEventListener('click', showMailh);
-function showMailh() {
-	address = 'h'
-	setMail(address)
-}
-document.getElementById("j").addEventListener('click', showMailj);
-function showMailj() {
-	address = 'j'
-	setMail(address)
-}
-
-function setMail(address) {
+function showMail(name) {
+	 
+	var name = name;
 
 	$.ajax({
 		type: 'POST',
-		url: './mailCheckServlet',
+		url: './mailCheckServlet2',
 		data: {
-			address: address
+			name: name
 		},
 		success: function(result) {
-
-			if (result == 1)
-				$('#statusMessage6').html('👍보안관제팀👍');
-			if (result == 2)
-				$('#statusMessage6').html('부장님😁');
-			if (result == 3)
-				$('#statusMessage6').html('승환😎');
-			if (result == 4)
-				$('#statusMessage6').html('명훈😊');
-			if (result == 5)
-				$('#statusMessage6').html('병호🤑');
-			if (result == 6)
-				$('#statusMessage6').html('성민😴');
-			if (result == 7)
-				$('#statusMessage6').html('예지😎');
-			if (result == 8)
-				$('#statusMessage6').html('형욱😡');
-			if (result == 9)
-				$('#statusMessage6').html('테스트🥰');
-
-
+			$('#statusMessage6').html(result);
 		}
-
 	});
 
 }
-
-heartMail();
-function heartMail() {
-	address = ""
-	$.ajax({
-		type: 'POST',
-		url: './hearthCheckServlet',
-		data: {
-			address: address
-		},
-		success: function(result) {
-
-			if (result == 1)
-				$('#statusMessage6').html('보안관제팀👍');
-			if (result == 2)
-				$('#statusMessage6').html('부장님😁');
-			if (result == 3)
-				$('#statusMessage6').html('승환😎');
-			if (result == 4)
-				$('#statusMessage6').html('명훈😊');
-			if (result == 5)
-				$('#statusMessage6').html('병호🤑');
-			if (result == 6)
-				$('#statusMessage6').html('성민😴');
-			if (result == 7)
-				$('#statusMessage6').html('예지😎');
-			if (result == 8)
-				$('#statusMessage6').html('형욱😡');
-			if (result == 9)
-				$('#statusMessage6').html('테스트🥰');
-
-
-		}
-
-	});
-
-}
-
 
 
 loglog();
@@ -201,31 +97,6 @@ function loglog() {
 	});
 
 }
-/*
-function mailCheck() {
-	
-	var id = document.getElementById("id");
-	
-	$.ajax({
-		type: 'POST',
-		url: './siteCheckServlet3',
-		data: {
-			heart: heart
-		},
-		success: function(result) {
-	
-			if (result != 0) {
-				$('#statusMessage3').html('CVE : 🤔!!');
-			}
-			else {
-				$('#statusMessage3').html('CVE : 😴zZ');
-			}
-	
-	
-		}
-	});
-	
-}*/
 
 function passwordCheckFunction() {
 
@@ -272,7 +143,6 @@ function getCode() {
 	});
 }
 
-
 function checkCode() {
 	var mail = $('#mail').val();
 	var code = $('#code').val();
@@ -299,8 +169,6 @@ function checkCode() {
 		}
 	});
 }
-
-
 
 
 function reg() {
@@ -404,9 +272,3 @@ function find() {
 		}
 	});
 }
-
-
-
-
-
-
