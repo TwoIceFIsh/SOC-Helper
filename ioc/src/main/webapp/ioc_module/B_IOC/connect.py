@@ -32,8 +32,6 @@ def runDBselect(sql):
         
 
 def virusTotal(i, types, jobip, jobdate):
-
-
     ############################################################################### 중복데이터 선처리 ###############################################
     # 1. 기존 MD5 값 확인
     curq2 = runDBselect("SELECT exists (SELECT no from work_place WHERE " + types + " = '" + str(i) + "' AND MD5 != 'X' LIMIT 1) AS Q ")
@@ -45,14 +43,14 @@ def virusTotal(i, types, jobip, jobdate):
         if a[0] == True:
             curq3 = runDBselect("SELECT no, md5, sha1, sha256 from work_place WHERE " + types + " = '" + str(i) + "' AND MD5 != 'X' LIMIT 1")
             for a in curq3:
-                print("기존데이터 탐지")
+                print("기존데이터 탐지 :[" + str(a[1])+"/"+str(i)+"]")
+                setup1Virustotal(a[1], i, types, jobip, jobdate)
+                sitecountUp(1)
                 return a[1]
 
         else:
             curq = runDBselect("SELECT no, md5, sha1, sha256 from work_place WHERE " + types + " = '" + str(i) + "' AND ipip ='" + str(
                 jobip) + "' AND time = '" + str(jobdate) + "'")
-
-            print("기존데이터 미탐지")
 
             for a in curq:
                 if a[1] != 'X':
@@ -77,8 +75,6 @@ def virusTotal(i, types, jobip, jobdate):
                 setup1Virustotal("변환실패", i, types, jobip, jobdate)
                 sitecountUp(1)
 
-
-
 def setup1Virustotal(result, input, types, jobip, jobdate):
 
     runDBupdate("UPDATE work_place SET md5 = '" + str(result) +"' WHERE " + types + " = '" + str(input) + "' AND ipip ='" + str(
@@ -87,7 +83,7 @@ def setup1Virustotal(result, input, types, jobip, jobdate):
     runDBupdate("UPDATE work_place SET status= 1 WHERE " + types + " = '" + str(input) + "' AND ipip ='" + str(
         jobip) + "' AND time = '" + str(jobdate) + "'")
 
-    loglog(str(input) +" : " +str(result))
+    print(str(input) +" : " +str(result))
 
 def setup1(list, type, jobip, jobdate):
     for i in list:
@@ -661,7 +657,6 @@ def writeExcel(jobip,jobdate,jobno):
     ########### 초기 엑셀 작성 세팅
     curq = runDBselect("SELECT no, md5, sha256, sha1, ip, url FROM work_place WHERE status = '1' AND ipip = '" + str(
         jobip) + "' AND time = '" + str(jobdate) + "'")
-
 
 
     sheet['A1'] = "no"
