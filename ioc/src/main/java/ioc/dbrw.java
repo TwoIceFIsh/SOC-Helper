@@ -88,7 +88,7 @@ public class dbrw {
 		cve = cve.trim();
 		int n = 0;
 		int no = 0;
-		String query = "INSERT INTO cve values(?,?,?,?,?)";
+		String query = "INSERT INTO cve values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		String query2 = "SELECT MAX(no) FROM cve";
 
 		try {
@@ -107,6 +107,10 @@ public class dbrw {
 			pstm.setInt(3, 0);
 			pstm.setString(4, ipAddress);
 			pstm.setString(5, time);
+
+			for (int i = 6; i < 16; i++) {
+				pstm.setString(i, "X");
+			}
 
 			n = pstm.executeUpdate();
 
@@ -515,8 +519,6 @@ public class dbrw {
 		return 0;
 	}
 
-	
-
 	public String mailAddress2(String address) {
 
 		try {
@@ -533,7 +535,7 @@ public class dbrw {
 
 		address = address.trim();
 		int n = 0;
-		String query = "UPDATE site_status SET address = ?"; 
+		String query = "UPDATE site_status SET address = ?";
 
 		try {
 

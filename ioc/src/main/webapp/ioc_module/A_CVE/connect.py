@@ -21,6 +21,7 @@ def runDBupdate(sql):
     curq.execute(sql) 
     connq.commit()
     connq.close()
+    #print("DEBUG : "+sql)
     
     
 def runDBselect(sql):
@@ -29,6 +30,7 @@ def runDBselect(sql):
     curq.execute(sql) 
     connq.commit()
     connq.close()
+    #print("DEBUG : "+sql)
 
     return curq
 
@@ -70,9 +72,10 @@ def sendMail(filename, jobno, jobip, jobdate, num1):
     for a in cur:
         address = a[1]
 
-    realname = mailCheck(address)
+    cur = runDBselect("SELECT * FROM user WHERE a = '"+a[1]+"'")
 
-    list = []
+    for a in cur:
+        realname = a[3]
 
     cur = runDBselect("SELECT mailcount FROM site_status")
 
@@ -216,6 +219,7 @@ def excel(list, jobip, jobdate):
                     sheet['I' + str(line)] = "수동조회 대상"
                     sheet['J' + str(line)] = ''
                     setup1(i, "cve", jobip, jobdate)
+
                     continue
 
                 html = response.text
@@ -248,8 +252,7 @@ def excel(list, jobip, jobdate):
 
                 infokr_text = trans(info_text)
 
-                print(str(
-                    count) + " " + yymm_text + " " + yymmdd_text + " " + i + " " + score_text + " " + severity_text + " " + "O/X" + url + i + " " + infokr_text)
+                # print(str( count) + " " + yymm_text + " " + yymmdd_text + " " + i + " " + score_text + " " + severity_text + " " + "O/X" + url + i + " " + infokr_text)
 
                 sheet['A' + str(line)] = str(count)
                 sheet['B' + str(line)] = yymm_text
@@ -261,6 +264,10 @@ def excel(list, jobip, jobdate):
                 sheet['H' + str(line)] = url + i
                 sheet['I' + str(line)] = infokr_text
                 sheet['J' + str(line)] = ''
+
+                infokr_text = infokr_text.replace("\'","\\\'")
+                print(infokr_text)
+                runDBupdate("update cve set a='"+str(count)+"',b='"+yymm_text+"',c='"+yymmdd_text+"',d='"+i+"',e='"+score_text+"',f='"+severity_text+"',g='O/X',h='"+url + i+"',i='"+infokr_text+"' where cve =  '"+i+"' and ipip = '"+jobip+"' and time = '"+jobdate+"'")
 
                 setup1(i, "cve", jobip, jobdate)
 
@@ -301,27 +308,3 @@ def sitecountUp(num):
     out = count + num
 
     runDBupdate("UPDATE site_status SET count =" + str(out) + " where no = 1")
-
-
-def mailCheck(address):
-    realname = ""
-    if address == "DLZ1160@s-oil.com":
-        realname = "보안관제팀"
-    if address == "sungwoo.kwon@s-oil.com":
-        realname = "부장님"
-    if address == "jsh0119@s-oil.com":
-        realname = "승환"
-    if address == "kmh0816@s-oil.com":
-        realname = "명훈"
-    if address == "bh.lee@s-oil.com":
-        realname = "병호"
-    if address == "ksm0117@s-oil.com":
-        realname = "성민"
-    if address == "lyj0409@s-oil.com":
-        realname = "예지"
-    if address == "khw1205@s-oil.com":
-        realname = "형욱"
-    if address == "osh1010@s-oil.com":
-        realname = "테스트"
-
-    return realname

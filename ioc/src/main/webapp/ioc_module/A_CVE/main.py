@@ -24,7 +24,7 @@ def heartBeat(mudule_name):
 while 1:
 
     heartBeat('module_cve')
-
+    connect.runDBupdate("UPDATE programs SET c = '0' WHERE a = 'module_cve'")
     curq = connect.runDBselect("SELECT count(*) FROM jobq WHERE status = 0 AND type ='cve'  limit 1")
 
     yesyes = 0
@@ -50,23 +50,32 @@ while 1:
 
 
             print("############################### 작업큐의 작업 갯수 확인 #############################")
-
+            connect.runDBupdate("UPDATE programs SET c = '1' WHERE a = 'module_cve'")
+            time.sleep(30)
             curq = connect.runDBselect("SELECT count(no) FROM cve WHERE status = '0' AND ipip = '" + str(
                 jobip) + "' AND time = '" + str(jobdate) + "'")
+            
 
             for j in curq:
                 num = j[0]
 
             if num > 0:
-
+                realname=''
                 ############################### MODULE STATUS CHANGE #####################################
-                connect.runDBupdate("UPDATE programs SET c = '1' WHERE a = 'module_cve'")
+                cur = connect.runDBselect(
+                    "SELECT no, email FROM jobq WHERE ipip = '" + str(jobip) + "' AND time = '" + str(jobdate) + "'")
 
+                for a in cur:
+                    address = a[1]
+
+                cur = connect.runDBselect("SELECT * FROM user WHERE a = '" + a[1] + "'")
+
+                for a in cur:
+                    realname = a[3]
                 #####################################
-                realname = connect.mailCheck(jobmail)
                 connect.loglog("작업[" + str(jobno) + "] " + str(jobip) + "님의 " + str(jobtype) + " 작업 진행 (To : " + str(
                     realname) + ")")
-                time.sleep(30)
+
 
                 v = connect.getList(jobno, jobip, jobdate)
 
@@ -77,6 +86,7 @@ while 1:
 
 
                     connect.loglog("작업[" + str(jobno) + "] " + str(jobip) + "님의 " + str(jobtype) + " 작업 완료")
+
 
 
                 if v == 9:
