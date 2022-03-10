@@ -61,48 +61,17 @@ public class status_log {
 			
 			
 			pstm = conn.prepareStatement(query);
-		
-
-//			
 			pstm.setInt(1, no+1);
 
-			if (mailAddress.equals("DLZ1160@s-oil.com"))
-				mailAddress = "보안관제팀";
-			if (mailAddress.equals("sungwoo.kwon@s-oil.com"))
-				mailAddress = "부장님";
-			if (mailAddress.equals("jsh0119@s-oil.com"))
-				mailAddress = "승환";
-			if (mailAddress.equals("kmh0816@s-oil.com"))
-				mailAddress = "명훈";
-			if (mailAddress.equals("bh.lee@s-oil.com"))
-				mailAddress = "병호";
-			if (mailAddress.equals("ksm0117@s-oil.com"))
-				mailAddress = "성민";
-			if (mailAddress.equals("lyj0409@s-oil.com"))
-				mailAddress = "예지";
-			if (mailAddress.equals("khw1205@s-oil.com"))
-				mailAddress = "형욱";
-			if (mailAddress.equals("osh1010@s-oil.com"))
-				mailAddress = "테스트";
-
-//			if (string.equals("CVE")) {
-//				pstm.setString(2, dateToStr + " : 작업번호 [" +""+ "] : " + ipAddress
-//						+ "님께서 CVE 정보 등록을 요청했습니다.(" + count1 + "건) 수신 : " + mailAddress);
-//
-//			}
-//			if (string.equals("IOC")) {
-//				pstm.setString(2, dateToStr + " : 작업번호 [" +""+ "] : " + ipAddress
-//						+ "님께서 IOC 정보 등록을 요청했습니다.(" + count1 + "건) 수신 : " + mailAddress);
-//			}
 			 
 			if (string.equals("CVE")) {
 				pstm.setString(2, dateToStr + " : 작업[" + Integer.toString(k) + "] : " + ipAddress
-						+ "님께서 CVE 작업 요청 [" + count1 + "건] (To : " + mailAddress+")");
+						+ "님께서 CVE 작업 요청 [" + count1 + "건] ");
 
 			}
 			if (string.equals("IOC")) {
 				pstm.setString(2, dateToStr + " : 작업[" + Integer.toString(k) + "] : " + ipAddress
-						+ "님께서 IOC 작업 요청 [" + count1 + "건] (To : " + mailAddress+")");
+						+ "님께서 IOC 작업 요청 [" + count1 + "건] ");
 		}
 
 			pstm.setString(3, ipAddress);

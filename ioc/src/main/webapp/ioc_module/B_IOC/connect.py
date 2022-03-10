@@ -313,7 +313,10 @@ def sendMail(filename, filename2,jobno, jobip, jobdate, num1, num3):
     for a in cur :
         address = a[1]
 
-    realname =  mailCheck(address)
+    cur = runDBselect("SELECT c FROM user WHERE a = '"+address+"'")
+    for a in cur:
+        realname = a[0]
+
 
 
     yy = datetime.today().strftime('%y')
@@ -403,28 +406,8 @@ def sendMail(filename, filename2,jobno, jobip, jobdate, num1, num3):
 
     #################################################################################################################
 
-def mailCheck(address):
-    realname = ""
-    if address == "DLZ1160@s-oil.com":
-        realname = "보안관제팀"
-    if address == "sungwoo.kwon@s-oil.com":
-        realname = "부장님"
-    if address == "jsh0119@s-oil.com":
-        realname = "승환"
-    if address == "kmh0816@s-oil.com":
-        realname = "명훈"
-    if address == "bh.lee@s-oil.com":
-        realname = "병호"
-    if address == "ksm0117@s-oil.com":
-        realname = "성민"
-    if address == "lyj0409@s-oil.com":
-        realname = "예지"
-    if address == "khw1205@s-oil.com":
-        realname = "형욱"
-    if address == "osh1010@s-oil.com":
-        realname = "테스트"
 
-    return realname
+
 
 def findHX(value):
     if value is None:
@@ -450,10 +433,10 @@ def findHX(value):
     # URL 로직
     elif "." in i:
         T = "URL"
-        eoperator = "equal"
+        eoperator = "contains"
         etoken = "dnsLookupEvent/hostname"
         etype = "text"
-        poperator = "equal"
+        poperator = "contains"
         ptoken = "urlMonitorEvent/hostname"
         ptype = "text"
         findHXout.append(eoperator)
