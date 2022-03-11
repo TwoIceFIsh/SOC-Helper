@@ -41,7 +41,7 @@ function siteStatus() {
 	});
 
 }
-
+showMail('👍보안관제팀👍');
 function showMail(name) {
 	 
 	var name = name;
