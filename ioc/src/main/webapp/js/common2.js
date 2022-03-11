@@ -23,19 +23,19 @@ function siteStatus() {
 
 			if (c != 0) {
 
-				$('#nokori').html('CVE ' + c + '건 (' + parseInt((c * 1) / 60) + ')분 남음');
-				$('#nokori3').html('');
+				$('#nokori').html('💫'+c + '건 (' + parseInt((c * 1) / 60) + ')분 남음');
+				
+			} else {
+			$('#nokori').html('💤 대기 중');
 			}
 			if (d != 0) {
 
-				$('#nokori2').html('IOC ' + d + '건 (' + ((c * 15) / 60) + ')분 남음');
-				$('#nokori3').html('');
+				$('#nokori2').html('💫'+d + '건 (' + ((c * 15) / 60) + ')분 남음');
+				
+			} else {
+			$('#nokori2').html('💤 대기 중');
 			}
-			if (c == 0 && d == 0) {
-				$('#nokori').html('');
-				$('#nokori2').html('');
-				$('#nokori3').html('작업 없음');
-			}
+ 
 
 		}
 	});

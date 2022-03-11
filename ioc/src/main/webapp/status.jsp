@@ -188,14 +188,6 @@ if (value == null) {
 									__Manager(+Recover)
 
 
-									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;처리현황 :
-
-									<div id="nokori" class="mb-0"></div>
-
-									<div id="nokori2" class="mb-0"></div>
-
-									<div id="nokori3" class="mb-0"></div>
-
 								</div>
 
 
@@ -204,7 +196,9 @@ if (value == null) {
 
 									<div id="moduleA" class="mb-0"></div>
 
-									__CVE Module
+									__CVE Module&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+									<div id="nokori" class="mb-0"></div>
 
 								</div>
 
@@ -213,7 +207,9 @@ if (value == null) {
 
 									<div id="moduleB" class="mb-0"></div>
 
-									__IOC Module
+									__IOC Module&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+									<div id="nokori2" class="mb-0"></div>
 
 								</div>
 

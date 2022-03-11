@@ -219,63 +219,73 @@ def excel(list, jobip, jobdate):
                     sheet['I' + str(line)] = "수동조회 대상"
                     sheet['J' + str(line)] = ''
                     setup1(i, "cve", jobip, jobdate)
+                    runDBupdate("update cve set a='" + str(
+                        count) + "',b='N/A',c='N/A',d='" + i + "',e='N/A',f='N/A',g='O/X',h='" + url + i + "',i='N/A' where cve =  '" + i + "' and ipip = '" + jobip + "' and time = '" + jobdate + "'")
 
-                    continue
+                else:
+                    html = response.text
+                    soup = BeautifulSoup(html, 'html.parser')
 
-                html = response.text
-                soup = BeautifulSoup(html, 'html.parser')
-                cvss = soup.select_one('a[id="Cvss3NistCalculatorAnchor"]')
-                date = soup.select_one('span[data-testid="vuln-published-on"]')
-                cve = soup.select_one('a[data-testid="vuln-cve-dictionary-entry"]')
-                info = soup.select_one('p[data-testid="vuln-description"]')
-                cvss_text = ""
-                try:
-                    cvss_text = cvss.get_text()
+                    if '\"Cvss3NistCalculatorAnchorNA\"' in response.text:
+                        cvss = soup.select_one('a[id="Cvss3NistCalculatorAnchorNA"]')
+                        cvss_text = cvss.get_text()
+                        score_text = "N/A"
+                        severity_text = "N/A"
 
-                except AttributeError:
-                    cvss = soup.select_one('a[id="Cvss3CnaCalculatorAnchor"]')
-                    cvss_text = cvss.get_text()
+                    if '\"Cvss3NistCalculatorAnchor\"' in response.text:
+                        cvss = soup.select_one('a[id="Cvss3NistCalculatorAnchor"]')
+                        cvss_text = cvss.get_text()
+                        tmp = cvss_text.split(" ")
+                        score_text = tmp[0]
+                        severity_text = tmp[1]
 
-                tmp = cvss_text.split(" ")
-                score_text = tmp[0]
-                severity_text = tmp[1]
-                date_text = date.get_text()
-                tmp2 = date_text.split("/")
-                mm_text = tmp2[0]
-                dd_text = tmp2[1]
-                yy_text = tmp2[2]
-                cve_text = cve.get_text()
-                info_text = info.get_text()
+                    if '\"Cvss3CnaCalculatorAnchor\"' in response.text:
+                        cvss = soup.select_one('a[id="Cvss3CnaCalculatorAnchor"]')
+                        cvss_text = cvss.get_text()
+                        tmp = cvss_text.split(" ")
+                        score_text = tmp[0]
+                        severity_text = tmp[1]
 
-                yymm_text = yy_text + "." + mm_text
-                yymmdd_text = yy_text + "." + mm_text + "." + dd_text
+                    date = soup.select_one('span[data-testid="vuln-published-on"]')
+                    cve = soup.select_one('a[data-testid="vuln-cve-dictionary-entry"]')
+                    info = soup.select_one('p[data-testid="vuln-description"]')
 
-                infokr_text = trans(info_text)
+                    date_text = date.get_text()
+                    tmp2 = date_text.split("/")
+                    mm_text = tmp2[0]
+                    dd_text = tmp2[1]
+                    yy_text = tmp2[2]
+                    cve_text = cve.get_text()
+                    info_text = info.get_text()
 
-                # print(str( count) + " " + yymm_text + " " + yymmdd_text + " " + i + " " + score_text + " " + severity_text + " " + "O/X" + url + i + " " + infokr_text)
+                    yymm_text = yy_text + "." + mm_text
+                    yymmdd_text = yy_text + "." + mm_text + "." + dd_text
 
-                sheet['A' + str(line)] = str(count)
-                sheet['B' + str(line)] = yymm_text
-                sheet['C' + str(line)] = yymmdd_text
-                sheet['D' + str(line)] = i
-                sheet['E' + str(line)] = score_text
-                sheet['F' + str(line)] = severity_text
-                sheet['G' + str(line)] = 'O/X'
-                sheet['H' + str(line)] = url + i
-                sheet['I' + str(line)] = infokr_text
-                sheet['J' + str(line)] = ''
+                    infokr_text = trans(info_text)
 
-                infokr_text = infokr_text.replace("\'","\\\'")
-                print(infokr_text)
-                runDBupdate("update cve set a='"+str(count)+"',b='"+yymm_text+"',c='"+yymmdd_text+"',d='"+i+"',e='"+score_text+"',f='"+severity_text+"',g='O/X',h='"+url + i+"',i='"+infokr_text+"' where cve =  '"+i+"' and ipip = '"+jobip+"' and time = '"+jobdate+"'")
+                    print(str( count) + " " + yymm_text + " " + yymmdd_text + " " + i + " " + score_text + " " + severity_text + " " + "O/X" + url + i + " " + infokr_text)
 
-                setup1(i, "cve", jobip, jobdate)
+                    sheet['A' + str(line)] = str(count)
+                    sheet['B' + str(line)] = yymm_text
+                    sheet['C' + str(line)] = yymmdd_text
+                    sheet['D' + str(line)] = i
+                    sheet['E' + str(line)] = score_text
+                    sheet['F' + str(line)] = severity_text
+                    sheet['G' + str(line)] = 'O/X'
+                    sheet['H' + str(line)] = url + i
+                    sheet['I' + str(line)] = infokr_text
+                    sheet['J' + str(line)] = ''
+
+                    infokr_text = infokr_text.replace("\'","\\\'")
+                    runDBupdate("update cve set a='"+str(count)+"',b='"+yymm_text+"',c='"+yymmdd_text+"',d='"+i+"',e='"+score_text+"',f='"+severity_text+"',g='O/X',h='"+url + i+"',i='"+infokr_text+"' where cve =  '"+i+"' and ipip = '"+jobip+"' and time = '"+jobdate+"'")
+
+                    setup1(i, "cve", jobip, jobdate)
+
+                count += 1
+                line += 1
 
             else:
                 setup1(i, "cve", jobip, jobdate)
-
-            count += 1
-            line += 1
 
         wb.save(filename)
     return filename

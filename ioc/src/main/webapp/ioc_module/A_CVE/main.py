@@ -51,7 +51,7 @@ while 1:
 
             print("############################### 작업큐의 작업 갯수 확인 #############################")
             connect.runDBupdate("UPDATE programs SET c = '1' WHERE a = 'module_cve'")
-            time.sleep(30)
+            time.sleep(60)
             curq = connect.runDBselect("SELECT count(no) FROM cve WHERE status = '0' AND ipip = '" + str(
                 jobip) + "' AND time = '" + str(jobdate) + "'")
             
@@ -61,7 +61,7 @@ while 1:
 
             if num > 0:
                 realname=''
-                ############################### MODULE STATUS CHANGE #####################################
+                ###################################################################
                 cur = connect.runDBselect(
                     "SELECT no, email FROM jobq WHERE ipip = '" + str(jobip) + "' AND time = '" + str(jobdate) + "'")
 
