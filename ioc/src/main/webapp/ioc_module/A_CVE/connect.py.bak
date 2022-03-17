@@ -116,7 +116,7 @@ def sendMail(filename, jobno, jobip, jobdate, num1):
         body = '''
         <h2>안녕하세요.</h1>
         <h4>SOC Helper입니다. </h4>  
-        </br><h4><h4>솔루션 주소 : "http://www.kokonut.today:8080/main.jsp" </h4>  
+        </br><h4><h4>솔루션 주소 : "http://www.kokonut.today:8080/ioc/main.jsp" </h4>  
         <h4> 수행작업 : CVE 기준 CVSS 정보 리포팅 파일 생성</h4>   </br>
             <h4> CVE 기준 검색을 통하여 발표일 CVSS 중요도 출처 및 설명을 xlsx로 출력</h4>
         </br>

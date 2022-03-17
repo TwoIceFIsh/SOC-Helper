@@ -21,13 +21,13 @@ def heartBeat(mudule_name):
     time.sleep(4)
 
 def runDBupdate(sql):
-    connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
+    connq = pymysql.connect(host='localhost', user='root', password='Dlqudgh1!', db='ioc', charset='utf8')
     curq = connq.cursor()
     curq.execute(sql)
     connq.commit()
 
 def runDBselect(sql):
-    connq = pymysql.connect(host='localhost', user='root', password='!Hg1373002934', db='ioc', charset='utf8')
+    connq = pymysql.connect(host='localhost', user='root', password='Dlqudgh1!', db='ioc', charset='utf8')
     curq = connq.cursor()
     curq.execute(sql)
     connq.commit()

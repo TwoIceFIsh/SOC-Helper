@@ -10866,13 +10866,13 @@ a:focus {
 }
 
 .bg-login-image {
-  background: url("http://www.kokonut.today:8080/images/df4498db45287d0af69104cd267c83db.gif");
+  background: url("http://www.kokonut.today:8080/ioc/images/df4498db45287d0af69104cd267c83db.gif");
   background-position: center;
   background-size: cover;
 }
 
 .bg-main-image {
-  background: url("http://www.kokonut.today:8080/images/a880ceae5cef0e29a1c071fe7c0f4014.gif");
+  background: url("http://www.kokonut.today:8080/ioc/images/a880ceae5cef0e29a1c071fe7c0f4014.gif");
   background-position: center;
   background-size: cover;
 }
