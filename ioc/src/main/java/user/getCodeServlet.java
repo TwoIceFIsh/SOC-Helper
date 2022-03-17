@@ -49,7 +49,7 @@ public class getCodeServlet extends HttpServlet {
 		System.out.println(email);
 
 		// 1 가능 0 가입되어있다 2 회사도메인아니다
-		if (email.contains("@s-oil.com")) {
+		if (email.contains("@")) {
 
 			if (!user.getEmail(email)) {
 				int out = user.setCode(email);

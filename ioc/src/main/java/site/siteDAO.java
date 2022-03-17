@@ -21,7 +21,7 @@ public class siteDAO {
 		try {
 			String jdbcUrl = "jdbc:mysql://localhost:3306/ioc?useUnicode=true&characterEncoding=utf8";
 			String dbId = "root";
-			String dbPass = "!Hg1373002934";
+			String dbPass = "Dlqudgh1!";
 
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection(jdbcUrl, dbId, dbPass);
@@ -81,7 +81,7 @@ public class siteDAO {
 		try {
 			String jdbcUrl = "jdbc:mysql://localhost:3306/ioc?useUnicode=true&characterEncoding=utf8";
 			String dbId = "root";
-			String dbPass = "!Hg1373002934";
+			String dbPass = "Dlqudgh1!";
 
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection(jdbcUrl, dbId, dbPass);
@@ -106,13 +106,10 @@ public class siteDAO {
 				site.setPw(rs.getString(3));
 				site.setName(rs.getString(4));
 				out.add(site);
-				System.out.println(site.getEmail());
+				 
 			}
 			
-			System.out.println(out.get(0).getEmail());
-
-			System.out.println(out.get(1).getEmail());
-
+ 
 			return out;
 
 		} catch (

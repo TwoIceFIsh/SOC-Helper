@@ -31,12 +31,12 @@ import ioc.dbrw;
  */
 @WebServlet("/FileHandleServlet")
 @MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 1024 * 1024 * 5, maxRequestSize = 1024 * 1024 * 5
-		* 5, location = "C:\\Users\\IGLOO\\git\\ioc_project\\ioc\\src\\main\\uploadFile")
+		* 5, location = "C:\\Users\\hg310\\git\\ioc_Converter\\ioc\\src\\main\\uploadFile")
 public class FileHandleServlet extends HttpServlet {
 
 	String fileName = null;
 	private static final long serialVersionUID = 1L;
-	String location = "C:\\Users\\IGLOO\\git\\ioc_project\\ioc\\src\\main\\uploadFile";
+	String location = "C:\\Users\\hg310\\git\\ioc_Converter\\ioc\\src\\main\\uploadFile";
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -59,7 +59,7 @@ public class FileHandleServlet extends HttpServlet {
 		final Part filePart = request.getPart("file");
 
 		if (filePart == null) {
-			response.sendRedirect("http://222.110.22.168:8080/ioc/oops.jsp");
+			response.sendRedirect("http://www.kokonut.today:8080/oops.jsp");
 			return;
 		}
 		
@@ -70,12 +70,12 @@ public class FileHandleServlet extends HttpServlet {
 		String []res = extension.split("#");
 		
 		if(!res[res.length-1].equals("txt")) {
-			response.sendRedirect("http://222.110.22.168:8080/ioc/oops.jsp");
+			response.sendRedirect("http://www.kokonut.today:8080/oops.jsp");
 			return;
 		}
 		
 		if (fileName.matches(".*[¤¡-¤¾¤¿-¤Ó°¡-ÆR]+.*")) {
-			response.sendRedirect("http://222.110.22.168:8080/ioc/oops.jsp");
+			response.sendRedirect("http://www.kokonut.today:8080/oops.jsp");
 			return;
 		}
 			
@@ -118,9 +118,9 @@ public class FileHandleServlet extends HttpServlet {
 
 			if (dbrw.readFile(location, fileName, ipAddress, dateToStr2, mailaddress) == 1) {
 				
-				response.sendRedirect("http://222.110.22.168:8080/ioc/ok.jsp");
+				response.sendRedirect("http://www.kokonut.today:8080/ok.jsp");
 			} else {
-				response.sendRedirect("http://222.110.22.168:8080/ioc/oops.jsp");
+				response.sendRedirect("http://www.kokonut.today:8080/oops.jsp");
 			}
 
 		} catch (FileNotFoundException fne) {

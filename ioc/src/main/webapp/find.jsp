@@ -45,7 +45,7 @@
 								<div class="form-group row">
 									<div class="col-sm-6 mb-3 mb-sm-0">
 										<input type="email" class="form-control form-control-user"
-											id="id" name="id" placeholder="XXXX@s-oil.com" />
+											id="id" name="id" placeholder="XXXX@email.com" />
 
 									</div>
 								</div>
