@@ -192,7 +192,7 @@ function reg() {
 			}
 			if (result == 11) {
 				alert('계정생성 완료');
-				window.location.href = 'http://www.kokonut.today:8080/login.jsp';
+				window.location.href = '/2/login.jsp';
 			}
 			if (result == 9) {
 				$('#statusMessagepw').html('DB Error.');
@@ -228,7 +228,7 @@ function login() {
 		success: function(result) {
 
 			var timeOut = function() {
-				window.location.href = 'http://www.kokonut.today:8080/main.jsp';
+				window.location.href = '/2/main.jsp';
 			}
 
 
@@ -262,7 +262,7 @@ function find() {
 
 			if (result == 11) {
 				alert('비밀번호 발송 완료(3분소요)');
-				window.location.href = 'http://www.kokonut.today:8080/main.jsp';
+				window.location.href = '/2/main.jsp';
 			}
 			if (result == 333) {
 				$('#statusMessagepw').html('계정이 존재하지 않습니다.');

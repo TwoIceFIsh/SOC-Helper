@@ -104,7 +104,7 @@
 
 		<%
 		} else {
-		response.sendRedirect("http://www.kokonut.today:8080/login.jsp");
+		response.sendRedirect("/2/login.jsp");
 
 		}
 		%>

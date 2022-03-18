@@ -62,7 +62,7 @@ public class FIleHandleServlet2 extends HttpServlet {
 		final Part filePart = request.getPart("file");
 
 		if (filePart == null) {
-			response.sendRedirect("http://www.kokonut.today:8080/oops.jsp");
+			response.sendRedirect("/2/oops.jsp");
 			return;
 		}
 	
@@ -72,15 +72,15 @@ public class FIleHandleServlet2 extends HttpServlet {
 		String []res = extension.split("#");
 		
 		if(!res[res.length-1].equals("txt")) {
-			response.sendRedirect("http://www.kokonut.today:8080/oops.jsp");
+			response.sendRedirect("/2/oops.jsp");
 			return;
 		}
-		
+
 		if (fileName.matches(".*[¤¡-¤¾¤¿-¤Ó°¡-ÆR]+.*")) {
-			response.sendRedirect("http://www.kokonut.today:8080/oops.jsp");
+			response.sendRedirect("/2/oops.jsp");
 			return;
 		}
-		
+
 		// NAME SLICE AND FIX
 		DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
 		Date date = new Date();
@@ -90,8 +90,8 @@ public class FIleHandleServlet2 extends HttpServlet {
 		Date date2 = new Date();
 		String dateToStr2 = dateFormat2.format(date2);
 
-		
-		
+
+
 		fileName = dateToStr + fileName;
 
 		// FILE WRITE
@@ -110,17 +110,17 @@ public class FIleHandleServlet2 extends HttpServlet {
 				out.write(bytes, 0, read);
 			}
 
-			// µ¥ÀÌÅÍ DB ÀÛ¼º
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ DB ï¿½Û¼ï¿½
 			dbrw dbrw = new dbrw();
 			String address = dbrw.getMail();
 						String date21 = dbrw.setDate(dateToStr2);
 			dbrw.setJobq(dateToStr2 , ipAddress, "IOC", address, fileName);
-			
+
 			if (dbrw.readFile2(location, fileName, ipAddress, dateToStr2, address) == 1) {
-				
-				response.sendRedirect("http://www.kokonut.today:8080/ok.jsp");
+
+				response.sendRedirect("/2/ok.jsp");
 			} else {
-				response.sendRedirect("http://www.kokonut.today:8080/oops.jsp");
+				response.sendRedirect("/2/oops.jsp");
 			}
 
 		} catch (FileNotFoundException fne) {

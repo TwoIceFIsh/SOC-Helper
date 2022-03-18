@@ -11,16 +11,6 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/IOC">
-		<attributes>
-			<attribute name="module" value="true"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/apache-tomcat-9.0.55">
-		<attributes>
-			<attribute name="module" value="true"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/fontbox-2.0.25.jar"/>
@@ -35,6 +25,6 @@
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/poi-3.1-FINAL-20080629.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/poi-contrib-3.1-FINAL-20080629.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/poi-scratchpad-3.1-FINAL-20080629.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v9.0"/>
+	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/apache-tomcat-9.0.55"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

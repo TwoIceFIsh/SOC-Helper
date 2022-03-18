@@ -79,7 +79,7 @@
 										</div>
 										 
 										<div class="col-sm-12  mb-3 mb-sm-0  form-control-user"
-											id="statusMessagepw">---</div>
+											id="statusMessagepw"></div>
 										<input
 											class="btn btn-primary btn-user btn-block color-change-2x"
 											type="button" name="s" id="s" onclick="login();"

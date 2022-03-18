@@ -24,7 +24,8 @@
 <link
 	href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
 	rel="stylesheet">
-<link rel="favicon" href="http://www.kokonut.today:8080/images/favicon.ico">
+<link rel="favicon"
+	href="http://www.kokonut.today:8080/images/favicon.ico">
 <!-- Custom styles for this template-->
 <link href="css/sb-admin-2.css?after" rel="stylesheet">
 
@@ -110,23 +111,26 @@
 											type="submit" value="txt 파일 업로드" name="upload" id="upload" />
 									</form>
 									<hr>
-									<h1 class="h6   mb-2">3. 사이트캡쳐</h1>
-									<p class="mb-4">
-										외부망 IP를 통하여 접속된 웹사이트 캡처본을 받아보세요! </br> URL을 입력하여 해당 사이트를 사진으로 확인해 볼
-										수 있습니다!</br>
-									<div>
-										<input class="btn btn-warning btn-user btn-block"
-											type="submit" value="개발중🛠️" name="#" id="#" />
-									</div>
-									<hr>
 
-									<h1 class="h6 text-gray-900 mb-2">4. 보안정보 자동수집(보안뉴스, KISA
-										등)</h1>
-									<p class="mb-4 h6">
-										정보보안 관련 새로운 개시글을 메일로 받아보세요!</br>
-									<div>
-										<input class="btn btn-warning btn-user btn-block"
-											type="submit" value="개발중🛠️" name="#" id="#" />
+									<p class="mb-4"></p>
+									<h1 class="h6 mb-2">굿굿잼 11기 채팅방</h1>
+									<p class="mb-4"></p>
+
+									<div id="selecter" style="height: 250px; overflow: auto;">
+										<a name="messageA" id="messageA">A</a><br> <a
+											name="messageB" id="messageB"></a>
+									</div>
+
+
+
+
+									<div class="row">
+										<input class="col-9 form-control" type="text" name="sendM"
+											id="sendM" placeholder="채팅 입력" onkeyup="enterkey2();"></input>
+										<p class="mb-4"></p>
+										<button type="submit" class="col-2 btn btn-primary mb-3"
+											onclick="sendMessage();">전송</button>
+
 									</div>
 									<hr>
 								</div>
@@ -146,7 +150,7 @@
 
 		<%
 		} else {
-		response.sendRedirect("http://www.kokonut.today:8080/login.jsp");
+		response.sendRedirect("/2/login.jsp");
 
 		}
 		%>

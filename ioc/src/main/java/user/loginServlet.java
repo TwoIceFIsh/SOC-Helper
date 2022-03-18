@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import site.siteDAO;
  
 /**
  * Servlet implementation class loginServlet
@@ -40,10 +42,8 @@ public class loginServlet extends HttpServlet {
 		System.out.println(user.getId() + user.getPw());
 
 		if (userDAO.login(user)) {
-			System.out.println("boolean");
-			//HttpSession session = request.getSession();
-			request.getSession().setAttribute("ok", user.getId()+"");
 			
+			request.getSession().setAttribute("ok", user.getId()+"");
 			response.getWriter().println("11");
 			response.getWriter().close();
 			return;

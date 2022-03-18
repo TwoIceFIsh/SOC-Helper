@@ -59,7 +59,7 @@ public class FileHandleServlet extends HttpServlet {
 		final Part filePart = request.getPart("file");
 
 		if (filePart == null) {
-			response.sendRedirect("http://www.kokonut.today:8080/oops.jsp");
+			response.sendRedirect("/2/oops.jsp");
 			return;
 		}
 		
@@ -70,12 +70,12 @@ public class FileHandleServlet extends HttpServlet {
 		String []res = extension.split("#");
 		
 		if(!res[res.length-1].equals("txt")) {
-			response.sendRedirect("http://www.kokonut.today:8080/oops.jsp");
+			response.sendRedirect("/2/oops.jsp");
 			return;
 		}
 		
 		if (fileName.matches(".*[¤¡-¤¾¤¿-¤Ó°¡-ÆR]+.*")) {
-			response.sendRedirect("http://www.kokonut.today:8080/oops.jsp");
+			response.sendRedirect("/2/oops.jsp");
 			return;
 		}
 			
@@ -110,7 +110,7 @@ public class FileHandleServlet extends HttpServlet {
 				out.write(bytes, 0, read);
 			}
 
-			// path ÀúÀå ·çÆ¾
+			// path ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ¾
 			dbrw dbrw = new dbrw();
 			String mailaddress = dbrw.getMail();
 			String date21 = dbrw.setDate(dateToStr2);
@@ -118,9 +118,9 @@ public class FileHandleServlet extends HttpServlet {
 
 			if (dbrw.readFile(location, fileName, ipAddress, dateToStr2, mailaddress) == 1) {
 				
-				response.sendRedirect("http://www.kokonut.today:8080/ok.jsp");
+				response.sendRedirect("/2/ok.jsp");
 			} else {
-				response.sendRedirect("http://www.kokonut.today:8080/oops.jsp");
+				response.sendRedirect("/2/oops.jsp");
 			}
 
 		} catch (FileNotFoundException fne) {
