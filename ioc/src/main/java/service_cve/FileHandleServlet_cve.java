@@ -1,4 +1,4 @@
-package file;
+package service_cve;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -9,13 +9,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
-import java.util.StringTokenizer;
-import java.util.logging.Level;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -24,26 +18,26 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
-import ioc.dbrw;
+import site.siteDAO; 
 
 /**
  * Servlet implementation class FileHandleServlet
  */
-@WebServlet("/FileHandleServlet2")
+@WebServlet("/FileHandleServlet")
 @MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 1024 * 1024 * 5, maxRequestSize = 1024 * 1024 * 5
-		* 5, location = "C:\\Users\\hg310\\git\\ioc_Converter\\ioc\\src\\main\\uploadFile2")
-public class FIleHandleServlet2 extends HttpServlet {
+		* 5, location = "C:\\Users\\hg310\\git\\ioc_Converter\\ioc\\src\\main\\uploadFile")
+public class FileHandleServlet_cve extends HttpServlet {
 
 	String fileName = null;
 	private static final long serialVersionUID = 1L;
-	String location = "C:\\Users\\hg310\\git\\ioc_Converter\\ioc\\src\\main\\uploadFile2";
+	String location = "C:\\Users\\hg310\\git\\ioc_Converter\\ioc\\src\\main\\uploadFile";
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public FIleHandleServlet2() {
+	public FileHandleServlet_cve() {
 		super();
-		// TODO Auto-generated constructor stub
+
 	}
 
 	/**
@@ -52,12 +46,9 @@ public class FIleHandleServlet2 extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
 
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
-
-		String ipAddress = request.getRemoteAddr();
 
 		final Part filePart = request.getPart("file");
 
@@ -65,7 +56,8 @@ public class FIleHandleServlet2 extends HttpServlet {
 			response.sendRedirect("/2/oops.jsp");
 			return;
 		}
-	
+		
+
 		String fileName = getFileName(filePart);
 		
 		String extension = fileName.replace(".","#");
@@ -75,13 +67,14 @@ public class FIleHandleServlet2 extends HttpServlet {
 			response.sendRedirect("/2/oops.jsp");
 			return;
 		}
-
+		
 		if (fileName.matches(".*[¤¡-¤¾¤¿-¤Ó°¡-ÆR]+.*")) {
 			response.sendRedirect("/2/oops.jsp");
 			return;
 		}
+			
+		
 
-		// NAME SLICE AND FIX
 		DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
 		Date date = new Date();
 		String dateToStr = dateFormat.format(date);
@@ -89,16 +82,17 @@ public class FIleHandleServlet2 extends HttpServlet {
 		DateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date date2 = new Date();
 		String dateToStr2 = dateFormat2.format(date2);
-
-
-
+		System.out.println("#############################"+dateToStr2);
+		
+		
+		
 		fileName = dateToStr + fileName;
 
-		// FILE WRITE
 		OutputStream out = null;
 		InputStream filecontent = null;
 		final PrintWriter writer = response.getWriter();
 
+		String ipAddress = request.getRemoteAddr();
 		try {
 			out = new FileOutputStream(new File(location + File.separator + fileName));
 			filecontent = filePart.getInputStream();
@@ -110,14 +104,15 @@ public class FIleHandleServlet2 extends HttpServlet {
 				out.write(bytes, 0, read);
 			}
 
-			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ DB ï¿½Û¼ï¿½
-			dbrw dbrw = new dbrw();
-			String address = dbrw.getMail();
-						String date21 = dbrw.setDate(dateToStr2);
-			dbrw.setJobq(dateToStr2 , ipAddress, "IOC", address, fileName);
-
-			if (dbrw.readFile2(location, fileName, ipAddress, dateToStr2, address) == 1) {
-
+			// path
+			siteDAO dbrw = new siteDAO();
+			String mailaddress = dbrw.getMail();
+			dbrw.setJobq(dateToStr2 ,  ipAddress, "CVE", mailaddress, fileName);
+			
+			
+			dbrw_cve cve = new dbrw_cve();
+			if (cve.readFile(location, fileName, ipAddress, dateToStr2, mailaddress) == 1) {
+				
 				response.sendRedirect("/2/ok.jsp");
 			} else {
 				response.sendRedirect("/2/oops.jsp");

@@ -1,4 +1,4 @@
-package user;
+package site;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -11,13 +11,13 @@ import javax.servlet.http.HttpServletResponse;
  * Servlet implementation class loglog
  */
 @WebServlet("/loglog")
-public class loglog extends HttpServlet {
+public class logServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public loglog() {
+	public logServlet() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -30,8 +30,9 @@ public class loglog extends HttpServlet {
 		response.setContentType("text/html; charset=UTF-8");
 		
 	 
-		status_log status_log = new status_log();
-		String[] log = status_log.loglog();
+		siteDAO site = new siteDAO();
+	
+		String[] log = site.loglog();
  
 		String arrayToString = String.join(",", log);
  

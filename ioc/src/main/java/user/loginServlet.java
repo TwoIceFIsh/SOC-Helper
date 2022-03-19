@@ -2,15 +2,11 @@ package user;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import site.siteDAO;
  
 /**
  * Servlet implementation class loginServlet
@@ -19,9 +15,7 @@ import site.siteDAO;
 public class loginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	public loginServlet() {
-		super();
-		// TODO Auto-generated constructor stub
+	public loginServlet() { 
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -36,6 +30,7 @@ public class loginServlet extends HttpServlet {
 		System.out.println(id + pw);
 
 		userDTO user = new userDTO();
+		userDAO userDAO = new userDAO();
 		user.setId(id);
 		user.setPw(pw);
 

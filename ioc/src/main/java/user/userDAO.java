@@ -1,36 +1,31 @@
 package user;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Random;
+import java.sql.ResultSet; 
+
+import database.DBconn;
 
 public class userDAO {
 
-	public static boolean login(userDTO user) {
+	Connection conn = null;
+	PreparedStatement pstm = null;
+	ResultSet rs = null;
 
-		ResultSet rs = null;
+	userDAO() {
+		this.pstm = DBconn.getPreparedStatement();
+		this.rs = DBconn.getresultSet();
+	}
+
+	public boolean login(userDTO user) {
+
+		conn = DBconn.getConnection();
+
 		String sql = "SELECT exists (select * FROM user WHERE a= '" + user.getId() + "' AND b = '" + user.getPw()
 				+ "') As Q";
 
 		System.out.println(sql);
-		Connection conn = null;
-		PreparedStatement pstm = null;
-
-		try {
-			String jdbcUrl = "jdbc:mysql://localhost:3306/ioc?useUnicode=true&characterEncoding=utf8";
-			String dbId = "root";
-			String dbPass = "Dlqudgh1!";
-
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			conn = DriverManager.getConnection(jdbcUrl, dbId, dbPass);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		int n = 0;
+ 
 		boolean no = false;
 		try {
 
@@ -51,40 +46,14 @@ public class userDAO {
 		Exception e) {
 			e.printStackTrace();
 		} finally {
-			try {
-				if (rs != null)
-					rs.close();
-
-				if (pstm != null)
-					pstm.close();
-
-				if (conn != null)
-					conn.close();
-
-			} catch (Exception e) {
-			}
+			DBconn.close();
 		}
 		return no;
 	}
 
-	public static boolean find(String id) {
+	public boolean find(String id) {
 
-		ResultSet rs = null;
-
-		Connection conn = null;
-		PreparedStatement pstm = null;
-		int no = 0;
-		try {
-			String jdbcUrl = "jdbc:mysql://localhost:3306/ioc?useUnicode=true&characterEncoding=utf8";
-			String dbId = "root";
-			String dbPass = "Dlqudgh1!";
-
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			conn = DriverManager.getConnection(jdbcUrl, dbId, dbPass);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
+		conn = DBconn.getConnection();
 		int n = 0;
 		boolean no1 = false;
 		try {
@@ -125,43 +94,17 @@ public class userDAO {
 		Exception e) {
 			e.printStackTrace();
 		} finally {
-			try {
-				if (rs != null)
-					rs.close();
-
-				if (pstm != null)
-					pstm.close();
-
-				if (conn != null)
-					conn.close();
-
-			} catch (Exception e) {
-			}
+			DBconn.close();
 		}
 		return no1;
 	}
 
-	public static boolean getEmail(String email) {
+	public boolean getEmail(String email) {
 
-		ResultSet rs = null;
 		String sql = "SELECT exists (select * FROM user WHERE a= '" + email + "') As Q";
+		conn = DBconn.getConnection();
 
-		System.out.println(sql);
-		Connection conn = null;
-		PreparedStatement pstm = null;
-
-		try {
-			String jdbcUrl = "jdbc:mysql://localhost:3306/ioc?useUnicode=true&characterEncoding=utf8";
-			String dbId = "root";
-			String dbPass = "Dlqudgh1!";
-
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			conn = DriverManager.getConnection(jdbcUrl, dbId, dbPass);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		int n = 0;
+ 
 		boolean no = false;
 		try {
 
@@ -182,43 +125,18 @@ public class userDAO {
 		Exception e) {
 			e.printStackTrace();
 		} finally {
-			try {
-				if (rs != null)
-					rs.close();
-
-				if (pstm != null)
-					pstm.close();
-
-				if (conn != null)
-					conn.close();
-
-			} catch (Exception e) {
-			}
+			DBconn.close();
 		}
 		return no;
 	}
 
 	// 이메일계정이 없어서 코드를 삽입
-	public static int setCode(String email) {
-		int n = 0;
+	public int setCode(String email) {
+ 
 
 		int code = (int) ((Math.random() * 10000));
 
-		ResultSet rs = null;
-
-		Connection conn = null;
-		PreparedStatement pstm = null;
-
-		try {
-			String jdbcUrl = "jdbc:mysql://localhost:3306/ioc?useUnicode=true&characterEncoding=utf8";
-			String dbId = "root";
-			String dbPass = "Dlqudgh1!";
-
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			conn = DriverManager.getConnection(jdbcUrl, dbId, dbPass);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		conn = DBconn.getConnection();
 
 		try {
 			int no = 0;
@@ -261,56 +179,19 @@ public class userDAO {
 		Exception e) {
 			e.printStackTrace();
 		} finally {
-			try {
-				if (rs != null)
-					rs.close();
-
-				if (pstm != null)
-					pstm.close();
-
-				if (conn != null)
-					conn.close();
-
-			} catch (Exception e) {
-			}
-		}
-
-		////////////////////////////////////////////////////////////
-		try {
-			String jdbcUrl = "jdbc:mysql://localhost:3306/ioc?useUnicode=true&characterEncoding=utf8";
-			String dbId = "root";
-			String dbPass = "Dlqudgh1!";
-
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			conn = DriverManager.getConnection(jdbcUrl, dbId, dbPass);
-		} catch (Exception e) {
-			e.printStackTrace();
+			DBconn.close();
 		}
 
 		return 0;
 	}
 
-	public static int checkCode(String email, String code) {
-		int n = 0;
+	public int checkCode(String email, String code) {
+ 
 
-		ResultSet rs = null;
-
-		Connection conn = null;
-		PreparedStatement pstm = null;
+		conn = DBconn.getConnection();
 
 		try {
-			String jdbcUrl = "jdbc:mysql://localhost:3306/ioc?useUnicode=true&characterEncoding=utf8";
-			String dbId = "root";
-			String dbPass = "Dlqudgh1!";
-
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			conn = DriverManager.getConnection(jdbcUrl, dbId, dbPass);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		try {
-			int no = 0;
+ 
 			boolean s = false;
 
 			String sql = "SELECT exists (select no, a,b,c from code WHERE a = ? AND b = ? AND c = 2) As Q";
@@ -329,7 +210,7 @@ public class userDAO {
 
 			}
 
-			// no , email, code, satus
+			// no , email, code, status
 			String sqlqq = "UPDATE code SET c = 3 WHERE a = ? AND b = ? AND c = 2";
 			pstm = conn.prepareStatement(sqlqq);
 
@@ -345,41 +226,15 @@ public class userDAO {
 		Exception e) {
 			e.printStackTrace();
 		} finally {
-			try {
-				if (rs != null)
-					rs.close();
-
-				if (pstm != null)
-					pstm.close();
-
-				if (conn != null)
-					conn.close();
-
-			} catch (Exception e) {
-			}
+			DBconn.close();
 		}
 		return 0;
 	}
 
 	public int userjoin(userDTO user) {
+ 
 
-		int n = 0;
-
-		ResultSet rs = null;
-
-		Connection conn = null;
-		PreparedStatement pstm = null;
-
-		try {
-			String jdbcUrl = "jdbc:mysql://localhost:3306/ioc?useUnicode=true&characterEncoding=utf8";
-			String dbId = "root";
-			String dbPass = "Dlqudgh1!";
-
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			conn = DriverManager.getConnection(jdbcUrl, dbId, dbPass);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		conn = DBconn.getConnection();
 
 		try {
 			int no = 0;
@@ -446,45 +301,16 @@ public class userDAO {
 		Exception e) {
 			e.printStackTrace();
 		} finally {
-			try {
-				if (rs != null)
-					rs.close();
-
-				if (pstm != null)
-					pstm.close();
-
-				if (conn != null)
-					conn.close();
-
-			} catch (Exception e) {
-			}
+			DBconn.close();
 		}
 		return 0;
 
 	}
 
-	public static userDTO getUser(String id) {
-
-		ResultSet rs = null;
+	public userDTO getUser(String id) {
 
 		userDTO user = new userDTO();
-
-		Connection conn = null;
-		PreparedStatement pstm = null;
-		int no = 0;
-		try {
-			String jdbcUrl = "jdbc:mysql://localhost:3306/ioc?useUnicode=true&characterEncoding=utf8";
-			String dbId = "root";
-			String dbPass = "Dlqudgh1!";
-
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			conn = DriverManager.getConnection(jdbcUrl, dbId, dbPass);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		int n = 0;
-		boolean no1 = false;
+ 		conn = DBconn.getConnection(); 
 		try {
 
 			// 반환
@@ -499,24 +325,13 @@ public class userDAO {
 				user.setName(rs.getString(4));
 			}
 
-				return user;
+			return user;
 		} catch (
 
 		Exception e) {
 			e.printStackTrace();
 		} finally {
-			try {
-				if (rs != null)
-					rs.close();
-
-				if (pstm != null)
-					pstm.close();
-
-				if (conn != null)
-					conn.close();
-
-			} catch (Exception e) {
-			}
+			DBconn.close();
 		}
 		return user;
 	}

@@ -7,8 +7,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import ioc.dbrw;
-
 /**
  * Servlet implementation class siteCheckServlet
  */
@@ -40,7 +38,7 @@ public class siteCheckServlet extends HttpServlet {
 		request.getParameter("heart");
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
-		dbrw dbrw = new dbrw();
+		siteDAO dbrw = new siteDAO();
 		
 		int a = dbrw.getStatus();
 		int b = dbrw.getStatus2();

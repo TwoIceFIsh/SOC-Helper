@@ -7,8 +7,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import ioc.dbrw;
-
 /**
  * Servlet implementation class mailCheckServlet2
  */
@@ -20,8 +18,7 @@ public class mailCheckServlet2 extends HttpServlet {
 	 * @see HttpServlet#HttpServlet()
 	 */
 	public mailCheckServlet2() {
-		super();
-		// TODO Auto-generated constructor stub
+		super(); 
 	}
 
 	/**
@@ -35,7 +32,7 @@ public class mailCheckServlet2 extends HttpServlet {
 		String name = request.getParameter("name");
 
 	 
-		dbrw dbrw = new dbrw();
+		siteDAO dbrw = new siteDAO();
 		String address = dbrw.nameTomail(name);
 		dbrw.mailAddress2(address);
 

@@ -40,6 +40,7 @@ public class findServlet extends HttpServlet {
 
 		String id = request.getParameter("id");
  
+		userDAO userDAO = new userDAO();
 		if (userDAO.find(id)) {
 			System.out.println("boolean");			
 			response.getWriter().println("11");
