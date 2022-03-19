@@ -27,15 +27,14 @@ ArrayList<siteDTO> site = new ArrayList<siteDTO>();
 
 siteDAO siteF = new siteDAO();
 
-site = siteF.getMail();
+site = siteF.getMail1();
 
 if (value == null) {
 
 	response.sendRedirect("/2/login.jsp");
 
 }
-%><link rel="favicon"
-	href="/2/images/favicon.ico">
+%><link rel="favicon" href="/2/images/favicon.ico">
 <head>
 
 <link href="css/my.css" rel="stylesheet">
@@ -266,7 +265,8 @@ if (value == null) {
 
 					<div class="col-auto">
 
-						<div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+						<div
+							class="text-xs font-weight-bold text-info text-uppercase mb-1">
 
 							로그(실시간)</div>
 
@@ -316,11 +316,11 @@ if (value == null) {
 
 							2022.02.14(월) : 컨트롤 패널 구현 완료</br> 2022.02.25(금) : 접근제어 시스템 구현
 
-							완료(로그인/회원가입) </br> 2022.02.26(토) : 디자인 리뉴얼 및 모듈 복구시스템 구현 완료</br> 2022.03.08(화) : 알고리즘 최적화 및 처리속도 개선완료 
-							</br> 2022.03.17(목) : 서버이전 및 채팅방 구현 완료</br></br></br> 
-							</br> 기능개선 및
-
-							문의사항 : 병호🤑
+							완료(로그인/회원가입) </br> 2022.02.26(토) : 디자인 리뉴얼 및 모듈 복구시스템 구현 완료</br>
+							2022.03.08(화) : 알고리즘 최적화 및 처리속도 개선완료 </br> 2022.03.17(목) : 서버이전 및 채팅방
+							구현 완료</br>
+							</br>
+							</br> </br> 기능개선 및 문의사항 : 병호🤑
 
 						</div>
 
@@ -334,8 +334,6 @@ if (value == null) {
 		</div>
 
 	</div>
-
-
 </div>
 
 <script src="js/my.js" charset="UTF-8"></script>

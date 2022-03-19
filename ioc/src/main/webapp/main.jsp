@@ -41,8 +41,6 @@
 		String value = (String) session.getAttribute("ok");
 
 		userDTO user = new userDTO();
-		userDAO userF = new userDAO();
-		//user = userF.getUser(value);
 
 		if (value != null) {
 		%>

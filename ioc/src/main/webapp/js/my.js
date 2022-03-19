@@ -73,7 +73,11 @@ function moduleCheck() {
 }
 
 
-
+function enterkey2() {
+	if (window.event.keyCode == 13) {
+		sendMessage();
+	}
+}
 
 function sendMessage() {
 
@@ -100,19 +104,14 @@ function sendMessage() {
 
 		}
 	});
-
-
 }
 
-function enterkey2() {
-	if (window.event.keyCode == 13) {
-		sendMessage();
-	}
-}
-
+showMessage();
 setInterval(showMessage, 1000);
 function showMessage() {
+
 	var message = $('#sendM').val();
+
 	$.ajax({
 		type: 'POST',
 		url: './showMessageServlet',
@@ -125,18 +124,129 @@ function showMessage() {
 
 
 			$('#messageA').html(out[0]);
+
 			var vScrollDown = $("#selecter").prop('scrollHeight');
 			$("#selecter").scrollTop(vScrollDown);
 
 
-
 		}
 	});
-
-
 }
 
 
 
+aMail();
+function aMail() {
+	 
+	$.ajax({
+		type: 'POST',
+		url: './showMailStatusServlet',
+		data: {
+			 
+		},
+		success: function(result) {
+			$('#statusMessage6').html(result);
+		}
+	});
 
+}
+
+function showMail(name) {
+	 
+	var name = name;
+
+	$.ajax({
+		type: 'POST',
+		url: './mailCheckServlet2',
+		data: {
+			name: name
+		},
+		success: function(result) {
+			$('#statusMessage6').html(result);
+		}
+	});
+
+}
+
+
+loglog();
+setInterval(loglog, 1000);
+function loglog() {
+	heart = ""
+	$.ajax({
+		type: 'POST',
+		url: './loglog',
+		data: {
+			heart: heart
+		},
+		success: function(result) {
+
+			splitResult = result.split(',');
+
+			no = splitResult.length - 1;
+			no2 = splitResult.length;
+
+			tmp = '';
+			tmp2 = '';
+			for (i = 0; i < no - 1; i++) {
+
+				if ('null' != splitResult[i])
+					tmp = tmp + splitResult[i] + '</br>';
+
+			}
+
+			tmp2 = splitResult[no - 1];
+
+
+			$('#statusMessage99').html(tmp + '');
+			$('#statusMessage100').html(tmp2 + '');
+
+		}
+	});
+
+}
+
+siteStatus();
+setInterval(siteStatus, 4000);
+var heart = 0
+function siteStatus() {
+
+	var heart = 1;
+
+	$.ajax({
+		type: 'POST',
+		url: './siteCheckServlet',
+		data: {
+			heart: heart
+		},
+		success: function(result) {
+			splitResult = result.split('#');
+			a = splitResult[0];
+			b = splitResult[1];
+			c = splitResult[2];
+			d = splitResult[3];
+
+			$('#statusMessage').html("" + a);
+			$('#statusMessage2').html("" + b);
+
+			if (c != 0) {
+
+				$('#nokori').html('💫'+c + '건 (' + parseInt((c * 1) / 60) + ')분 남음');
+				
+			} else {
+			$('#nokori').html('💤 대기 중');
+			}
+			if (d != 0) {
+
+				$('#nokori2').html('💫'+d + '건 (' + ((d * 15) / 60) + ')분 남음');
+				
+			} else {
+			$('#nokori2').html('💤 대기 중');
+			}
+ 
+
+		}
+	});
+
+} 
 

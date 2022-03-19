@@ -22,20 +22,24 @@ public class logServlet extends HttpServlet {
 		// TODO Auto-generated constructor stub
 	}
 
-	 
-
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
-		
-	 
+		String arrayToString = "";
+
 		siteDAO site = new siteDAO();
-	
-		String[] log = site.loglog();
- 
-		String arrayToString = String.join(",", log);
- 
+
+		
+		try {
+			String[] log = site.loglog();
+			arrayToString = String.join(",", log);
+
+		} catch (Exception e) {
+			System.out.println("");
+			return;
+		}
+
 		response.getWriter().println(arrayToString + "");
 		response.getWriter().close();
 

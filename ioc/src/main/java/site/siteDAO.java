@@ -11,38 +11,36 @@ import database.DBconn;
 
 public class siteDAO {
 
-	  Connection conn = null;
-	  PreparedStatement pstm = null;
-	  ResultSet rs = null;
+	Connection conn = null;
+	PreparedStatement pstm = null;
+	ResultSet rs = null;
+	DBconn DBconn = new DBconn();
 
 	public siteDAO() {
-		this.rs = DBconn.getresultSet();
-		this.pstm = DBconn.getPreparedStatement();
 	}
 
 	public int[] moduleStatusCheck() {
- 
+
 		int[] module_Status = { 0, 0, 0, 0, 0 };
 		conn = DBconn.getConnection();
 
 		try {
-			int no = 0; 
+			int no = 0;
 			// 계정에 따른 CODE 존재여부 확인
 			String test = "SELECT no, c FROM programs limit 5";
 			pstm = conn.prepareStatement(test);
 			rs = pstm.executeQuery();
+			if (rs != null) {
+				while (rs.next()) {
+					module_Status[no] = rs.getInt(2);
+					no += 1;
+				}
 
-			while (rs.next()) {
-				module_Status[no] = rs.getInt(2);
-				no += 1;
+				return module_Status;
 			}
-
-			return module_Status;
-
 		} catch (
 
-		Exception e) {
-			e.printStackTrace();
+		Exception e) { 
 		} finally {
 			DBconn.close();
 
@@ -53,8 +51,6 @@ public class siteDAO {
 	}
 
 	public ArrayList<siteDTO> getMail1() {
-	 
-	 
 
 		ArrayList<siteDTO> out = new ArrayList<siteDTO>();
 		conn = DBconn.getConnection();
@@ -66,23 +62,23 @@ public class siteDAO {
 			System.out.println("Email Data 조회");
 			pstm = conn.prepareStatement(test);
 			rs = pstm.executeQuery();
+			if (rs != null) {
+				while (rs.next()) {
+					siteDTO site = new siteDTO();
+					site.setNo(rs.getInt(1));
+					site.setEmail(rs.getString(2));
+					site.setPw(rs.getString(3));
+					site.setName(rs.getString(4));
+					out.add(site);
 
-			while (rs.next()) {
-				siteDTO site = new siteDTO();
-				site.setNo(rs.getInt(1));
-				site.setEmail(rs.getString(2));
-				site.setPw(rs.getString(3));
-				site.setName(rs.getString(4));
-				out.add(site);
+				}
 
+				return out;
 			}
-
-			return out;
 
 		} catch (
 
 		Exception e) {
-			e.printStackTrace();
 		} finally {
 			DBconn.close();
 		}
@@ -91,12 +87,11 @@ public class siteDAO {
 	}
 
 	public String sendMessage(String email, String message) {
- 
- 
+
 		conn = DBconn.getConnection();
 
 		try {
-			String name = ""; 
+			String name = "";
 			int no1 = 0;
 
 			// 이름가져옴
@@ -154,45 +149,45 @@ public class siteDAO {
 	}
 
 	public String getMessage() {
- 
- 
-		conn = DBconn.getConnection();
 
+		DBconn newConn = new DBconn();
+		conn = newConn.getConnection();
+
+		String formatedNow = "";
+		String name = "";
+		String message = "";
+		String all = "";
 		try {
 
-			String formatedNow = "";
-			String name = "";
-			String message = "";
-			String all = "";
 			// message 가져옴
 			String test1 = "select * from (SELECT * FROM messages ORDER BY no DESC) as Q ORDER BY no asc";
 			pstm = conn.prepareStatement(test1);
+
 			rs = pstm.executeQuery();
+			if (rs != null) {
+				while (rs.next()) {
+					formatedNow = rs.getString(2);
+					name = rs.getString(4);
+					message = rs.getString(3);
+					all = all + "[" + formatedNow + "] " + name + " : " + message + "<br>";
+				}
 
-			while (rs.next()) {
-				formatedNow = rs.getString(2);
-				name = rs.getString(4);
-				message = rs.getString(3);
-				all = all + "[" + formatedNow + "] " + name + " : " + message + "<br>";
+				return all;
 			}
-
-			return all;
-
 		} catch (
 
 		Exception e) {
-			e.printStackTrace();
+			
 		} finally {
-			DBconn.close();
+			newConn.close();
 		}
 		return "";
 	}
-	
-	
-	
+
 	public int insert_log(String dateToStr, String ipAddress, int count1, String string, String mailAddress) {
-		 
-		conn = DBconn.getConnection();
+
+		DBconn newConn = new DBconn();
+		conn = newConn.getConnection();
 
 		int n = 0;
 		int no = 0;
@@ -208,8 +203,7 @@ public class siteDAO {
 				no = rs.getInt(1);
 
 			}
-			
-			
+
 			String query3 = "SELECT no FROM jobq WHERE ipip = ? AND time = ?";
 			pstm = conn.prepareStatement(query3);
 			pstm.setString(1, ipAddress);
@@ -223,18 +217,17 @@ public class siteDAO {
 			}
 
 			pstm = conn.prepareStatement(query);
-			pstm.setInt(1, no+1);
+			pstm.setInt(1, no + 1);
 
-			 
 			if (string.equals("CVE")) {
-				pstm.setString(2, dateToStr + " : 작업[" + Integer.toString(k) + "] : " + ipAddress
-						+ "님께서 CVE 작업 요청 [" + count1 + "건] ");
+				pstm.setString(2, dateToStr + " : 작업[" + Integer.toString(k) + "] : " + ipAddress + "님께서 CVE 작업 요청 ["
+						+ count1 + "건] ");
 
 			}
 			if (string.equals("IOC")) {
-				pstm.setString(2, dateToStr + " : 작업[" + Integer.toString(k) + "] : " + ipAddress
-						+ "님께서 IOC 작업 요청 [" + count1 + "건] ");
-		}
+				pstm.setString(2, dateToStr + " : 작업[" + Integer.toString(k) + "] : " + ipAddress + "님께서 IOC 작업 요청 ["
+						+ count1 + "건] ");
+			}
 
 			pstm.setString(3, ipAddress);
 			pstm.setString(4, mailAddress);
@@ -252,16 +245,18 @@ public class siteDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			DBconn.close();
+			newConn.close();
 		}
 		return 0;
 	}
 
 	public String[] loglog() {
+
 		String[] log = null;
 
+		DBconn newConn = new DBconn();
+		conn = newConn.getConnection();
 
-		conn= DBconn.getConnection();
 		String query2 = "SELECT no, text FROM (SELECT no, text FROM log  ORDER BY no desc limit 10) as logT ORDER BY NO ASC";
 		String query3 = "SELECT no FROM log limit 10";
 
@@ -277,7 +272,6 @@ public class siteDAO {
 			while (rs.next()) {
 
 				nono = rs.getInt(1);
-
 			}
 
 			log = new String[nono + 1];
@@ -285,206 +279,211 @@ public class siteDAO {
 			pstm = conn.prepareStatement(query2);
 			rs = pstm.executeQuery();
 
-			while (rs.next()) {
-				// no[count] = Integer.toString(rs2.getInt(1));
-				log[count] = rs.getString(2);
-				//System.out.println("log[count] " + log[count]);
-				count += 1;
+			try {
+				while (rs.next()) {
+					// no[count] = Integer.toString(rs2.getInt(1));
+					log[count] = rs.getString(2);
+					// System.out.println("log[count] " + log[count]);
+					count += 1;
+				}
+
+				log[count] = Integer.toString(nono);
 			}
 
-			log[count] = Integer.toString(nono);
+			catch (Exception e) {
+			}
 
 			return log;
 
 		} catch (
 
 		Exception e) {
+			
+		} finally {
+			newConn.close();
+		}
+		return log;
+	}
+
+	// 메일발송건
+	public int getStatus() {
+
+		DBconn newDBconn = new DBconn();
+		conn = newDBconn.getConnection();
+
+		int mailcount = 0;
+		String query2 = "SELECT mailcount FROM site_status";
+
+		try {
+
+			pstm = conn.prepareStatement(query2);
+			rs = pstm.executeQuery();
+
+			while (rs.next()) {
+				mailcount = rs.getInt(1);
+
+			}
+
+			return mailcount;
+
+		} catch (Exception e) {
+		} finally {
+			newDBconn.close();
+		}
+		return 0;
+	}
+
+	// 처리건수
+	public int getStatus2() {
+
+		DBconn newDBconn = new DBconn();
+		conn = newDBconn.getConnection();
+
+		int count = 0;
+		String query2 = "SELECT count FROM site_status";
+
+		try {
+
+			pstm = conn.prepareStatement(query2);
+			rs = pstm.executeQuery();
+
+			while (rs.next()) {
+				count = rs.getInt(1);
+
+			}
+
+			return count;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			newDBconn.close();
+		}
+		return 0;
+	}
+
+	public int getStatus3() {
+
+		DBconn newDBconn = new DBconn();
+		conn = newDBconn.getConnection();
+
+		int mailcount = 0;
+		String query2 = "SELECT COUNT(status), no FROM cve WHERE status = '0'";
+
+		try {
+
+			pstm = conn.prepareStatement(query2);
+			rs = pstm.executeQuery();
+			if (rs != null) {
+				while (rs.next()) {
+					mailcount = rs.getInt(1);
+
+				}
+
+				return mailcount;
+
+			}
+		} catch (Exception e) {
+		} finally {
+			newDBconn.close();
+		}
+		return 0;
+	}
+
+	public int getStatus4() {
+		DBconn newDBconn = new DBconn();
+		conn = newDBconn.getConnection();
+		int mailcount = 0;
+		String query2 = "SELECT COUNT(status) FROM work_place WHERE status = '0'";
+
+		try {
+
+			pstm = conn.prepareStatement(query2);
+			rs = pstm.executeQuery();
+			if (rs != null) {
+				while (rs.next()) {
+					mailcount = rs.getInt(1);
+
+				}
+
+				return mailcount;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			newDBconn.close();
+		}
+		return 0;
+	}
+
+	public String mailAddress2(String address) {
+
+		conn = DBconn.getConnection();
+		address = address.trim();
+		int n = 0;
+		String query = "UPDATE site_status SET address = ?";
+
+		try {
+
+			pstm = conn.prepareStatement(query);
+			pstm.setString(1, address);
+			// pstm.setString(4, "");
+
+			n = pstm.executeUpdate();
+
+			if (n == 1) {
+				System.out.println("mailAddress Changed to " + address);
+				return address;
+			} else {
+				System.out.println("insert fail");
+			}
+		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			DBconn.close();
 		}
-		return log;
+		return "no";
 	}
-	
-	// 메일발송건
-		public int getStatus() {
-			conn = DBconn.getConnection();
-	 
-			int mailcount = 0;
-			String query2 = "SELECT mailcount FROM site_status";
 
-			try {
+	public String getMail() {
+		String address = "";
+		conn = DBconn.getConnection();
 
-				pstm = conn.prepareStatement(query2);
-				rs = pstm.executeQuery();
+		String query = "SELECT address FROM site_status WHERE no = 1";
 
-				while (rs.next()) {
-					mailcount = rs.getInt(1);
+		try {
 
-				}
-
-				return mailcount;
-
-			} catch (Exception e) {
-				e.printStackTrace();
-			} finally {
-				DBconn.close();
-			}
-			return 0;
-		}
-
-		// 처리건수
-		public int getStatus2() {
-			conn = DBconn.getConnection();
-		 
-			int count = 0;
-			String query2 = "SELECT count FROM site_status";
-
-			try {
-
-				pstm = conn.prepareStatement(query2);
-				rs = pstm.executeQuery();
-
-				while (rs.next()) {
-					count = rs.getInt(1);
-
-				}
-
-				return count;
-
-			} catch (Exception e) {
-				e.printStackTrace();
-			} finally {
-				DBconn.close();
-			}
-			return 0;
-		}
-
-		public int getStatus3() {
-
-			 
-			conn = DBconn.getConnection();
-			 
-			int mailcount = 0;
-			String query2 = "SELECT COUNT(status), no FROM cve WHERE status = '0'";
-
-			try {
-
-				pstm = conn.prepareStatement(query2);
-				rs = pstm.executeQuery();
-
-				while (rs.next()) {
-					mailcount = rs.getInt(1);
-
-				}
-
-				return mailcount;
-
-			} catch (Exception e) {
-				e.printStackTrace();
-			} finally {
-				DBconn.close();
-			}
-			return 0;
-		}
-
-		public int getStatus4() {
-
-		 
-			conn = DBconn.getConnection();
-	 
-			int mailcount = 0;
-			String query2 = "SELECT COUNT(status) FROM work_place WHERE status = '0'";
-
-			try {
-
-				pstm = conn.prepareStatement(query2);
-				rs = pstm.executeQuery();
-
-				while (rs.next()) {
-					mailcount = rs.getInt(1);
-
-				}
-
-				return mailcount;
-
-			} catch (Exception e) {
-				e.printStackTrace();
-			} finally {
-				DBconn.close();
-			}
-			return 0;
-		}
-
-		public String mailAddress2(String address) {
-
-			conn = DBconn.getConnection();
-			address = address.trim();
-			int n = 0;
-			String query = "UPDATE site_status SET address = ?";
-
-			try {
-
-				pstm = conn.prepareStatement(query);
-				pstm.setString(1, address);
-				// pstm.setString(4, "");
-
-				n = pstm.executeUpdate();
-
-				if (n == 1) {
-					System.out.println("mailAddress Changed to " + address);
-					return address;
-				} else {
-					System.out.println("insert fail");
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			} finally {
-				DBconn.close();
-			}
-			return "no";
-		}
-
-		public String getMail() {
-			String address = "";
-			conn = DBconn.getConnection();
-		 
-			String query = "SELECT address FROM site_status WHERE no = 1";
-
-			try {
-
-				pstm = conn.prepareStatement(query);
-				rs = pstm.executeQuery();
-
+			pstm = conn.prepareStatement(query);
+			rs = pstm.executeQuery();
+			if (rs != null) {
 				while (rs.next()) {
 					address = rs.getString(1);
 
 				}
 
 				return address;
-
-			} catch (Exception e) {
-				e.printStackTrace();
-			} finally {
-				DBconn.close();
 			}
-			return "";
-
+		} catch (Exception e) { 
+		} finally {
+			DBconn.close();
 		}
+		return "";
 
-		public int nokori() {
+	}
 
-			int result = 0;
-			int result2 = 0;
-			conn = DBconn.getConnection();
-	 
-			String query = "SELECT count(no) FROM work_place WHERE status = 0";
-			String query2 = "SELECT count(no) FROM cve WHERE status = 0";
-			try {
+	public int nokori() {
 
-				pstm = conn.prepareStatement(query);
-				rs = pstm.executeQuery();
+		int result = 0;
+		int result2 = 0;
+		conn = DBconn.getConnection();
 
+		String query = "SELECT count(no) FROM work_place WHERE status = 0";
+		String query2 = "SELECT count(no) FROM cve WHERE status = 0";
+		try {
+
+			pstm = conn.prepareStatement(query);
+			rs = pstm.executeQuery();
+			if (rs != null) {
 				while (rs.next()) {
 					result = rs.getInt(1);
 
@@ -499,149 +498,148 @@ public class siteDAO {
 				}
 
 				return result + result2;
-
-			} catch (Exception e) {
-				e.printStackTrace();
-			} finally {
-				DBconn.close();
 			}
-			return 0;
-
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBconn.close();
 		}
+		return 0;
 
-		public int getProcess() {
+	}
 
-			conn = DBconn.getConnection();
-	 
-			int mailcount = 0;
-			String query2 = "SELECT no, from, date, status FROM work_place";
+	public int getProcess() {
 
-			try {
+		conn = DBconn.getConnection();
 
-				pstm = conn.prepareStatement(query2);
-				rs = pstm.executeQuery();
+		int mailcount = 0;
+		String query2 = "SELECT no, from, date, status FROM work_place";
 
+		try {
+
+			pstm = conn.prepareStatement(query2);
+			rs = pstm.executeQuery();
+			if (rs != null) {
 				while (rs.next()) {
 					mailcount = rs.getInt(1);
 
 				}
 
 				return mailcount;
-
-			} catch (Exception e) {
-				e.printStackTrace();
-			} finally {
-				DBconn.close();
 			}
-			return 0;
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBconn.close();
 		}
+		return 0;
+	}
 
-		public String setDate(String time) {
+	public String setDate(String time) {
 
-			conn = DBconn.getConnection();
-			String query = "UPDATE site_status SET time = ?";
+		conn = DBconn.getConnection();
+		String query = "UPDATE site_status SET time = ?";
 
-			try {
+		try {
 
-				pstm = conn.prepareStatement(query);
-				pstm.setString(1, time);
-				// pstm.setString(4, "");
+			pstm = conn.prepareStatement(query);
+			pstm.setString(1, time);
+			// pstm.setString(4, "");
 
-				int n = pstm.executeUpdate();
+			int n = pstm.executeUpdate();
 
-				if (n == 1) {
-					System.out.println("time Changed to " + time);
-					return time;
-				} else {
-					System.out.println("insert fail");
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			} finally {
-				DBconn.close();
+			if (n == 1) {
+				System.out.println("time Changed to " + time);
+				return time;
+			} else {
+				System.out.println("insert fail");
 			}
-			return "no";
-
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBconn.close();
 		}
+		return "no";
 
-		public int setJobq(String dateToStr2, String ipAddress, String type, String mailaddress, String fileName) {
+	}
 
-			int result = 0; 
-			conn = DBconn.getConnection();
+	public int setJobq(String dateToStr2, String ipAddress, String type, String mailaddress, String fileName) {
 
-	 
-			String sql = "";
+		int result = 0;
+		conn = DBconn.getConnection();
 
-			String query = "SELECT count(no) FROM jobq";
-			try {
+		String sql = "";
 
-				pstm = conn.prepareStatement(query);
-				rs = pstm.executeQuery();
+		String query = "SELECT count(no) FROM jobq";
+		try {
 
-				while (rs.next()) {
-					result = rs.getInt(1);
+			pstm = conn.prepareStatement(query);
+			rs = pstm.executeQuery();
 
-				}
-				sql = "INSERT INTO jobq VALUES (?,?,?,?,?,?,?)";
-				if (result == 0) {
-					pstm = conn.prepareStatement(sql);
-					pstm.setInt(1, 1);
-					pstm.setString(2, ipAddress);
-					pstm.setString(3, dateToStr2);
-					pstm.setInt(4, 0);
-					pstm.setString(5, type);
-					pstm.setString(6, mailaddress);
-					pstm.setString(7, fileName);
-					pstm.executeUpdate();
-				} else if (result > 0) {
-					pstm = conn.prepareStatement(sql);
-					pstm.setInt(1, result + 1);
-					pstm.setString(2, ipAddress);
-					pstm.setString(3, dateToStr2);
-					pstm.setInt(4, 0);
-					pstm.setString(5, type);
-					pstm.setString(6, mailaddress);
-					pstm.setString(7, fileName);
-					pstm.executeUpdate();
-				}
+			while (rs.next()) {
+				result = rs.getInt(1);
 
-				return 1;
-
-			} catch (Exception e) {
-				e.printStackTrace();
-			} finally {
-				DBconn.close();
 			}
-			return 0;
-
-		}
-
-		public String nameTomail(String name) {
-
-			conn = DBconn.getConnection();
-	 
-			String address = "";
-			String query2 = "SELECT * FROM USER WHERE c = ?";
-
-			try {
-
-				pstm = conn.prepareStatement(query2);
-				pstm.setString(1, name);
-				rs = pstm.executeQuery();
-
-				while (rs.next()) {
-					address = rs.getString(2);
-
-				}
-
-				return address;
-
-			} catch (Exception e) {
-				e.printStackTrace();
-			} finally {
-				DBconn.close();
+			sql = "INSERT INTO jobq VALUES (?,?,?,?,?,?,?)";
+			if (result == 0) {
+				pstm = conn.prepareStatement(sql);
+				pstm.setInt(1, 1);
+				pstm.setString(2, ipAddress);
+				pstm.setString(3, dateToStr2);
+				pstm.setInt(4, 0);
+				pstm.setString(5, type);
+				pstm.setString(6, mailaddress);
+				pstm.setString(7, fileName);
+				pstm.executeUpdate();
+			} else if (result > 0) {
+				pstm = conn.prepareStatement(sql);
+				pstm.setInt(1, result + 1);
+				pstm.setString(2, ipAddress);
+				pstm.setString(3, dateToStr2);
+				pstm.setInt(4, 0);
+				pstm.setString(5, type);
+				pstm.setString(6, mailaddress);
+				pstm.setString(7, fileName);
+				pstm.executeUpdate();
 			}
-			return "";
+
+			return 1;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBconn.close();
 		}
+		return 0;
+
+	}
+
+	public String nameTomail(String name) {
+
+		conn = DBconn.getConnection();
+
+		String address = "";
+		String query2 = "SELECT * FROM USER WHERE c = ?";
+
+		try {
+
+			pstm = conn.prepareStatement(query2);
+			pstm.setString(1, name);
+			rs = pstm.executeQuery();
+
+			while (rs.next()) {
+				address = rs.getString(2);
+
+			}
+
+			return address;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBconn.close();
+		}
+		return "";
+	}
 
 }

@@ -40,9 +40,18 @@ public class showMessageServlet extends HttpServlet {
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
-		
+
+		String messages = "";
+
 		siteDAO site = new siteDAO();
-		String messages = site.getMessage();
+
+		try {
+			messages = site.getMessage();
+		} catch (Exception e) {
+			System.out.println("");
+			return;
+
+		}
 
 		response.getWriter().write(messages + "#");
 		response.getWriter().close();

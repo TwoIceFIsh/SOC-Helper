@@ -11,10 +11,9 @@ public class userDAO {
 	Connection conn = null;
 	PreparedStatement pstm = null;
 	ResultSet rs = null;
-
+	DBconn DBconn = new DBconn(); 
 	userDAO() {
-		this.pstm = DBconn.getPreparedStatement();
-		this.rs = DBconn.getresultSet();
+		 
 	}
 
 	public boolean login(userDTO user) {
