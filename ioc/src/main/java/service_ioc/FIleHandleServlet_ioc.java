@@ -25,12 +25,12 @@ import site.siteDAO;
  */
 @WebServlet("/FileHandleServlet2")
 @MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 1024 * 1024 * 5, maxRequestSize = 1024 * 1024 * 5
-		* 5, location = "C:\\Users\\hg310\\git\\ioc_Converter\\ioc\\src\\main\\uploadFile2")
+		* 5, location = "C:\\Temp")
 public class FIleHandleServlet_ioc extends HttpServlet {
 
 	String fileName = null;
 	private static final long serialVersionUID = 1L;
-	String location = "C:\\Users\\hg310\\git\\ioc_Converter\\ioc\\src\\main\\uploadFile2";
+	String location = "C:\\Temp";
 
 	/**
 	 * @see HttpServlet#HttpServlet()

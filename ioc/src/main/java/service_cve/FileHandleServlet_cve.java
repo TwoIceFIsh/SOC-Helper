@@ -20,17 +20,19 @@ import javax.servlet.http.Part;
 
 import site.siteDAO; 
 
+
+
 /**
  * Servlet implementation class FileHandleServlet
  */
 @WebServlet("/FileHandleServlet")
 @MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 1024 * 1024 * 5, maxRequestSize = 1024 * 1024 * 5
-		* 5, location = "C:\\Users\\hg310\\git\\ioc_Converter\\ioc\\src\\main\\uploadFile")
+		* 5, location = "C:\\Temp")
 public class FileHandleServlet_cve extends HttpServlet {
 
 	String fileName = null;
 	private static final long serialVersionUID = 1L;
-	String location = "C:\\Users\\hg310\\git\\ioc_Converter\\ioc\\src\\main\\uploadFile";
+	String location = "C:\\Temp";
 
 	/**
 	 * @see HttpServlet#HttpServlet()

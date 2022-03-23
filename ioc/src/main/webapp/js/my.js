@@ -107,7 +107,7 @@ function sendMessage() {
 }
 
 showMessage();
-setInterval(showMessage, 1000);
+setInterval(showMessage, 2000);
 function showMessage() {
 
 	var message = $('#sendM').val();
@@ -170,7 +170,7 @@ function showMail(name) {
 
 
 loglog();
-setInterval(loglog, 1000);
+setInterval(loglog, 5000);
 function loglog() {
 	heart = ""
 	$.ajax({

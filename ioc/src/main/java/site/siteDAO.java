@@ -170,6 +170,8 @@ public class siteDAO {
 					name = rs.getString(4);
 					message = rs.getString(3);
 					all = all + "[" + formatedNow + "] " + name + " : " + message + "<br>";
+					
+					 
 				}
 
 				return all;
@@ -283,7 +285,7 @@ public class siteDAO {
 				while (rs.next()) {
 					// no[count] = Integer.toString(rs2.getInt(1));
 					log[count] = rs.getString(2);
-					// System.out.println("log[count] " + log[count]);
+				 
 					count += 1;
 				}
 
